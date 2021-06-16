@@ -53,7 +53,7 @@
 #' clus = initial_cluster(train,nstate=3,nmix=c(2,2,2),ltr=FALSE,
 #' final.absorb=FALSE,verbose=TRUE)
 #' par = initial_estimate(clus,verbose=TRUE)
-#' model = make_model(par,semi=NULL,M=max(train$N),sojourn="auto")
+#' model = make_model(par,semi=NULL,M=max(train$N),sojourn="gamma")
 #'
 #' @export
 #'
@@ -148,6 +148,13 @@ make_model<-function(par,semi=NULL,M,sojourn){
 			w.scale[j] <-(mean(lenn[[j]]^w.shape[j]))^(1/w.shape[j])
 			d0jc = cumsum(d0j)
 			breaks = unique(c(0,sapply(1:10,function(t) min(which(d0jc>=0.1*t)))))
+			for(l in 1:length(breaks)){
+				if(!is.finite(breaks[l])){
+					breaks[l] = length(d0jc)
+					breaks = breaks[1:l]
+					break
+				}
+			}
 			observed = expected.gamma = expected.lnorm = expected.poisson = expected.weibull =
 			expected.nbinom = expected.log = c()
 			M0 = breaks[length(breaks)]

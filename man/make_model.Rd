@@ -63,7 +63,7 @@ train <- simulate(model, nsim = c(10,8,8,18), seed = 1234, remission = rmixmvnor
 clus = initial_cluster(train,nstate=3,nmix=c(2,2,2),ltr=FALSE,
 final.absorb=FALSE,verbose=TRUE)
 par = initial_estimate(clus,verbose=TRUE)
-model = make_model(par,semi=NULL,M=max(train$N),sojourn="auto")
+model = make_model(par,semi=NULL,M=max(train$N),sojourn="gamma")
 
 }
 \author{

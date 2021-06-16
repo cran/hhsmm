@@ -1,9 +1,10 @@
 #include "stdio.h"
 #include <R.h>
-#include "stdlib.h"
-#include "math.h"
-#include<stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+#include <stdbool.h>
 #include <Rinternals.h>
+#include <stddef.h>
 
 #define int8 unsigned char
 
@@ -13,14 +14,14 @@ void checkmem(void *x) {
 
 int min(int a,int b) {
   if(a<b) return(a);
-  else return(b);	
+  else return(b);
 }
 
 void simulate_markov(double *start, double *a,int *nstates,int *state,int *T,int *nseq) {
-  int t,i,n,*s=NULL;	
+  int t,i,n,*s=NULL;
   int K = *nstates;
   int N = *nseq;
-  double tmp;	
+  double tmp;
   GetRNGstate();
   for(n=0;n<N;n++) {
     if(n==0) s = state;
@@ -28,23 +29,23 @@ void simulate_markov(double *start, double *a,int *nstates,int *state,int *T,int
     tmp=unif_rand();
     i=0;
     while(tmp>start[i])	i++;
-    s[0]=i+1;	
+    s[0]=i+1;
     for(t=1;t<T[n];t++) {
       tmp=unif_rand();
       i=0;
       while(tmp>a[i*K+s[t-1]-1])	i++;
-      s[t]=i+1;	
-    }	
+      s[t]=i+1;
+    }
   }
   PutRNGstate();
 }
 
 void **alloc_matrix(int nrow,int ncol,int size) {
   int i;
-  void **x = malloc(sizeof(void *)*nrow);
+  void **x = calloc(nrow,sizeof(void *));
   checkmem(x);
   for(i=0;i<nrow;i++)	{
-    x[i]=malloc(size*ncol);
+    x[i]=calloc(size,ncol);
     checkmem(x[i]);
   }
   return(x);
@@ -62,29 +63,29 @@ void forward(double *a,double *start,double *p0,double *d,double *D,int *timelen
   double obs;
   int u,i,j,t,n;
   int T;
-  int J = *nstates;	
+  int J = *nstates;
   double **p,**F,**si,*N;
   int offset;
   int ln = *totallength;
   int nseq = *nsequences;
   double prod;
 //
-  p = (double **)malloc(sizeof(double *)*J);
-  F = (double **)malloc(sizeof(double *)*J);
-  si = (double **)malloc(sizeof(double *)*J);
+  p = (double **)calloc(J,sizeof(double *));
+  F = (double **)calloc(J,sizeof(double *));
+  si = (double **)calloc(J,sizeof(double *));
 
 /*
     printf("J = %d     T = %d\n",J,T);
     print_matrix(J,J,a);
-    print_matrix(1,J,start);	
-	
+    print_matrix(1,J,start);
+
     for(j=0;j<J;j++)  printf("M[%d] = %d\t",j,M[j]);
     printf("\nd = \n");
     print_matrix(J,100,d);
     printf("p = \n");
-    print_matrix(J,T,p);	   
+    print_matrix(J,T,p);
     printf("D = \n");
-    print_matrix(J,100,D);	
+    print_matrix(J,100,D);
 */
   for(j=0;j<J;j++) {
     p[j]  = p0 + j*ln;
@@ -93,7 +94,7 @@ void forward(double *a,double *start,double *p0,double *d,double *D,int *timelen
   }
   N = N0;
 
-  for(n=0;n<nseq;n++) {	
+  for(n=0;n<nseq;n++) {
     T = timelength[n];
     if(n>0){
       offset = timelength[n-1];
@@ -124,7 +125,7 @@ void forward(double *a,double *start,double *p0,double *d,double *D,int *timelen
 	    				}
 	    				else {
 	      				F[j][t] += obs*d[j*M[j]+t]*start[j];
-	      				N[t] += obs*D[j*M[j]+t]*start[j];						
+	      				N[t] += obs*D[j*M[j]+t]*start[j];
 	    				}
 	  			}
 			}
@@ -151,7 +152,7 @@ void forward(double *a,double *start,double *p0,double *d,double *D,int *timelen
 		     else{
 			 	F[j][t] +=  p[j][t]*si[j][t];
 			}
-       		N[t] += F[j][t]; 
+       		N[t] += F[j][t];
       	}//   markov states
 	  }
       for(j=0;j<J;j++){
@@ -162,7 +163,7 @@ void forward(double *a,double *start,double *p0,double *d,double *D,int *timelen
       if(t<T-1) {
 		for(j=0;j<J;j++){
 	  		si[j][t+1]=0;
-	  		for(i=0;i<J;i++) 
+	  		for(i=0;i<J;i++)
 	    			si[j][t+1]+=a[j*J+i]*F[i][t];
 		}
      }
@@ -181,9 +182,9 @@ void forward(double *a,double *start,double *p0,double *d,double *D,int *timelen
 void forward_backward(double *a,double *start,double *p0,double *d,double *D,int *timelength,int *nstates,int *M,double *L10,
 	      double *N0,double *eta,double *F1,double *statein,double *gamma,int *nsequences,int *totallength,double *Gret
 		  ,double *semi) {
-	
+
   double **L0,**G0,**F0,**si0,**L,**G,obs,**si,**F,**num,*den,*N,**p,**L1;
-  int u,i,j,k,t,T,n;	
+  int u,i,j,k,t,T,n;
   int J = *nstates;
   int offset;
   int ln = *totallength;
@@ -193,15 +194,15 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
   double term;
 
   F0 =   (double **)alloc_matrix(J,ln,sizeof(double));
-  si0  = (double **)alloc_matrix(J,ln,sizeof(double));   
-  den  = (double *)malloc(sizeof(double)*J);
-  num  = (double **)alloc_matrix(J,J,sizeof(double));   
+  si0  = (double **)alloc_matrix(J,ln,sizeof(double));
+  den  = (double *)calloc(J,sizeof(double));
+  num  = (double **)alloc_matrix(J,J,sizeof(double));
 
   forward(a,start,p0,d,D,timelength,nstates,M,F0,N0,si0,nsequences,totallength,semi);
   /*
     for(j=0;j<J;j++) memcpy(F1+j*T,F[j],T*sizeof(double));
     for(j=0;j<J;j++) memcpy(statein+j*T,si[j],T*sizeof(double));
-    printf("J = %d     T = %d\n",J,T);	
+    printf("J = %d     T = %d\n",J,T);
     for(j=0;j<J;j++)  printf("M[%d] = %d\t",j,M[j]);
     printf("\n");
     print_matrix(1,T,N);
@@ -212,27 +213,27 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
 
   //	L1 =  (double **)alloc_matrix(J,T,sizeof(double));
   L0  =  (double **)alloc_matrix(J,ln,sizeof(double));
-  G0  =  (double **)alloc_matrix(J,ln,sizeof(double));	
+  G0  =  (double **)alloc_matrix(J,ln,sizeof(double));
 
-  p = (double **)malloc(sizeof(double *)*J);
-  F = (double **)malloc(sizeof(double *)*J);
-  G = (double **)malloc(sizeof(double *)*J);
-  L = (double **)malloc(sizeof(double *)*J);
-  si = (double **)malloc(sizeof(double *)*J);
-  L1 = (double **)malloc(sizeof(double *)*J);
+  p = (double **)calloc(J,sizeof(double *));
+  F = (double **)calloc(J,sizeof(double *));
+  G = (double **)calloc(J,sizeof(double *));
+  L = (double **)calloc(J,sizeof(double *));
+  si = (double **)calloc(J,sizeof(double *));
+  L1 = (double **)calloc(J,sizeof(double *));
 
   /*
     printf("J = %d     T = %d\n",J,T);
     print_matrix(J,J,a);
-    print_matrix(1,J,start);	
-	
+    print_matrix(1,J,start);
+
     for(j=0;j<J;j++)  printf("M[%d] = %d\t",j,M[j]);
     printf("\nd = \n");
     print_matrix(J,100,d);
     printf("p = \n");
-    print_matrix(J,T,p);	   
+    print_matrix(J,T,p);
     printf("D = \n");
-    print_matrix(J,100,D);	
+    print_matrix(J,100,D);
   */
   for(j=0;j<J;j++) {
     p[j]  = p0 + j*ln;
@@ -243,8 +244,8 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
     L1[j] = L10+j*ln;
   }
   N = N0;
-	
-  for(n=0;n<nseq;n++) {	
+
+  for(n=0;n<nseq;n++) {
     T = timelength[n];
     if(n>0) {
       offset = timelength[n-1];
@@ -262,7 +263,7 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
     for(j=0;j<J;j++) L[j][T-1] = F[j][T-1];
 
     if(n==0) {
-      for(j=0;j<J;j++) 
+      for(j=0;j<J;j++)
 		for(u=1;u<M[j];u++)
 	  		eta[j*M[j]+u-1] = 0;
     }
@@ -271,7 +272,7 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
 		  if(semi[j]==1){
 			G[j][t+1] = 0;
 			obs = 1;
-			for(u=1;u<=min(T-1-t,M[j]);u++) {	
+			for(u=1;u<=min(T-1-t,M[j]);u++) {
 		 		prod = p[j][t+u]/N[t+u];
 		 		if(isnan(prod)) prod = 1;
 		 		if(isinf(prod)) prod = 1e10;
@@ -313,18 +314,18 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
 			eta[j*M[j]+u-1] += term;
 			if(isinf(eta[j*M[j]+u-1])) eta[j*M[j]+u-1]=1e300;
 		}
-	  }				
+	  }
 	}
 	} // semi states
 	else{
 		G[j][t+1] = 0;
-		//obs = 1;			
+		//obs = 1;
 	    //obs *= p[j][t+1]/N[t+1];
 		if(si[j][t+1]==0) si[j][t+1]=1e-300;
-		G[j][t+1] = L[j][t+1]/si[j][t+1]; 
+		G[j][t+1] = L[j][t+1]/si[j][t+1];
 		if(isinf(G[j][t+1])) G[j][t+1]=1e300;
 		if(isnan(G[j][t+1])) G[j][t+1]=1e-300;
-     }// markove state		
+     }// markove state
    }
       for(j=0;j<J;j++){
 		L1[j][t] = 0;
@@ -335,7 +336,7 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
 		}
 		else{
 			L[j][t] = L1[j][t];
-		} 
+		}
 		if(((isnan(L[j][t])) || (L[j][t]==0))) L[j][t]=1e-300;
 		if(((isnan(L1[j][t])) || (L1[j][t]==0))) L1[j][t]=1e-300;
       }
@@ -349,7 +350,7 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
   }
   //new estimates for a and pi
   for(i=0;i<J;i++){
-    for(n=0;n<nseq;n++) {	
+    for(n=0;n<nseq;n++) {
       T = timelength[n];
       if(n==0) {
 		for(j=0;j<J;j++) {
@@ -368,14 +369,14 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
 	  		L1[j] += offset;
 		}
     }
-      start[i]+=L[i][0];			
+      start[i]+=L[i][0];
       for(t=0;t<=(T-2);t++){
-		if(semi[i]==1) den[i] += L1[i][t]; 
-		else den[i] += L[i][t]; 
+		if(semi[i]==1) den[i] += L1[i][t];
+		else den[i] += L[i][t];
 	 }
       	for(j=0;j<J;j++){
-		for(t=0;t<=(T-2);t++) num[i][j] += G[j][t+1]*a[j*J+i]*F[i][t];				
-      }		
+		for(t=0;t<=(T-2);t++) num[i][j] += G[j][t+1]*a[j*J+i]*F[i][t];
+      }
     }
   }
   for(i=0;i<J;i++) {
@@ -389,7 +390,7 @@ void forward_backward(double *a,double *start,double *p0,double *d,double *D,int
   }
   /*
     printf("\n\nG=\n");
-    print_matrix2(J,T,G);	
+    print_matrix2(J,T,G);
     printf("\nL=\n");
     print_matrix2(J,T,L);
     printf("\nL1=\n");
@@ -431,13 +432,13 @@ void viterbi(double *a,double *start,double *p0,double *d0,double *D0,int *timel
   T = *timelength;
 
   si0 = (double **)alloc_matrix(J,T,sizeof(double));
-  psi_time = (int **)malloc(J*sizeof(int *));
-  psi_state = (int **)malloc(J*sizeof(int *));
-  p = (double **)malloc(sizeof(double *)*J);
-  d = (double **)malloc(sizeof(double *)*J);
-  D = (double **)malloc(sizeof(double *)*J);
-  alpha = (double **)malloc(sizeof(double *)*J);
-  si = (double **)malloc(sizeof(double *)*J);
+  psi_time = (int **)calloc(J,sizeof(int *));
+  psi_state = (int **)calloc(J,sizeof(int *));
+  p = (double **)calloc(J,sizeof(double *));
+  d = (double **)calloc(J,sizeof(double *));
+  D = (double **)calloc(J,sizeof(double *));
+  alpha = (double **)calloc(J,sizeof(double *));
+  si = (double **)calloc(J,sizeof(double *));
 
   checkmem(si0);
   checkmem(psi_time);
@@ -451,7 +452,7 @@ void viterbi(double *a,double *start,double *p0,double *d0,double *D0,int *timel
 
   for(j=0;j<J;j++) {
     d[j] = d0 + j*M[j];
-    D[j] = D0 + j*M[j];		
+    D[j] = D0 + j*M[j];
     p[j]  = p0 + j*T;
     alpha[j]  = alpha0 + j*T;
     si[j] = si0[j];
@@ -460,10 +461,10 @@ void viterbi(double *a,double *start,double *p0,double *d0,double *D0,int *timel
   }
 
   for(t=0;t<T;t++) {
-    for(j=0;j<J;j++) {				
+    for(j=0;j<J;j++) {
 		if(semi[j]==1){// semi Markov
       		obs=0;
-      		if(t<T-1) {					
+      		if(t<T-1) {
 				for(u=1;u<=min(t+1,M[j]);u++) {
 	  				if(u<t+1) {
 	    					tmp1 = obs+d[j][u-1]+si[j][t-u+1];
@@ -472,7 +473,7 @@ void viterbi(double *a,double *start,double *p0,double *d0,double *D0,int *timel
 	      					psi_time[j][t]=u;
 	    					}//if
 	    					obs += p[j][t-u];
-	  				}		
+	  				}
 	  				else {
 	    					tmp1 = obs+d[j][t]+start[j];
 	    					if(u==1 || tmp_max < tmp1) {
@@ -481,29 +482,29 @@ void viterbi(double *a,double *start,double *p0,double *d0,double *D0,int *timel
 	    					}//if
 	  				}//if else
 				}// for u
-				alpha[j][t] = tmp_max+p[j][t];					
+				alpha[j][t] = tmp_max+p[j][t];
       		}
       		else{
 				for(u=1;u<=min(t+1,M[j]);u++) {
 	  				if(u<T) {
 	    					tmp1 = obs+D[j][u-1]+si[j][t-u+1];
-	    					if(u < 2000) 						
+	    					if(u < 2000)
 	      					if(u==1 || tmp_max < tmp1) {
 								tmp_max = tmp1;
 								psi_time[j][t]=u;
-	      					}//if 
+	      					}//if
 	    						obs += p[j][T-1-u];
 	  				}
 	  				else {
-	    					tmp1 = obs+D[j][T-1]+start[j];	
+	    					tmp1 = obs+D[j][T-1]+start[j];
 	    					if(u==1 || tmp_max < tmp1) {
 	      					tmp_max = tmp1;
 	      					psi_time[j][t]=u;
-	    					}//if 
-	  				}//if else 						
+	    					}//if
+	  				}//if else
 				}//for u
 			alpha[j][t] = tmp_max+p[j][t];
-      	}//if else 
+      	}//if else
 	}	// semi Markov States
 	else{
 		obs = 0;
@@ -514,23 +515,23 @@ void viterbi(double *a,double *start,double *p0,double *d0,double *D0,int *timel
 			alpha[j][t] = p[j][t] + si[j][t];
 		}
 	}// Markov states
-  }//for j 
+  }//for j
   if(t<T-1) {
       for(j=0;j<J;j++){
 		i=0;
 		si[j][t+1]=a[j*J+i]+alpha[i][t];
 		psi_state[j][t+1]=0;
-		for(i=1;i<J;i++) 
+		for(i=1;i<J;i++)
 	  		if(i!=j || semi[j]==0) {
 	    			tmp1 = a[j*J+i]+alpha[i][t];
 	    			if(si[j][t+1] <= tmp1) {
 	      			si[j][t+1] = tmp1;
 	      			psi_state[j][t+1]=i;
-	    			}//if 
-	  		}//if 
-    }//for j 
-    }//if t  
-  }// for t  
+	    			}//if
+	  		}//if
+    }//for j
+    }//if t
+  }// for t
   //and now we backtrack!
   	q=statehat;
 	q[T-1] = 1;

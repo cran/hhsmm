@@ -64,6 +64,10 @@
 #' @importFrom stats approx chisq.test cov cov.wt density dnbinom dnorm dpois kmeans nlm pbeta pgamma plnorm pnbinom ppois pweibull qf qnorm quantile rgamma rgeom rlnorm rnbinom rnorm rpois runif sd ts uniroot var weighted.mean
 #'
 #' @importFrom utils head tail
+#' 
+#' @import Rcpp
+#' 
+#' @import Rdpack
 #'
 #' @export
 #'

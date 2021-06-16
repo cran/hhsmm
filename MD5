@@ -1,5 +1,5 @@
-bfce04d77743a696b48d4a1fa670aa78 *DESCRIPTION
-8eb7368ce0867a9ff9c1dc22ca6c7abe *NAMESPACE
+61b7199dd9a5bbddddd35d0e4c8b3952 *DESCRIPTION
+65657de270347288f8c74455d916a058 *NAMESPACE
 7e45b8b28955903e16f8699172e9bc0e *R/add-states.R
 103be89e19c3b1162ebc4d494c7c6e9a *R/build_d.R
 558dcd41c2a2183c2cd2850faa1f392c *R/check-hhsmmspec.R
@@ -12,7 +12,7 @@ cb9663325ea9cb6c71246e2cb11f6b64 *R/dlog.R
 20698028849c966e4ae07983ac403350 *R/gammafit.R
 b50ad1e57fdedae35bfc74553eb25db6 *R/ginv.R
 843b9748239c859fad663cf835d5e0eb *R/hhsmmdata.R
-ca2b51e24b3b17fbe2d9286450e03bc0 *R/hhsmmfit.R
+a4a9a3f5047d6ef77eae9544d484f06f *R/hhsmmfit.R
 5b9d9355a76f89b4e5a5688bfcb99969 *R/hhsmmspec.R
 8d44df84dc790d33e85f79b8d4b0facc *R/homogeneity.R
 22f1467ba511a7aea07d0401fb6bd8a8 *R/initial-cluster.R
@@ -22,7 +22,7 @@ bab0fc3f05c24ec8f626ecd324b8c9f0 *R/lnormfit.R
 d6bfe49f57ba1df8685195b71351dea3 *R/logdistfit.R
 e8afe6d0b17ec290e3cbcc9ad285c6d1 *R/ltr-clus.R
 08e9dd95d3aa3e6c40c3928c564f4eed *R/ltr-clus2.R
-726f0f3cf32e1ff355e85e53b34e7840 *R/make-model.R
+778202e5cd0362946b1a869309e6d691 *R/make-model.R
 c0047faff262b0259306f398df66db8e *R/mstep-mix-mvnorm.R
 8a254ad3103658e483a883909ed72e00 *R/plog.R
 49809a098105f55b3f4331a6249b73bb *R/plot-hhsmm-data.R
@@ -52,12 +52,12 @@ d7c0212d40459dd1c10e9ef77a7cef44 *man/hhsmmspec.Rd
 0d98394942c5fe88c43df6c9c659166b *man/initial_estimate.Rd
 18f3ea9c435d249c08845f403f2255d6 *man/initialize_model.Rd
 f5e507b2500d19a491cdff480a93a38f *man/ltr_clus.Rd
-cc3c35cea4461f6c0e85154af6340d97 *man/make_model.Rd
+45025be6757b46d4333a74b021bf784f *man/make_model.Rd
 e11a801b7af090f93863788943b125c6 *man/mixmvnorm_mstep.Rd
 540b3cf1afaae04969434cbec2d77bcd *man/predict.hhsmm.Rd
 092254feaf513ee83d9be955817604d1 *man/predict.hhsmmspec.Rd
 c0084ea9653b5fdaff9c9788b3d86a1c *man/rmixmvnorm.Rd
 68c0001f74a4dfa1650c1a821eab7fd2 *man/simulate.hhsmmspec.Rd
 3d729a157835dc407f8df1bb259c04f1 *man/train_test_split.Rd
-c27a66f8ab7b0c628435332e16d00740 *src/hhsmm.c
+728fb35820334cf275e0481c6fb27c33 *src/hhsmm.c
 5cfc7a4958c7679347ff8139530b475f *src/hhsmm_init.c

@@ -26,7 +26,7 @@
 #' train <- simulate(model, nsim = c(10,8,8,18), seed = 1234, remission = rmixmvnorm)
 #' p = dmixmvnorm(train$x,1,model)
 #'
-#' @import mvtnorm
+#' @importFrom mvtnorm dmvnorm
 #'
 #' @export
 #'

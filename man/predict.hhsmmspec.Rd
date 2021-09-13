@@ -22,7 +22,7 @@
 \item{...}{additional parameters of the function \code{\link{predict.hhsmm}}}
 }
 \value{
-a list of class \code{"hhsmm.pred"} containing the following items:
+a list containing the following items:
 \itemize{
 \item \code{x}{ the observation sequence}
 \item \code{s}{ the predicted state sequence}
@@ -55,10 +55,7 @@ clus = initial_cluster(train,nstate=3,nmix=c(2,2,2),ltr=FALSE,
 final.absorb=FALSE,verbose=TRUE)
 semi <- c(FALSE,TRUE,FALSE)
 initmodel1 = initialize_model(clus=clus,sojourn="gamma",M=max(train$N),semi = semi)
-fit1 = hhsmmfit(x = train, model = initmodel1, M = max(train$N),
-maxit = 100, lock.transition = FALSE, lock.d = FALSE, lock.init=FALSE,
-graphical = FALSE)
-yhat1 <- predict(fit1, test)
+yhat1 <- predict(initmodel1, test)
 
 }
 \references{

@@ -8,7 +8,7 @@
 #' @param nsim a vector of sequence lengths (might be of length 1)
 #' @param seed a random seed to be set
 #' @param remission a random emission generation function (default = \code{\link{rmixmvnorm}})
-#' @param ... additional parameters of the \code{simulate} function
+#' @param ... additional parameters of the \code{remission} function
 #'
 #' @return a list of class \code{"hsmm.data"} containing the following items:
 #' \itemize{
@@ -93,7 +93,7 @@ simulate.hhsmmspec <- function(object, nsim, seed=NULL, remission=rmixmvnorm,...
     	} else stop("Unknown sojourn distribution")
 	u = sapply(s0,rsojourn)
     	s1 = rep(s0, u)[(left.truncate + 1):(sum(u) - right.truncate)]
-    	x = as.matrix(sapply(s1,function(i) remission(i,object)))
+    	x = as.matrix(sapply(s1,function(i) remission(i,object,...)))
 	if(length( nsim)> 1){
   		N =  nsim
   		tmp = cumsum(c(1,N))

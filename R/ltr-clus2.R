@@ -1,4 +1,4 @@
-#' @export
+#' @importFrom MASS ginv
 #'
 .ltr_clus2<-function(Dat){
 	if(is.null(Dat)) return(NULL)
@@ -13,7 +13,7 @@
 			Sig1=cov(matrix(Dat[1:j,],j,p))
 			Sig2=cov(matrix(Dat[(j+1):n],n-j,p))
 			Sp=((j-1)*Sig1+(n-j-1)*Sig2)/(n-2)
-			dif[j]=(mu2-mu1)%*%.ginv(Sp)%*%(mu2-mu1)*(j*(n-j)/n)*(n-p-1)/(n-2)/p
+			dif[j]=(mu2-mu1)%*%ginv(Sp)%*%(mu2-mu1)*(j*(n-j)/n)*(n-p-1)/(n-2)/p
 		}
 		jstar=which.max(dif)
 		difstar = dif[jstar]

@@ -1,5 +1,3 @@
-#' @export
-#'
 .check.hhsmmspec <- function(object) {
   if(is.null(object$dens.emission)) stop("No emission density function provided!")
   if(is.null(object$init)) stop("No initial distribution specified!")

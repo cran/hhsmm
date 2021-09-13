@@ -1,19 +1,19 @@
-#' initial estimation of the model parameters
+#' initial estimation of the model parameters for a specified emission distribution 
 #'
-#' Provides the initial estimates of the model parameters (mixture normal emission 
-#' parameters and waiting times in each state) for an initial clustering of the class 
-#' \code{"hhsmm.clust"} obtained by \code{\link{initial_cluster}}
+#' Provides the initial estimates of the model parameters of a specified emission 
+#' distribution characterized by the \code{mstep} function, for an initial clustering 
+#' obtained by \code{\link{initial_cluster}}
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
 #'
-#' @param clus an initial clustering of the class \code{"hhsmm.clust"} obtained by \code{initial_cluster}
+#' @param clus an initial clustering obtained by \code{initial_cluster}
+#' @param mstep the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}
 #' @param verbose logical. if TRUE the outputs will be printed 
-#'
-#' @return a list of class \code{"hhsmm.par"} containing the following items:
+#' @param ... additional parameters of the \code{mstep} function
+#' 
+#' @return a list containing the following items:
 #' \itemize{
-#' \item \code{mu}{ list of mean vectors of mixture normal for each state and each mixture component}
-#' \item \code{sigma}{ list of covariance matrices of mixture normal for each state and each mixture component}
-#' \item \code{mix.p}{ list of mixture probabilities for each state}
+#' \item \code{emission}{ list the estimated parameterers of the emission distribution}
 #' \item \code{leng}{ list of waiting times in each state for each sequence}
 #' \item \code{clusters}{ the exact clusters of each observation (available if \code{ltr}=FALSE)}
 #' \item \code{nmix}{ the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})}
@@ -38,8 +38,7 @@
 #'
 #' @export
 #'
-initial_estimate<-function(clus,verbose=FALSE){
-		if(class(clus)!="hhsmm.clust") stop("an object of class hhsmm.clust is required !")
+initial_estimate<-function(clus,mstep=mixmvnorm_mstep,verbose=FALSE,...){
 		mix.clus = clus$mix.clus
 		state.clus = clus$state.clus
 		ltr = clus$ltr
@@ -50,51 +49,71 @@ initial_estimate<-function(clus,verbose=FALSE){
 		p = ncol(clust.X[[1]][[1]])
 		nstate = length(nmix)
 		if(verbose) cat("Intitial estimation .... \n")
-		mu = sig = leng = list()
-		mix.p = list()
+		artx = matrix(1,10,p)
+		artwt1 = matrix(1,10,nstate)
+		artwt2 = list()
+		for(j in 1:nstate) artwt2[[j]] = matrix(1,10,nmix[j])
+		artem = tryCatch({mstep(artx,artwt1,artwt2,...)},
+			error=function(e){stop("mstep function is not suitable!")})
+		leng = list()
+		if(any(nmix>1) & !("mix.p" %in% names(artem))) stop("mstep function is not suitable for mixture emissions!")
 		Tx = list()
 		for(j in 1:nstate){
-			Tx[[j]]= clust.X[[1]][[j]]
-			if(num.units>1) for(m in 2:num.units) Tx[[j]]= rbind(Tx[[j]],clust.X[[m]][[j]])
+			for(mp in 1:num.units){
+				if(!all(is.na(clust.X[[mp]][[j]]))){
+					Tx[[j]]= clust.X[[mp]][[j]]
+					break
+				}
+			}
+			if(num.units>1) for(m in setdiff(1:num.units,mp)) Tx[[j]]= rbind(Tx[[j]],clust.X[[m]][[j]])
 			Tx[[j]] = as.matrix(Tx[[j]][apply(Tx[[j]],1,function(xx) !any(is.na(xx))),])
 			if(verbose) cat("State ",j," estimation \n")
-			if(nmix[j]==1){
-				mu[[j]]=rep(0,p)
-				sig[[j]]=matrix(0,p,p)
-				mix.p[[j]] = 1
-				leng[[j]]= 0
-			}else{ 
-				mix.p[[j]] = rep(0,nmix[j])
-				mu[[j]] = sig[[j]] = list()
-				leng[[j]]= 0
-				for(k in 1:nmix[j]){
-					mu[[j]][[k]]=rep(0,p)
-					sig[[j]][[k]]=matrix(0,p,p)
-				}# for k
-			}# if else 
+			leng[[j]]= 0
 			for(m in 1:num.units){
 				if(j < nstate | !final.absorb)
 					if(ltr)
-						if(!all(is.na(clust.X[[m]][[j]])))	
+						if(!all(is.na(clust.X[[m]][[j]]))){	
 							leng[[j]][m]=nrow(clust.X[[m]][[j]])
+						}else{
+							leng[[j]][m]=0
+						}
 				if(verbose) .progress(x=m,max=num.units)
 			}# for m
 			leng[[j]][is.na(leng[[j]])]=0
+			mixind = which(names(artem)=="mix.p")
  			if(nmix[j]>1){
 				for(k in 1:nmix[j]){
-					mu[[j]][[k]] = colMeans(as.matrix(Tx[[j]][mix.clus[[j]] == k,]))
-	  				sig[[j]][[k]] = cov(as.matrix(Tx[[j]][mix.clus[[j]] == k,]))
+					Dmat = as.matrix(Tx[[j]][mix.clus[[j]] == k,])
+					if(ncol(Dmat) == 1 & p > 1) Dmat = t(Dmat) 
+					wt1 = as.matrix(rep(1/nrow(Dmat),nrow(Dmat)))
+					wt2 = list(as.matrix(rep(1,nrow(Dmat))))
+					em = mstep(Dmat,wt1,wt2,...)
+					for(l in setdiff(1:length(artem),mixind)){
+						artem[[l]][[j]][[k]] = em[[l]][[1]]
+						if(is.null(dim(artem[[l]][[j]][[k]]))){
+							if(length(artem[[l]][[j]][[k]])==p) names(artem[[l]][[j]][[k]])<-colnames(clust.X[[1]][[1]])
+						}else{
+							if(ncol(artem[[l]][[j]][[k]])==p) colnames(artem[[l]][[j]][[k]])<-colnames(clust.X[[1]][[1]])
+						}
+					}#for l
 					if(verbose) cat("Mixture component ",k," estimation\n")
-					mix.p[[j]][k] = sum(mix.clus[[j]] == k)/length(mix.clus[[j]])
-					names(mu[[j]][[k]])<-	colnames(sig[[j]][[k]])<-rownames(sig[[j]][[k]])<-colnames(clust.X[[1]][[1]])
+					artem[[mixind]][[j]][k] = sum(mix.clus[[j]] == k)/length(mix.clus[[j]])
 				}# for k 
 			}else{
-				mu[[j]] = colMeans(Tx[[j]])
-	  			sig[[j]] = cov(Tx[[j]])
-				names(mu[[j]])<-	colnames(sig[[j]])<-rownames(sig[[j]])<-colnames(clust.X[[1]][[1]])
+				Dmat = Tx[[j]]
+				wt1 = as.matrix(rep(1/nrow(Dmat),nrow(Dmat)))
+				wt2 = list(as.matrix(rep(1,nrow(Dmat))))
+				em = mstep(Dmat,wt1,wt2,...)
+				for(l in setdiff(1:length(artem),mixind)){
+					artem[[l]][[j]] = em[[l]][[1]]
+					if(is.null(dim(artem[[l]][[j]]))){
+						if(length(artem[[l]][[j]])==p) names(artem[[l]][[j]])<-colnames(clust.X[[1]][[1]])
+					}else{
+						if(ncol(artem[[l]][[j]])==p) colnames(artem[[l]][[j]])<-colnames(clust.X[[1]][[1]])
+					}
+				}
 			}#if else		
 		}# for j
-		ret = list(mu=mu, sig=sig, mix.p=mix.p, leng=leng, state.clus=state.clus, ltr=ltr, nmix=nmix)
-		class(ret) <- "hhsmm.par"
+		ret = list(emission = artem, leng=leng, state.clus=state.clus, ltr=ltr, nmix=nmix)
 	ret
 }

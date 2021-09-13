@@ -1,5 +1,3 @@
-#' @export
-#'
 .build_d <- function(model,M) {
   model$d = matrix(0,nrow=M,ncol=model$J) 
   if(!all(!model$semi)){

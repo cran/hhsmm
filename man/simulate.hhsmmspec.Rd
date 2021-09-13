@@ -15,7 +15,7 @@
 
 \item{remission}{a random emission generation function (default = \code{\link{rmixmvnorm}})}
 
-\item{...}{additional parameters of the \code{simulate} function}
+\item{...}{additional parameters of the \code{remission} function}
 }
 \value{
 a list of class \code{"hsmm.data"} containing the following items:

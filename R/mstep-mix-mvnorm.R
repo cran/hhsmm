@@ -24,6 +24,8 @@
 #' for(j in 1:3) wt2[[j]] = matrix(runif(5*n),nrow=n,ncol=5)
 #' emission = mixmvnorm_mstep(CMAPSS$train$x, wt1, wt2)
 #'
+#' @import CMAPSS
+#'
 #' @export
 #'
 mixmvnorm_mstep <- function(x, wt1, wt2) {

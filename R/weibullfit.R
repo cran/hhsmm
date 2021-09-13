@@ -1,5 +1,3 @@
-#' @export
-#'
 .weibullfit <- function(x,wt=NULL) {
 	M = length(x)
 	if(is.null(wt)) wt = rep(1,M)
@@ -18,7 +16,7 @@
 		logd = matrix(nrow = M, ncol = 1)
     		for(u in 1:M){
       		logd[u,1] = log(pweibull(u,shape=exp(p[1]),scale=exp(p[2])) - pweibull(u-1,shape=exp(p[1]),scale=exp(p[2])))
-      		logd[u,1] = logd[u,1]-log(pweibull(M,shape=exp(p[1]),scale=exp(p[2])))
+      		logd[u,1] = logd[u,1]-pweibull(M,shape=exp(p[1]),scale=exp(p[2]),log.p=TRUE)
     		}
 		logd
   	}

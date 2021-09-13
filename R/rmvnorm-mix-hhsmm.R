@@ -25,6 +25,8 @@
 #' dens.emis = dmixmvnorm, sojourn = sojourn, semi = semi)
 #' x = rmixmvnorm(1, model)
 #'
+#' @importFrom mvtnorm rmvnorm
+#'
 #' @export
 #'
 rmixmvnorm <- function(j, model){

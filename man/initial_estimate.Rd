@@ -2,21 +2,23 @@
 % Please edit documentation in R/initial-estimate.R
 \name{initial_estimate}
 \alias{initial_estimate}
-\title{initial estimation of the model parameters}
+\title{initial estimation of the model parameters for a specified emission distribution}
 \usage{
-initial_estimate(clus, verbose = FALSE)
+initial_estimate(clus, mstep = mixmvnorm_mstep, verbose = FALSE, ...)
 }
 \arguments{
-\item{clus}{an initial clustering of the class \code{"hhsmm.clust"} obtained by \code{initial_cluster}}
+\item{clus}{an initial clustering obtained by \code{initial_cluster}}
+
+\item{mstep}{the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}}
 
 \item{verbose}{logical. if TRUE the outputs will be printed}
+
+\item{...}{additional parameters of the \code{mstep} function}
 }
 \value{
-a list of class \code{"hhsmm.par"} containing the following items:
+a list containing the following items:
 \itemize{
-\item \code{mu}{ list of mean vectors of mixture normal for each state and each mixture component}
-\item \code{sigma}{ list of covariance matrices of mixture normal for each state and each mixture component}
-\item \code{mix.p}{ list of mixture probabilities for each state}
+\item \code{emission}{ list the estimated parameterers of the emission distribution}
 \item \code{leng}{ list of waiting times in each state for each sequence}
 \item \code{clusters}{ the exact clusters of each observation (available if \code{ltr}=FALSE)}
 \item \code{nmix}{ the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})}
@@ -24,9 +26,9 @@ a list of class \code{"hhsmm.par"} containing the following items:
 }
 }
 \description{
-Provides the initial estimates of the model parameters (mixture normal emission
-parameters and waiting times in each state) for an initial clustering of the class
-\code{"hhsmm.clust"} obtained by \code{\link{initial_cluster}}
+Provides the initial estimates of the model parameters of a specified emission
+distribution characterized by the \code{mstep} function, for an initial clustering
+obtained by \code{\link{initial_cluster}}
 }
 \examples{
 J <- 3

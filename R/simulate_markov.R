@@ -1,6 +1,5 @@
 #'
 #' @useDynLib hhsmm simulate_markov
-#' @export
 #'
 .simulate_markov <- function(init,transition,N) {
   if(!all.equal(rowSums(transition),rep(1,nrow(transition)))) stop("Rows of the transition matrix must sum to one")

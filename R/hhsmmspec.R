@@ -40,7 +40,7 @@ hhsmmspec <- function(init,transition,parms.emission,sojourn=NULL,dens.emission,
   ans = list(J=length(init),init=init,transition=transition,parms.emission=parms.emission,
 		sojourn=sojourn,remission=remission,dens.emission=dens.emission,
 		mstep=mstep,semi=semi)
-  class(ans) <- c('hhsmmspec','hhsmm')
+  class(ans) <- c('hhsmmspec')
   .check.hhsmmspec(ans)
   ans  
 }

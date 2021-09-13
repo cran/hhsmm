@@ -2,12 +2,25 @@
 % Please edit documentation in R/initialize-model.R
 \name{initialize_model}
 \alias{initialize_model}
-\title{initialize the hhsmmspec model}
+\title{initialize the hhsmmspec model for a specified emission distribution}
 \usage{
-initialize_model(clus, sojourn = NULL, semi = NULL, M, verbose = FALSE)
+initialize_model(
+  clus,
+  mstep = mixmvnorm_mstep,
+  dens.emission = dmixmvnorm,
+  sojourn = NULL,
+  semi = NULL,
+  M,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
-\item{clus}{initial clustering of class \code{"hhsmm.clust"} obtained by \code{initial_cluster}}
+\item{clus}{initial clustering obtained by \code{initial_cluster}}
+
+\item{mstep}{the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}}
+
+\item{dens.emission}{the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}}
 
 \item{sojourn}{one of the following cases:
 \itemize{
@@ -32,7 +45,10 @@ and FALSE associated states are considered as Markovian
 
 \item{M}{maximum number of waiting times in each state}
 
-\item{verbose}{logical. if TRUE the outputs will be printed}
+\item{verbose}{logical. if TRUE the outputs will be printed
+the normal distributions will be estimated}
+
+\item{...}{additional parameters of the \code{mstep} function}
 }
 \value{
 a \code{\link{hhsmmspec}} model containing the following items:
@@ -41,14 +57,15 @@ a \code{\link{hhsmmspec}} model containing the following items:
 \item \code{transition}{ transition matrix}
 \item \code{parms.emission}{ parameters of the mixture normal emission (\code{mu}, \code{sigma}, \code{mix.p})}
 \item \code{sojourn}{ list of sojourn time distribution parameters and its \code{type}}
-\item \code{dens.emission}{ =\code{dmixmvnorm} function as emission probability density function}
-\item \code{mstep}{ \code{= mixmvnorm_mstep} as the M step function of the EM algorithm}
+\item \code{dens.emission}{ the emission probability density function}
+\item \code{mstep}{ the M step function of the EM algorithm}
 \item \code{semi}{ a logical vector of length nstate with the TRUE associated states are considered as semi-Markovian}
 }
 }
 \description{
-Initialize the \code{\link{hhsmmspec}} model by using an initial clustering of class \code{"hhsmm.clust"}
-obtained by \code{\link{initial_cluster}}
+Initialize the \code{\link{hhsmmspec}} model by using an initial clustering
+obtained by \code{\link{initial_cluster}} and the emission distribution
+characterized by mstep and dens.emission
 }
 \examples{
 J <- 3

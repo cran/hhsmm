@@ -1,5 +1,3 @@
-#' @export
-#'
 .lnormfit <- function(x,wt=NULL) {
 	M = length(x)
 	if(is.null(wt)) wt = rep(1,M)

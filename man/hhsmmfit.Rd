@@ -14,7 +14,8 @@ hhsmmfit(
   lock.d = FALSE,
   lock.init = FALSE,
   graphical = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ hhsmmfit(
 \item{graphical}{logical. if TRUE a plot of the sojourn probabilities will be plotted through the EM algorithm}
 
 \item{verbose}{logical. if TRUE the outputs will be printed}
+
+\item{...}{additional parameters for the dens.emission and mstep functions}
 }
 \value{
 a list of class \code{"hhsmm"} containing the following items:

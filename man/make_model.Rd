@@ -2,12 +2,23 @@
 % Please edit documentation in R/make-model.R
 \name{make_model}
 \alias{make_model}
-\title{make a hhsmmspec model}
+\title{make a hhsmmspec model for a specified emission distribution}
 \usage{
-make_model(par, semi = NULL, M, sojourn)
+make_model(
+  par,
+  mstep = mixmvnorm_mstep,
+  dens.emission = dmixmvnorm,
+  semi = NULL,
+  M,
+  sojourn
+)
 }
 \arguments{
-\item{par}{the parameters of the class \code{"hhsmm.par"} obtained by \code{\link{initial_estimate}}}
+\item{par}{the parameters obtained by \code{\link{initial_estimate}}}
+
+\item{mstep}{the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}}
+
+\item{dens.emission}{the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}}
 
 \item{semi}{logical and of one of the following forms:
 \itemize{
@@ -39,14 +50,15 @@ a \code{\link{hhsmmspec}} model containing the following items:
 \item \code{transition}{ transition matrix}
 \item \code{parms.emission}{ parameters of the mixture normal emission (\code{mu}, \code{sigma}, \code{mix.p})}
 \item \code{sojourn}{ list of sojourn distribution parameters and its \code{type}}
-\item \code{dens.emission}{ = \code{dmixmvnorm} function as emission probability density function}
-\item \code{mstep}{ \code{mixmvnorm_mstep} as the M step function of the EM algorithm}
+\item \code{dens.emission}{ the emission probability density function}
+\item \code{mstep}{ the M step function of the EM algorithm}
 \item \code{semi}{ a logical vector of length nstate with the TRUE associated states are considered as semi-Markovian}
 }
 }
 \description{
-Provides a hhsmmspec model by using the parameters of the class \code{"hhsmm.par"}
-obtained by \code{\link{initial_estimate}}
+Provides a hhsmmspec model by using the parameters
+obtained by \code{\link{initial_estimate}} for the emission distribution
+characterized by mstep and dens.emission
 }
 \examples{
 J <- 3

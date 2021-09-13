@@ -15,6 +15,7 @@
 #' @param lock.init logical. if TRUE the initial probability vector will not be updated through the EM algorithm 
 #' @param graphical logical. if TRUE a plot of the sojourn probabilities will be plotted through the EM algorithm
 #' @param verbose logical. if TRUE the outputs will be printed
+#' @param ... additional parameters for the dens.emission and mstep functions
 #'
 #' @return a list of class \code{"hhsmm"} containing the following items:
 #' \itemize{
@@ -72,7 +73,7 @@
 #' @export
 #'
 hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transition = FALSE, 
-    lock.d = FALSE, lock.init=FALSE, graphical = FALSE, verbose = TRUE) 
+    lock.d = FALSE, lock.init=FALSE, graphical = FALSE, verbose = TRUE,...) 
 {
   	sojourn.distribution=model$sojourn$type
   	tol=1e-4
@@ -94,7 +95,7 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
     		NN = x$N
     		x = as.matrix(x$x)
   	}
-  	if (NA %in% M) M = max(NN)
+  	if (anyNA(M)) M = max(NN)
   	if(length(model$init)!=J) stop("length(model$init)!=J")
   	if(NROW(x)!=sum(NN)) stop("NROW(x)!=sum(NN)")
   	model <- .build_d(model,M)
@@ -104,7 +105,7 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
   	for(it in 1:maxit) {
   		if (verbose) cat('iteration: ',it,"  ")
     		if(graphical)   plot.hhsmm(list(model=new.model,J=J))
-		p = sapply(1:J,function(state) f(x,state,new.model))
+		p = sapply(1:J,function(state) f(x,state,new.model,...))
 		p=p/max(p)
 		p[is.na(p) | is.nan(p)] = 1e-300
 		p[!is.finite(p)] = 1e+10
@@ -127,7 +128,7 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
 					for(i in 1:k){
 						tmp.model = new.model
 						tmp.model$parms.emission$mix.p[[j]][-i]=0
-						w = f(x,j,tmp.model)/f(x,j,new.model)
+						w = f(x,j,tmp.model,...)/f(x,j,new.model,...)
 						w[is.nan(w)] = 1e-300
 						estep_mix_weights[[j]][,i] = w
 					}# for i
@@ -149,9 +150,9 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
 					This may be caused by bad starting parameters 
 					are insufficent sample size")
 		if(!is.null(new.model$parms.emission$mix.p)){
-				new.model$parms.emission = mstep(x,state_wt,estep_mix_weights)
+				new.model$parms.emission = mstep(x,state_wt,estep_mix_weights,...)
 		}else{
-				new.model$parms.emission = mstep(x,state_wt)
+				new.model$parms.emission = mstep(x,state_wt,...)
 		}
 		if(!all(!new.model$semi)){
     		  if(lock.d) {
@@ -284,14 +285,15 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
 	lock.d = TRUE 
 	sojourn.distribution = ""
  }
- df = (!lock.init)*J+ (!lock.transition)*J^2 + 
+ nep = length(new.model$parms.emission)
+ np = 0
+ for(ep in 1:nep) np = np + length(unlist(unlist(new.model$parms.emission[[ep]])))
+ df = (!lock.init)*J+ (!lock.transition)*J^2-J + 
 	(!lock.d) * (sojourn.distribution=="ksmoothed-nonparametric" | 
 	sojourn.distribution=="nonparametric")*M*J + 
 	(!lock.d) * (sojourn.distribution!="ksmoothed-nonparametric" & 
 	sojourn.distribution!="nonparametric") * (length(new.model$sojourn)-1) +
-	length(unlist(unlist(new.model$parms.emission$mu))) + 
-	length(unlist(unlist(new.model$parms.emission$sigma))) + 
-	length(unlist(new.model$parms.emission$mix.p)) - J 
+	np
  AIC = 2*df - 2*ll[it]
  BIC = log(sum(NN))*df - 2*ll[it]
  if (verbose) cat("AIC = ",AIC,"\n")

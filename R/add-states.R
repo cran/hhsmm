@@ -1,5 +1,4 @@
 #' @importFrom graphics axTicks legend lines par rect
-#' @export
 #'
 .add.states <- function(states,ht=0,greyscale=FALSE,leg=NA,J=length(unique(states)),time.scale=24,shift=0) {  
   J = length(unique(states))  

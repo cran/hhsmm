@@ -18,7 +18,7 @@
 #' @param M maximum duration in states
 #' @param ... additional parameters of the function \code{\link{predict.hhsmm}}
 #'
-#' @return a list of class \code{"hhsmm.pred"} containing the following items:
+#' @return a list containing the following items:
 #' \itemize{
 #' \item \code{x}{ the observation sequence}
 #' \item \code{s}{ the predicted state sequence}
@@ -46,10 +46,7 @@
 #' final.absorb=FALSE,verbose=TRUE)
 #' semi <- c(FALSE,TRUE,FALSE)
 #' initmodel1 = initialize_model(clus=clus,sojourn="gamma",M=max(train$N),semi = semi)
-#' fit1 = hhsmmfit(x = train, model = initmodel1, M = max(train$N),
-#' maxit = 100, lock.transition = FALSE, lock.d = FALSE, lock.init=FALSE,
-#' graphical = FALSE)
-#' yhat1 <- predict(fit1, test)
+#' yhat1 <- predict(initmodel1, test)
 #'
 #' @references
 #' Guedon, Y. (2005). Hidden hybrid Markov/semi-Markov chains. 
@@ -71,5 +68,5 @@ predict.hhsmmspec <- function(object,newdata,method="viterbi",M=NA,...) {
   model <- .build_d(object,M)
   object2 <- list(model=model,J=model$J,f=model$dens.emission)
   class(object2) <- "hhsmm"
-  predict.hhsmm(object2,newdata,method,...)    
+  predict.hhsmm(object2,newdata,method=method,...)    
 }

@@ -9,6 +9,7 @@ initial_cluster(
   nstate,
   nmix,
   ltr = FALSE,
+  equispace = FALSE,
   final.absorb = FALSE,
   verbose = FALSE
 )
@@ -28,12 +29,15 @@ automatically based on the within cluster sum of squares
 
 \item{ltr}{logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed}
 
+\item{equispace}{logical. if TRUE the left to right clustering will be performed simply with equal time spaces.
+This option is suitable for speach recognition applications.}
+
 \item{final.absorb}{logical. if TRUE the final state of the sequence is assumed to be the absorbance state}
 
 \item{verbose}{logical. if TRUE the outputs will be printed}
 }
 \value{
-a list of class \code{"hhsmm.clust"} containing the following items:
+a list containing the following items:
 \itemize{
 \item \code{clust.X}{ a list of clustered observations for each sequence and state}
 \item \code{mix.clus}{ a list of the clusters for the mixtures for each state}

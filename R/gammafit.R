@@ -1,5 +1,3 @@
-#' @export
-#'
 .gammafit <- function(x,wt=NULL) {
 	tol = 1e-08
 	M = length(x)
@@ -30,7 +28,7 @@
 		logd = matrix(nrow = M, ncol = 1)
     		for(u in 1:M){
       		logd[u,1] = log(pgamma(u,shape=exp(p[1]),scale=exp(p[2])) - pgamma(u-1,shape=exp(p[1]),scale=exp(p[2])))
-      		logd[u,1] = logd[u,1]-log(pgamma(M,shape=exp(p[1]),scale=exp(p[2])))
+      		logd[u,1] = logd[u,1]-pgamma(M,shape=exp(p[1]),scale=exp(p[2]),log.p=TRUE)
     		}
 		logd
   	}

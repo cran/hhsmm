@@ -27,13 +27,15 @@ ltr_clus<-function(Dat,k){
 	while(n.clus < k & change){
 		tmp.clus = c()
 		nc = n.clus
+		ncc = 0
 		for(j in 1:n.clus){
 			tmp = .ltr_clus2(CDat[[j]])
 			if(length(unique(tmp$cluster))==2){
+				ncc = ncc + 1 
 				clus1=as.matrix(CDat[[j]][tmp$cluster==1,])
 				clus2=as.matrix(CDat[[j]][tmp$cluster==2,])
 				CDat[[j]]=clus1
-				CDat[[n.clus+1]]=clus2
+				CDat[[n.clus+ncc]]=clus2
 				nc = nc+1
 				tmp.clus=c(tmp.clus,tmp$cluster+(j-1)*2)
 				diff=c(diff,tmp$mean.diff)

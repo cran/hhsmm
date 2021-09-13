@@ -7,6 +7,7 @@
 \method{predict}{hhsmm}(
   object,
   newdata,
+  future = 0,
   method = "viterbi",
   RUL.estimate = FALSE,
   confidence = "max",
@@ -18,6 +19,8 @@
 \item{object}{a fitted model of class \code{"hhsmm"} estimated by \code{hhsmmfit}}
 
 \item{newdata}{a new (test) data of class \code{"hhsmmdata"}}
+
+\item{future}{number of future states to be predicted}
 
 \item{method}{the prediction method with two options:
 \itemize{
@@ -38,10 +41,10 @@ prediction interval}
 
 \item{conf.level}{the confidence level of the prediction interval (default 0.95)}
 
-\item{...}{additional arguments for \code{\link{hhsmmfit}} function used for method \code{"smoothing"}}
+\item{...}{additional parameters for the dens.emission and mstep functions}
 }
 \value{
-a list of class \code{"hhsmm.predict"} containing the following items:
+a list containing the following items:
 \itemize{
 \item \code{x}{ the observation sequence}
 \item \code{s}{ the predicted state sequence}

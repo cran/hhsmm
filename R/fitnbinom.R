@@ -1,5 +1,3 @@
-#' @export
-#'
 .nbinomfit <- function(eta) {  
   shiftthresh=quantile(eta,0.5)
   maxshift =  match(TRUE,eta>shiftthresh)

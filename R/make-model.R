@@ -1,11 +1,14 @@
-#' make a hhsmmspec model
+#' make a hhsmmspec model for a specified emission distribution
 #'
-#' Provides a hhsmmspec model by using the parameters of the class \code{"hhsmm.par"}  
-#' obtained by \code{\link{initial_estimate}}
+#' Provides a hhsmmspec model by using the parameters  
+#' obtained by \code{\link{initial_estimate}} for the emission distribution 
+#' characterized by mstep and dens.emission
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
 #'
-#' @param par the parameters of the class \code{"hhsmm.par"} obtained by \code{\link{initial_estimate}}
+#' @param par the parameters obtained by \code{\link{initial_estimate}}
+#' @param mstep the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}
+#' @param dens.emission the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}
 #' @param semi logical and of one of the following forms:
 #' \itemize{
 #' \item a logical value: if TRUE all states are considered as semi-Markovian else Markovian
@@ -33,8 +36,8 @@
 #' \item \code{transition}{ transition matrix}
 #' \item \code{parms.emission}{ parameters of the mixture normal emission (\code{mu}, \code{sigma}, \code{mix.p})}
 #' \item \code{sojourn}{ list of sojourn distribution parameters and its \code{type}}
-#' \item \code{dens.emission}{ = \code{dmixmvnorm} function as emission probability density function}
-#' \item \code{mstep}{ \code{mixmvnorm_mstep} as the M step function of the EM algorithm}
+#' \item \code{dens.emission}{ the emission probability density function}
+#' \item \code{mstep}{ the M step function of the EM algorithm}
 #' \item \code{semi}{ a logical vector of length nstate with the TRUE associated states are considered as semi-Markovian}
 #' }
 #'
@@ -57,9 +60,8 @@
 #'
 #' @export
 #'
-make_model<-function(par,semi=NULL,M,sojourn){
-	if(class(par)!="hhsmm.par") stop("par must be of class hhsmm.par")
-	J = length(par$mu)
+make_model<-function(par,mstep=mixmvnorm_mstep,dens.emission=dmixmvnorm,semi=NULL,M,sojourn){
+	J = length(par$emission[[1]])
 	nmix = par$nmix
 	if(par$ltr){
 		init <-c(1,rep(0,J-1))
@@ -73,14 +75,7 @@ make_model<-function(par,semi=NULL,M,sojourn){
 			semi = rep(TRUE,J)
 		}
 	}
-	if(!all(nmix ==1)){
-			B0=list(mix.p=par$mix.p,
-				mu=par$mu,sigma=par$sig)
-			p = length(par$mu[[1]][[1]])
-	}else{
-			B0=list(mu=par$mu,sigma=par$sig)
-			p = length(par$mu[[1]])
-	}
+	B0 = par$emission
 	d0 = matrix(0,nrow=M,ncol=J)
 	lenn=list()
 	for(j in 1:(J-par$ltr)){
@@ -124,6 +119,7 @@ make_model<-function(par,semi=NULL,M,sojourn){
 		for(j in 1:(J-par$ltr)){	
 			ps = table(lenn[[j]])/sum(table(lenn[[j]]))
 			ind = as.numeric(names(ps))
+			ind[ind==1e-10]=1
 			d0j = rep(0,M)
 			d0j[ind]=ps
 			g.shape[j] = (mean(lenn[[j]])^2)/var(lenn[[j]])
@@ -192,6 +188,7 @@ make_model<-function(par,semi=NULL,M,sojourn){
 		for(j in 1:(J-par$ltr)){	
 			ps = table(lenn[[j]])/sum(table(lenn[[j]]))
 			ind = as.numeric(names(ps))
+			ind[ind==1e-10]=1
 			d0j = rep(0,M)
 			d0j[ind]=ps
 			d0[,j]=d0j
@@ -256,7 +253,7 @@ make_model<-function(par,semi=NULL,M,sojourn){
 	sojourn.list = NULL
   }# if else hmm
 	P=matrix(0,nrow=J,ncol=J)
-	if(par$ltr){
+	if(par$ltr & all(semi[-J])){
 		lenn.m = matrix(nrow=J-1,ncol=length(lenn[[1]]))
 		for(k in 1:(J-1)) lenn.m[k,]=lenn[[k]]
 		lennz = c()
@@ -269,31 +266,55 @@ make_model<-function(par,semi=NULL,M,sojourn){
 		tmp.p = lennz/length(lenn[[k]])
 		tmp.p[tmp.p == 0]=0.05
 		tmp.p[J-1] = 1-sum(tmp.p[-(J-1)])
-	}#if ltr
+	}#if ltr no markov
+	if(par$ltr & any(!semi[-J])){
+		lenn.m = matrix(nrow=J-1,ncol=length(lenn[[1]]))
+		for(k in 1:(J-1)) lenn.m[k,]=lenn[[k]]
+		dg = rowSums(lenn.m)/sum(lenn.m)
+		lennz = c()
+		for(k in 1:(J-1)){
+			lennz[k] = 0
+			for(cl in 1:ncol(lenn.m)){
+				lennz[k] = lennz[k] + (sum(lenn.m[,cl]!=0)==k)
+			}# for cl
+		}#for k 
+		tmp.p = lennz/length(lenn[[k]])
+		tmp.p[tmp.p == 0]=0.01
+		tmp.p[J-1] = 1-sum(tmp.p[-(J-1)])
+	}#if ltr any markov
 	if(par$ltr){
 		for(i in 1:J){
+			if(i<J & !semi[i]){
+				tmp.p2 =tmp.p
+				tmp.p2[J-1] = 1-dg[i]-sum(tmp.p2[-(J-1)])
+				tmp.p2[J] = dg[i]
+			}else{
+				tmp.p2 = tmp.p
+				tmp.p2[J] = 0
+			}
 			for(j in J:1){
-				if(i < j){
-					if(i < (J-1)){
-						if((j-i)>=2){
-							P[i,j] = tmp.p[i]	
-						}else{
-							P[i,j] = 1 - sum(P[i,-j])
-						}#if else j-i>=2
+				if(i <= j){
+					if(i <= (J-1)){
+						P[i,j] = tmp.p2[J-j+i]
 					}else{
 						P[i,j] = 1
 					}# ifelse i< J-1
 				}# if i<j
-				P[J,J] = 1			
+				P[J,J] = 1
+				if(semi[J-1]) P[J-1,J]=1			
 			}# for j
 		}# for i 
+		P = P/rowSums(P)
 	}else{
 		state.clus = par$state.clus
 		num.units = length(state.clus)
 		P = matrix(0 , J , J)
 		for(m in 1:num.units){
 			tt <- table( c(state.clus[[m]][-length(state.clus[[m]])]), c(state.clus[[m]][-1]) )
-    			P = P + tt / rowSums(tt)
+			ttc = matrix(0 , J , J)
+			ttc[as.numeric(rownames(tt)),as.numeric(colnames(tt))]<-tt
+			ttc[ttc==0]=1e-10
+    			P = P + ttc / rowSums(ttc)
 		}# for m
 		dg = diag(P)
 		dg[!semi] = 0
@@ -303,8 +324,8 @@ make_model<-function(par,semi=NULL,M,sojourn){
 		model <- hhsmmspec(init=init, transition=P,
 			parms.emission = B0,
 		  	sojourn=sojourn.list,
-			dens.emission = dmixmvnorm,
-			mstep = mixmvnorm_mstep, 
+			dens.emission = dens.emission,
+			mstep = mstep, 
 			semi=semi)
 	return(model)
 }

@@ -1,5 +1,3 @@
-#' @export
-#'
 .progress <- function (x, max = 100) {
     percent <- x / max * 100
     cat(sprintf('\r[%-10s] %d%%',

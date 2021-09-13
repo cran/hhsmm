@@ -18,8 +18,10 @@
 #' @param ltr logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed
 #' @param final.absorb logical. if TRUE the final state of the sequence is assumed to be the absorbance state
 #' @param verbose logical. if TRUE the outputs will be printed 
+#' @param equispace logical. if TRUE the left to right clustering will be performed simply with equal time spaces. 
+#' This option is suitable for speach recognition applications.
 #'
-#' @return a list of class \code{"hhsmm.clust"} containing the following items:
+#' @return a list containing the following items:
 #' \itemize{
 #' \item \code{clust.X}{ a list of clustered observations for each sequence and state}
 #' \item \code{mix.clus}{ a list of the clusters for the mixtures for each state}
@@ -51,10 +53,11 @@
 #'
 #' @export
 #'
-initial_cluster<-function(train,nstate,nmix,ltr=FALSE,final.absorb=FALSE,verbose=FALSE){
+initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.absorb=FALSE,verbose=FALSE){
 		if(length(nmix)==1 & mode(nmix)=="numeric") nmix = rep(nmix,nstate)
 		if(length(nmix)!=nstate & mode(nmix)=="numeric") stop("length of nmix must be 1 or equal the number of states.")
 		if(class(train)!="hhsmmdata") stop("class of train data must be hhsmmdata !")
+		if(equispace & !ltr) stop("equispace option is only applied for left to right model (ltr=TRUE)!")
 		if(!ltr & final.absorb){
 			final.absorb = FALSE
 			warning("The final.absorb is for left to right case only! Changed to FALSE...")
@@ -73,13 +76,14 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,final.absorb=FALSE,verbose
 		} else {
 			clusters = list()
 		}
-		if(ltr){
+		if(equispace){
 			for(m in 1:num.units){
 				xt[[m]] = list()
-				if(verbose) .progress(x=m,max=num.units)
 				C=as.matrix(data[(Ns[m]+1):Ns[m+1],])
 				if(final.absorb) D= as.matrix(C[-nrow(C),]) else D = C
-				clus = ltr_clus(D,nstate-final.absorb)
+				T = nrow(D)
+				K = nstate-final.absorb
+				clus = c(rep(1,T-K*trunc(T/K)),rep(1:K,each=trunc(T/K)))
 				for(j in 1:(nstate-final.absorb)){
   					if(sum(clus==j)>0){
 						xt[[m]][[j]]=matrix(D[clus==j,],
@@ -99,20 +103,48 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,final.absorb=FALSE,verbose
 					colnames(xt[[m]][[nstate]]) <- colnames(train$x)
 				}
 			}# for m 
-		} else{
-				clus = kmeans(data,nstate,nstart=10)$cluster
+		}else{
+			if(ltr){
 				for(m in 1:num.units){
-					clusters[[m]] = clus[(Ns[m]+1):Ns[m+1]]
 					xt[[m]] = list()
-					D = as.matrix(data[(Ns[m]+1):Ns[m+1],])
-					for(j in 1:nstate){
-						xt[[m]][[j]]=matrix(D[clusters[[m]]==j,],
-							nrow=sum(clusters[[m]]==j),ncol=ncol(data))
-						Tx[[j]]= rbind(Tx[[j]],xt[[m]][[j]])
-						colnames(Tx[[j]]) <- colnames(train$x)
+					if(verbose) .progress(x=m,max=num.units)
+					C=as.matrix(data[(Ns[m]+1):Ns[m+1],])
+					if(final.absorb) D= as.matrix(C[-nrow(C),]) else D = C
+					clus = ltr_clus(D,nstate-final.absorb)
+					for(j in 1:(nstate-final.absorb)){
+  						if(sum(clus==j)>0){
+							xt[[m]][[j]]=matrix(D[clus==j,],
+								nrow=sum(clus==j),ncol=ncol(D))
+							colnames(xt[[m]][[j]]) <- colnames(train$x)
+							Tx[[j]]= rbind(Tx[[j]],xt[[m]][[j]])
+							colnames(Tx[[j]]) <- colnames(train$x)
+						} else{
+							xt[[m]][[j]] = NA
+						}#if else
 					}# for j
+					if(final.absorb){
+						Tx[[nstate]]=rbind(Tx[[nstate]],C[nrow(C),])
+						colnames(Tx[[nstate]]) <- colnames(train$x)
+						xt[[m]][[nstate]]=matrix(C[nrow(C),],
+								nrow=1,ncol=ncol(D))	
+						colnames(xt[[m]][[nstate]]) <- colnames(train$x)
+					}
 				}# for m 
-		}
+			} else{
+					clus = kmeans(data,nstate,nstart=10)$cluster
+					for(m in 1:num.units){
+						clusters[[m]] = clus[(Ns[m]+1):Ns[m+1]]
+						xt[[m]] = list()
+						D = as.matrix(data[(Ns[m]+1):Ns[m+1],])
+						for(j in 1:nstate){
+							xt[[m]][[j]]=matrix(D[clusters[[m]]==j,],
+								nrow=sum(clusters[[m]]==j),ncol=ncol(data))
+							Tx[[j]]= rbind(Tx[[j]],xt[[m]][[j]])
+							colnames(Tx[[j]]) <- colnames(train$x)
+						}# for j
+					}# for m 
+			}# if else ltr
+		}# if else equispace
 		for(j in 1:nstate) Tx[[j]] = as.matrix(Tx[[j]][-1,])
 		anmix = c()
 		mix.clus = list()
@@ -151,6 +183,5 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,final.absorb=FALSE,verbose
 		}# for j
 	out = list(clust.X=xt, mix.clus=mix.clus, state.clus = clusters, 
 		nmix=anmix, ltr = ltr, final.absorb = final.absorb)
-	class(out) <- "hhsmm.clust"
 	return(out)
 }

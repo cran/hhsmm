@@ -1,11 +1,14 @@
-#' initialize the hhsmmspec model
+#' initialize the hhsmmspec model for a specified emission distribution
 #'
-#' Initialize the \code{\link{hhsmmspec}} model by using an initial clustering of class \code{"hhsmm.clust"}  
-#' obtained by \code{\link{initial_cluster}}
+#' Initialize the \code{\link{hhsmmspec}} model by using an initial clustering 
+#' obtained by \code{\link{initial_cluster}} and the emission distribution 
+#' characterized by mstep and dens.emission
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
 #'
-#' @param clus initial clustering of class \code{"hhsmm.clust"} obtained by \code{initial_cluster}
+#' @param clus initial clustering obtained by \code{initial_cluster}
+#' @param mstep the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}
+#' @param dens.emission the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}
 #' @param sojourn one of the following cases:
 #' \itemize{
 #' \item \code{"nonparametric"}{ non-parametric sojourn distribution}
@@ -27,6 +30,8 @@
 #' }
 #' @param M maximum number of waiting times in each state
 #' @param verbose logical. if TRUE the outputs will be printed
+#' the normal distributions will be estimated 
+#' @param ... additional parameters of the \code{mstep} function
 #'
 #' @return a \code{\link{hhsmmspec}} model containing the following items:
 #' \itemize{
@@ -34,8 +39,8 @@
 #' \item \code{transition}{ transition matrix}
 #' \item \code{parms.emission}{ parameters of the mixture normal emission (\code{mu}, \code{sigma}, \code{mix.p})}
 #' \item \code{sojourn}{ list of sojourn time distribution parameters and its \code{type}}
-#' \item \code{dens.emission}{ =\code{dmixmvnorm} function as emission probability density function}
-#' \item \code{mstep}{ \code{= mixmvnorm_mstep} as the M step function of the EM algorithm}
+#' \item \code{dens.emission}{ the emission probability density function}
+#' \item \code{mstep}{ the M step function of the EM algorithm}
 #' \item \code{semi}{ a logical vector of length nstate with the TRUE associated states are considered as semi-Markovian}
 #' }
 #'
@@ -57,9 +62,9 @@
 #'
 #' @export
 #'
-initialize_model<-function(clus,sojourn=NULL,semi=NULL,M,verbose=FALSE){
-	par  = initial_estimate(clus,verbose=verbose)
+initialize_model<-function(clus,mstep=mixmvnorm_mstep,dens.emission = dmixmvnorm,sojourn=NULL,semi=NULL,M,verbose=FALSE,...){
+	par  = initial_estimate(clus,mstep,verbose=verbose,...)
 	if(verbose) cat("Initializing model ... \n")
-	init_model= make_model(par,semi=semi,M=M,sojourn=sojourn)
+	init_model= make_model(par,mstep,dens.emission,semi=semi,M=M,sojourn=sojourn)
 	return(init_model)
 }

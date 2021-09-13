@@ -10,6 +10,7 @@
 #'
 #' @param object a fitted model of class \code{"hhsmm"} estimated by \code{hhsmmfit}
 #' @param newdata a new (test) data of class \code{"hhsmmdata"} 
+#' @param future number of future states to be predicted 
 #' @param method the prediction method with two options:
 #' \itemize{
 #' \item \code{"viterbi"}{ (default) uses the Viterbi algorithm for prediction}
@@ -25,9 +26,9 @@
 #' prediction interval}
 #' }
 #' @param conf.level the confidence level of the prediction interval (default 0.95) 
-#' @param ... additional arguments for \code{\link{hhsmmfit}} function used for method \code{"smoothing"}
+#' @param ... additional parameters for the dens.emission and mstep functions
 #'
-#' @return a list of class \code{"hhsmm.predict"} containing the following items:
+#' @return a list containing the following items:
 #' \itemize{
 #' \item \code{x}{ the observation sequence}
 #' \item \code{s}{ the predicted state sequence}
@@ -70,7 +71,7 @@
 #'
 #' @export
 #'
-predict.hhsmm <- function(object, newdata, method="viterbi", 
+predict.hhsmm <- function(object, newdata, future = 0, method="viterbi", 
 	RUL.estimate = FALSE, confidence = "max", conf.level = 0.95, ...) {
   if(missing(newdata)){ stop("newdata missing!")} else{ x=newdata}
   J = object$J
@@ -115,9 +116,9 @@ predict.hhsmm <- function(object, newdata, method="viterbi",
 	RUL = RUL.up = RUL.low = c()
     for(i in 1:length(N)) {
     		if(NCOL(x0)==1){
-			  b = log(unlist(sapply(1:J,function(state) object$f(as.matrix(x0[(NN[i]+1):NN[i+1]]),state,object$model))))
+			  b = log(unlist(sapply(1:J,function(state) object$f(as.matrix(x0[(NN[i]+1):NN[i+1]]),state,object$model,...))))
       	}else {
-		   b = log(unlist(sapply(1:J,function(state) object$f(as.matrix(x0[(NN[i]+1):NN[i+1],]),state,object$model))))
+		   b = log(unlist(sapply(1:J,function(state) object$f(as.matrix(x0[(NN[i]+1):NN[i+1],]),state,object$model,...))))
 	  	}
       	b[b==-Inf]=m
       	b[b==Inf]=1e300
@@ -136,6 +137,8 @@ predict.hhsmm <- function(object, newdata, method="viterbi",
                psi_state0=integer(N[i]*J),
                psi_time0=integer(N[i]*J)          
                ,semi = as.double(semi),PACKAGE="hhsmm")
+		pmat = matrix(tmp$alpha,ncol=object$J)
+		pmat = exp(pmat)/rowSums(exp(pmat))
       	loglik=loglik+max(tmp$alpha[N[i]*(1:J)])
 		statehat[(NN[i]+1):NN[i+1]] = tmp$statehat+1
 		if(RUL.estimate){
@@ -182,16 +185,38 @@ predict.hhsmm <- function(object, newdata, method="viterbi",
 		  	}# if else 
 		}else{
 			RUL[i] = RUL.low[i] = RUL.up[i] = NA
-		}
+		}# if else RUL.estimate
+		if(future>0){
+      		alpha =  exp(tmp$alpha[N[i]*(1:J)]-max(tmp$alpha[N[i]*(1:J)]))
+	  		delta_bar = alpha/sum(alpha)
+      		statehat_seq = tmp$statehat+1
+			state_hat_next = statehat_seq[N[i]]
+			pmatf = rep(0,J)
+			for(fu in 1:future){
+     		   	delta_bar_next = as.vector(t(a)%*%delta_bar)
+				state_hat_next = which.max(delta_bar_next)
+				delta_bar = delta_bar_next
+				pmatf = rbind(pmatf,delta_bar)
+				statehat = c(statehat,state_hat_next)
+			}# for fu 
+			pmatf = pmatf[-1,]
+			rownames(pmatf)<-NULL
+			pmat = rbind(pmat,pmatf)
+		}# if furure > 0
 	} # for i 
-    ans <- list(x=x,s=statehat,N=N,loglik=loglik,RUL = RUL,RUL.up = RUL.up, RUL.low = RUL.low)
+    ans <- list(x=x,s=statehat,N=N,p=pmat,
+		loglik=loglik,RUL = RUL,RUL.up = RUL.up, RUL.low = RUL.low)
   } else if(method=="smoothing") {
 	M = nrow(object$model$d)    
     	m <- object$model
     	m$dens.emission <- object$f
-    tmp <- hhsmmfit(x,m,object$mstep,maxit=1,M=M,...)
+    tmp <- hhsmmfit(x,m,object$mstep,M=M,maxit=1, 
+	lock.transition = TRUE, lock.d = TRUE, 
+	lock.init=TRUE,graphical = FALSE,
+	verbose=FALSE,...)
 	RUL = RUL.up = RUL.low = c()
 	a = object$model$transition
+	pmat = matrix(tmp$estep_variables$gamma,ncol=object$J)
 	for(i in 1:length(N)){
 		gamma = tmp$estep_variables$gamma[N[i]*(1:J)]
       	statehat_seq = tmp$yhat[(NN[i]+1):NN[i+1]]
@@ -236,10 +261,26 @@ predict.hhsmm <- function(object, newdata, method="viterbi",
 		}else{
 			RUL[i] = RUL.low[i] = RUL.up[i] = NA
 		}
+		if(future>0){
+			gamma = tmp$estep_variables$gamma[N[i]*(1:J)]
+	  		delta_bar = gamma/sum(gamma)
+      		statehat_seq = tmp$yhat[(NN[i]+1):NN[i+1]]
+			state_hat_next = statehat_seq[N[i]]
+			pmatf = rep(0,J)
+			for(fu in 1:future){
+     		   	delta_bar_next = as.vector(t(a)%*%delta_bar)
+				state_hat_next = which.max(delta_bar_next)
+				delta_bar = delta_bar_next
+				pmatf = rbind(pmatf,delta_bar)
+				tmp$yhat= c(tmp$yhat,state_hat_next)
+			}# for fu 
+			pmatf = pmatf[-1,]
+			rownames(pmatf)<-NULL
+			pmat = rbind(pmat,pmatf)
+		}# if furure > 0
 	}# for i 
-    	ans <- list(x=x$x,s=tmp$yhat,N=x$N,p=matrix(tmp$estep_variables$gamma,ncol=object$J),
+    	ans <- list(x=x$x,s=tmp$yhat,N=x$N,p=pmat,
 		RUL = RUL, RUL.low = RUL.low, RUL.up = RUL.up)
   }else stop(paste("Unavailable prediction method",method))
-  class(ans) <- 'hhsmm.predict'  
   ans
 }

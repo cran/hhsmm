@@ -6,7 +6,7 @@
 \usage{
 initialize_model(
   clus,
-  mstep = mixmvnorm_mstep,
+  mstep = NULL,
   dens.emission = dmixmvnorm,
   sojourn = NULL,
   semi = NULL,
@@ -18,7 +18,11 @@ initialize_model(
 \arguments{
 \item{clus}{initial clustering obtained by \code{initial_cluster}}
 
-\item{mstep}{the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}}
+\item{mstep}{the mstep function of the EM algorithm with an style
+simillar to that of \code{\link{mixmvnorm_mstep}}. If NULL, the
+\code{\link{mixmvnorm_mstep}} is considered for the complete data set and
+\code{\link{miss_mixmvnorm_mstep}} is considered for the data with missing
+values (NA or NaN)}
 
 \item{dens.emission}{the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}}
 

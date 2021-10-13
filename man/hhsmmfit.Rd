@@ -19,7 +19,7 @@ hhsmmfit(
 )
 }
 \arguments{
-\item{x}{a data of class \code{"hhsmmdata"}}
+\item{x}{a data of class \code{"hhsmmdata"}, which can also contain missing values (NA or NaN)}
 
 \item{model}{an initial model created  by \code{hhsmm.spec} or \code{initialize_model}}
 

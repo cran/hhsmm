@@ -9,7 +9,8 @@
 #' @seealso \code{\link{predict.hhsmmspec}}
 #'
 #' @param object a fitted model of class \code{"hhsmm"} estimated by \code{hhsmmfit}
-#' @param newdata a new (test) data of class \code{"hhsmmdata"} 
+#' @param newdata a new (test) data of class \code{"hhsmmdata"},
+#' which also can contain missing values (NA or NaN)
 #' @param future number of future states to be predicted 
 #' @param method the prediction method with two options:
 #' \itemize{
@@ -116,27 +117,25 @@ predict.hhsmm <- function(object, newdata, future = 0, method="viterbi",
 	RUL = RUL.up = RUL.low = c()
     for(i in 1:length(N)) {
     		if(NCOL(x0)==1){
-			  b = log(unlist(sapply(1:J,function(state) object$f(as.matrix(x0[(NN[i]+1):NN[i+1]]),state,object$model,...))))
+		   	xi = as.matrix(x0[(NN[i]+1):NN[i+1]])
       	}else {
-		   b = log(unlist(sapply(1:J,function(state) object$f(as.matrix(x0[(NN[i]+1):NN[i+1],]),state,object$model,...))))
+			xi = as.matrix(x0[(NN[i]+1):NN[i+1],])
 	  	}
-      	b[b==-Inf]=m
+		if(anyNA(xi) | any(is.nan(xi))){
+			b = log(.densComputeMiss(xi,object$model,...))
+		}else{
+		   	b = log(unlist(sapply(1:J,function(state) object$f(xi,state,object$model,...))))
+		}# if else missing 
+     	b[b==-Inf]=m
       	b[b==Inf]=1e300
       	b[is.na(b)|is.na(b)]=m
-      	tmp = .C("viterbi",
-               a=loga,
-               pi=logstart,
-               p=as.double(b),
-               d=as.double(d),
-               D=as.double(D),
-               timelength=as.integer(N[i]),
-               J=as.integer(J), 
-               M=as.integer(rep(M,J)),
-               alpha = double(N[i]*J),
-               statehat=integer(N[i]),
-               psi_state0=integer(N[i]*J),
-               psi_time0=integer(N[i]*J)          
-               ,semi = as.double(semi),PACKAGE="hhsmm")
+      	tmp = .C("viterbi", a=loga, pi=logstart,
+               p=as.double(b), d=as.double(d),
+               D=as.double(D), timelength=as.integer(N[i]),
+               J=as.integer(J), M=as.integer(rep(M,J)),
+               alpha = double(N[i]*J), statehat=integer(N[i]),
+               psi_state0=integer(N[i]*J), psi_time0=integer(N[i]*J),
+               semi = as.double(semi),PACKAGE="hhsmm")
 		pmat = matrix(tmp$alpha,ncol=object$J)
 		pmat = exp(pmat)/rowSums(exp(pmat))
       	loglik=loglik+max(tmp$alpha[N[i]*(1:J)])

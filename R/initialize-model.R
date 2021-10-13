@@ -7,7 +7,11 @@
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
 #'
 #' @param clus initial clustering obtained by \code{initial_cluster}
-#' @param mstep the mstep function of the EM algorithm with an style simillar to that of \code{\link{mixmvnorm_mstep}}
+#' @param mstep the mstep function of the EM algorithm with an style 
+#' simillar to that of \code{\link{mixmvnorm_mstep}}. If NULL, the 
+#' \code{\link{mixmvnorm_mstep}} is considered for the complete data set and 
+#' \code{\link{miss_mixmvnorm_mstep}} is considered for the data with missing 
+#' values (NA or NaN)
 #' @param dens.emission the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}
 #' @param sojourn one of the following cases:
 #' \itemize{
@@ -62,8 +66,18 @@
 #'
 #' @export
 #'
-initialize_model<-function(clus,mstep=mixmvnorm_mstep,dens.emission = dmixmvnorm,sojourn=NULL,semi=NULL,M,verbose=FALSE,...){
-	par  = initial_estimate(clus,mstep,verbose=verbose,...)
+initialize_model<-function(clus,mstep=NULL,dens.emission = dmixmvnorm,sojourn=NULL,semi=NULL,M,verbose=FALSE,...){
+	if(is.null(mstep)){ 
+		if(clus$miss){
+			mstep=miss_mixmvnorm_mstep
+			par  = initial_estimate(clus,mstep,verbose=verbose,par=NULL)
+		}else{
+ 			mstep = mixmvnorm_mstep
+			par  = initial_estimate(clus,mstep,verbose=verbose)
+		}
+	}else{
+		par  = initial_estimate(clus,mstep,verbose=verbose,...)
+	}
 	if(verbose) cat("Initializing model ... \n")
 	init_model= make_model(par,mstep,dens.emission,semi=semi,M=M,sojourn=sojourn)
 	return(init_model)

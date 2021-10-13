@@ -6,7 +6,8 @@
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
 #'
-#' @param train the train data set of class \code{"hhsmmdata"}
+#' @param train the train data set of class \code{"hhsmmdata"}, 
+#' which can also contain missing data (NA or NaN)
 #' @param nstate number of states 
 #' @param nmix number of mixture components which is of one of the following forms:
 #' \itemize{
@@ -29,6 +30,8 @@
 #' \item \code{nmix}{ the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})}
 #' \item \code{ltr}{ logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed}
 #' \item \code{final.absorb}{ logical. if TRUE the final state of the sequence is assumed to be the absorbance state}
+#' \item \code{miss}{ logical. if TRUE the \code{train$x} matrix contains missing 
+#' data (NA or NaN)}
 #' }
 #'
 #' @details In reliability applications, the hhsmm models are often left-to-right
@@ -51,6 +54,8 @@
 #' clus = initial_cluster(train,nstate=3,nmix=c(2,2,2),ltr=FALSE,
 #' final.absorb=FALSE,verbose=TRUE)
 #'
+#' @importFrom mice mice complete
+#'
 #' @export
 #'
 initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.absorb=FALSE,verbose=FALSE){
@@ -64,6 +69,17 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.abso
 		}
 		Tx = list()
 		data = as.matrix(train$x)
+		miss = FALSE
+		if(anyNA(data) | any(is.nan(data))){
+			miss = TRUE
+			allmiss = which(apply(data,1,function(t) all(is.na(t)|is.nan(t))))
+			for(ii in allmiss){
+				if(ii>1 & ii<nrow(data))	data[ii,] = (data[ii-1,]+data[ii+1,])/2
+				if(ii ==1) data[ii,] = (data[ii+2,]+data[ii+1,])/2
+				if(ii == nrow(data)) data[ii,] = (data[ii-1,]+data[ii-2,])/2
+			}
+			data = complete(mice(data,printFlag=FALSE))
+		}
 		num.units= length(train$N)
 		for(j in 1:nstate){
 			Tx[[j]] = matrix(0,nrow = 1,ncol=ncol(data))
@@ -182,6 +198,6 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.abso
 			}# if else 
 		}# for j
 	out = list(clust.X=xt, mix.clus=mix.clus, state.clus = clusters, 
-		nmix=anmix, ltr = ltr, final.absorb = final.absorb)
+		nmix=anmix, ltr = ltr, final.absorb = final.absorb, miss = miss)
 	return(out)
 }

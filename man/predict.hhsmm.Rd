@@ -18,7 +18,8 @@
 \arguments{
 \item{object}{a fitted model of class \code{"hhsmm"} estimated by \code{hhsmmfit}}
 
-\item{newdata}{a new (test) data of class \code{"hhsmmdata"}}
+\item{newdata}{a new (test) data of class \code{"hhsmmdata"},
+which also can contain missing values (NA or NaN)}
 
 \item{future}{number of future states to be predicted}
 

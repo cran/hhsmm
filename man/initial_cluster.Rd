@@ -15,7 +15,8 @@ initial_cluster(
 )
 }
 \arguments{
-\item{train}{the train data set of class \code{"hhsmmdata"}}
+\item{train}{the train data set of class \code{"hhsmmdata"},
+which can also contain missing data (NA or NaN)}
 
 \item{nstate}{number of states}
 
@@ -45,6 +46,8 @@ a list containing the following items:
 \item \code{nmix}{ the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})}
 \item \code{ltr}{ logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed}
 \item \code{final.absorb}{ logical. if TRUE the final state of the sequence is assumed to be the absorbance state}
+\item \code{miss}{ logical. if TRUE the \code{train$x} matrix contains missing 
+data (NA or NaN)}
 }
 }
 \description{

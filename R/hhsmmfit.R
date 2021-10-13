@@ -5,7 +5,7 @@
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
 #'
-#' @param x a data of class \code{"hhsmmdata"}
+#' @param x a data of class \code{"hhsmmdata"}, which can also contain missing values (NA or NaN)
 #' @param model an initial model created  by \code{hhsmm.spec} or \code{initialize_model}
 #' @param mstep the M step function for the EM algorithm, which also can be given in the model
 #' @param M the maximum duration in each state
@@ -105,7 +105,11 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
   	for(it in 1:maxit) {
   		if (verbose) cat('iteration: ',it,"  ")
     		if(graphical)   plot.hhsmm(list(model=new.model,J=J))
-		p = sapply(1:J,function(state) f(x,state,new.model,...))
+		if(anyNA(x) | any(is.nan(x))){
+			p = .densComputeMiss(x,new.model,...)
+		}else{
+			p = sapply(1:J,function(state) f(x,state,new.model,...))
+		}# if else missing 
 		p=p/max(p)
 		p[is.na(p) | is.nan(p)] = 1e-300
 		p[!is.finite(p)] = 1e+10
@@ -149,10 +153,18 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
 				 expected number of occurences equal to 0.\n 
 					This may be caused by bad starting parameters 
 					are insufficent sample size")
-		if(!is.null(new.model$parms.emission$mix.p)){
-				new.model$parms.emission = mstep(x,state_wt,estep_mix_weights,...)
+		if(anyNA(x) | any(is.nan(x))){
+			if(!is.null(new.model$parms.emission$mix.p)){
+				new.model$parms.emission = mstep(x,state_wt,estep_mix_weights,new.model$parms.emission,...)
+			}else{
+				new.model$parms.emission = mstep(x,state_wt,new.model$parms.emission,...)
+			}			
 		}else{
+			if(!is.null(new.model$parms.emission$mix.p)){
+				new.model$parms.emission = mstep(x,state_wt,estep_mix_weights,...)
+			}else{
 				new.model$parms.emission = mstep(x,state_wt,...)
+			}
 		}
 		if(!all(!new.model$semi)){
     		  if(lock.d) {

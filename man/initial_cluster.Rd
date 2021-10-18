@@ -31,7 +31,7 @@ automatically based on the within cluster sum of squares
 \item{ltr}{logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed}
 
 \item{equispace}{logical. if TRUE the left to right clustering will be performed simply with equal time spaces.
-This option is suitable for speach recognition applications.}
+This option is suitable for speech recognition applications.}
 
 \item{final.absorb}{logical. if TRUE the final state of the sequence is assumed to be the absorbance state}
 

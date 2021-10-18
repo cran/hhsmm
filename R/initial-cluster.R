@@ -20,7 +20,7 @@
 #' @param final.absorb logical. if TRUE the final state of the sequence is assumed to be the absorbance state
 #' @param verbose logical. if TRUE the outputs will be printed 
 #' @param equispace logical. if TRUE the left to right clustering will be performed simply with equal time spaces. 
-#' This option is suitable for speach recognition applications.
+#' This option is suitable for speech recognition applications.
 #'
 #' @return a list containing the following items:
 #' \itemize{
@@ -73,12 +73,12 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.abso
 		if(anyNA(data) | any(is.nan(data))){
 			miss = TRUE
 			allmiss = which(apply(data,1,function(t) all(is.na(t)|is.nan(t))))
+			notallmiss = which(!apply(data,1,function(t) all(is.na(t)|is.nan(t))))
 			for(ii in allmiss){
-				if(ii>1 & ii<nrow(data))	data[ii,] = (data[ii-1,]+data[ii+1,])/2
-				if(ii ==1) data[ii,] = (data[ii+2,]+data[ii+1,])/2
-				if(ii == nrow(data)) data[ii,] = (data[ii-1,]+data[ii-2,])/2
+				neigh = notallmiss[order(abs(ii-notallmiss))[1:2]]
+				data[ii,] = (data[neigh[1],]+data[neigh[2],])/2
 			}
-			data = complete(mice(data,printFlag=FALSE))
+			if(ncol(data)>1) data = complete(mice(data,printFlag=FALSE))
 		}
 		num.units= length(train$N)
 		for(j in 1:nstate){

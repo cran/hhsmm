@@ -2,7 +2,7 @@
 #'
 #' The weighted means and variances using the 
 #' observation matrix and the estimated weight 
-#' vectors for a data matrix containig missing values (NA or NaN)
+#' vectors for a data matrix containing missing values (NA or NaN)
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
 #'

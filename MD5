@@ -1,9 +1,9 @@
-9cd3b41ee16da4568bce29fea4fa9722 *DESCRIPTION
+d137ccc66c6b23d801a56f34cc044b59 *DESCRIPTION
 0f4d444903d20a4c9f85c30effabb826 *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 209465e2b3eb094c09201985821fca52 *R/build_d.R
 d0e4647d3e4c063d29974babc65c2f8a *R/check-hhsmmspec.R
-cb9fb7615bc001ef4877c49bfe4db597 *R/cov-miss-mix-wt.R
+aeacab2f00ffb1a0aea05bde42031df9 *R/cov-miss-mix-wt.R
 e92f3e68a33b07c77d5a500a5bb2aebf *R/cov-mix-wt.R
 fc4f50fda95c7d4de635c8c68014a30b *R/densComputeMiss.R
 a1a23f7aa507c6bd5850094d8c2f5ce8 *R/dlog.R
@@ -16,7 +16,7 @@ e8858efcec54d6801237ebb71501e401 *R/fitnbinom.R
 f2faddf032c4d2a32d5ac9f4ad1b5b75 *R/hhsmmfit.R
 08b0164103b3238786d64921c7f49e74 *R/hhsmmspec.R
 8d44df84dc790d33e85f79b8d4b0facc *R/homogeneity.R
-9c97309d606751064fa691582cea76e6 *R/initial-cluster.R
+48fa136490e96b21b2ceaef4803deb5d *R/initial-cluster.R
 5b301604f965d5eee98bcfa5ca6ff46b *R/initial-estimate.R
 4371de4859d3a0f88a8445cd3a72fde2 *R/initialize-model.R
 47e10d346cc25d20270345d3a6c91e69 *R/lnormfit.R
@@ -28,7 +28,7 @@ cdf2317837dcc918e7756c36e1bac63d *R/mixdiagmvnorm_mstep.R
 4340b7e1b5322d7f78d7ce9544fdcc36 *R/mstep-missing-mix-mvnorm.R
 45716981d897c30d5e81f1f70b917587 *R/mstep-mix-mvnorm.R
 ea86160bde4ad6c99bea8101e1d3fbfc *R/plog.R
-18841172f1d10f39c17a751b1724c74c *R/plot-hhsmm-data.R
+7bd8dd59bbbd32295bd7a066f087ea90 *R/plot-hhsmm-data.R
 114c132cef5b8d2ab90f95bd916c5e4a *R/plot-hhsmm.R
 79d63594dd20b1f5361ccfbf19564ad7 *R/predict-hhsmm.R
 5893f0ee067cfd38a1e89d32cae4efa6 *R/predict-hhsmmspec.R
@@ -41,16 +41,16 @@ a30aecfceffda7a80d7012f899cddd91 *R/rmvnorm-mix-hhsmm.R
 1d9033a300f95186cb1fca55f356b7ed *R/simulate-hhsmm.R
 3b920147aee2e1881b081883e37bdef2 *R/simulate_markov.R
 ecb574cec0e85695850599b1c57c1e2f *R/summary-hhsmm.R
-2f894223b1e2a42063753ca64159b51f *R/train-test-split.R
+b512fa3a12a1e9f28990dc113e34860f *R/train-test-split.R
 f73bc3cb7225bcfac6d2d460cf6ecc09 *R/weibullfit.R
-a196dd9019930e9e771b0772a13cb48d *man/cov.miss.mix.wt.Rd
+61013c693590b7f8a5398cb163cd6a5d *man/cov.miss.mix.wt.Rd
 ea8152ff2d605286cf2aa0faae456de4 *man/cov.mix.wt.Rd
 daf8c96d40f26788f43b73f4fb0e8e09 *man/dmixmvnorm.Rd
 c13a1237db552b99a5a542532728d0a5 *man/hhsmmdata.Rd
 58d0bd282b9eef95f915bd599f0b5d58 *man/hhsmmfit.Rd
 d7c0212d40459dd1c10e9ef77a7cef44 *man/hhsmmspec.Rd
 1778200e82809cc9f99d4c29aafbbcbf *man/homogeneity.Rd
-adcc05433523b57881cdf1247f6aabe6 *man/initial_cluster.Rd
+eee4de1c180d8d0d52f960ebc9a29dc7 *man/initial_cluster.Rd
 4b321eaa41a70c9df3e7a0e6ced12fd1 *man/initial_estimate.Rd
 cc3178070d08519a3ccbc1b929c4421f *man/initialize_model.Rd
 f5e507b2500d19a491cdff480a93a38f *man/ltr_clus.Rd
@@ -62,6 +62,6 @@ d26904b4daa15c9dff6da5ce22c70aa8 *man/predict.hhsmm.Rd
 030c6f1708687ae61a6423c7f494dc23 *man/predict.hhsmmspec.Rd
 c0084ea9653b5fdaff9c9788b3d86a1c *man/rmixmvnorm.Rd
 504be06037760a56f24ceb377ae15170 *man/simulate.hhsmmspec.Rd
-3d729a157835dc407f8df1bb259c04f1 *man/train_test_split.Rd
+43c6e1d128f0258c0c34c1d1464268f3 *man/train_test_split.Rd
 728fb35820334cf275e0481c6fb27c33 *src/hhsmm.c
 5cfc7a4958c7679347ff8139530b475f *src/hhsmm_init.c

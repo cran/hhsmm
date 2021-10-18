@@ -55,7 +55,7 @@ if the parameter \code{cor} is TRUE}
 \description{
 The weighted means and variances using the
 observation matrix and the estimated weight
-vectors for a data matrix containig missing values (NA or NaN)
+vectors for a data matrix containing missing values (NA or NaN)
 }
 \examples{
 data(CMAPSS)

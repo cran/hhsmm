@@ -1,22 +1,20 @@
-#' left to right clustering
+#' left to right linear regression clustering
 #'
-#' A left to right initial clustering method using the 
-#' mean differences and Hotelling's T-squared test
+#' A left to right initial linear regression clustering method using the 
+#' coefficient differences and Hotelling's T-squared test
 #'
 #' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
 #'
 #' @param Dat a data matrix
 #' @param k number of clusters
+#' @param resp.ind the column indices of the response variables for the linear regression clustering approach. The 
+#' default is 1, which means that the first column is the univariate response variable
 #'
 #' @return a (left to right) clustering vector 
 #'
-#' @examples
-#' data(CMAPSS)
-#' clus = ltr_clus(CMAPSS$train$x[1:CMAPSS$train$N[1],],3)
-#'
 #' @export
 #'
-ltr_clus<-function(Dat,k){
+ltr_reg_clus<-function(Dat,k,resp.ind=1){
 	n = nrow(Dat)
 	CDat=list()
 	CDat[[1]]=Dat 
@@ -29,7 +27,7 @@ ltr_clus<-function(Dat,k){
 		nc = n.clus
 		ncc = 0
 		for(j in 1:n.clus){
-			tmp = .ltr_clus2(CDat[[j]])
+			tmp = .ltr_reg_clus2(CDat[[j]],resp.ind=resp.ind)
 			if(length(unique(tmp$cluster))==2){
 				ncc = ncc + 1 
 				clus1=CDat[[j]][tmp$cluster==1,]

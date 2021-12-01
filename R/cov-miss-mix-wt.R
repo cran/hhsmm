@@ -94,7 +94,6 @@ cov.miss.mix.wt<- function (x, means, secm, wt1 = rep(1/nrow(x), nrow(x)), wt2 =
 			covmm = wt[i]*(secm[[i]]+center[missed[[i]]]%*%t(center[missed[[i]]])-
 				 center[missed[[i]]]%*%t(means[[i]])-
 				means[[i]]%*%t(center[missed[[i]]]))
-				####/nrow(x)
 			covtmp[missed[[i]],missed[[i]]] = covmm 
 		}
 		cov1 = cov1 + covtmp

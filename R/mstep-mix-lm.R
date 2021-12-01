@@ -32,7 +32,7 @@
 #'dens.emis = dmixlm, semi = semi)
 #'train <- simulate(model, nsim = c(20,30,42,50), seed = 1234, remission = rmixlm, 
 #'covar.mean=0, covar.cov=1)
-#'plot(train$x[,1]~train$x[,2],col=train$s,pch=16)
+#'plot(train$x[,1]~train$x[,2],col=train$s,pch=16,xlab="x",ylab="y")
 #'clus = initial_cluster(train=train,nstate=3,nmix=c(1,2,1),ltr=FALSE,
 #'final.absorb=FALSE,verbose=TRUE,regress=TRUE)
 #'initmodel = initialize_model(clus=clus,mstep = mixlm_mstep,
@@ -40,7 +40,7 @@
 #'verbose=TRUE)
 #'fit1 = hhsmmfit(x = train, model = initmodel, mstep = mixlm_mstep,
 #'M = max(train$N), maxit = 100, lock.transition = FALSE, 
-#'lock.d = FALSE, lock.init=TRUE, graphical = FALSE,verbose = TRUE)
+#'lock.d = FALSE, lock.init=FALSE, graphical = FALSE,verbose = TRUE)
 #'abline(fit1$model$parms.emission$intercept[[1]],
 #'fit1$model$parms.emission$coefficient[[1]],col=1)
 #'abline(fit1$model$parms.emission$intercept[[2]][[1]],
@@ -78,7 +78,7 @@ mixlm_mstep <- function(x, wt1, wt2, resp.ind = 1) {
 				mu = tmp$center
 				Sigma = tmp$cov
 				beta = Sigma[(dx+1):(dx+dy),1:dx]%*%ginv(Sigma[1:dx,1:dx])
-				csigma = Sigma[(dx+1):(dx+dy),1:dx]%*%ginv(Sigma[1:dx,1:dx])%*%Sigma[1:dx,(dx+1):(dx+dy)]
+				csigma = Sigma[(dx+1):(dx+dy),(dx+1):(dx+dy)] - Sigma[(dx+1):(dx+dy),1:dx]%*%ginv(Sigma[1:dx,1:dx])%*%Sigma[1:dx,(dx+1):(dx+dy)]
     				emission$intercept[[j]][[i]] <- mu[(dx+1):(dx+dy)]-beta%*%mu[1:dx]
     				emission$coefficients[[j]][[i]] <- beta
     				emission$csigma[[j]][[i]] <- csigma
@@ -90,7 +90,7 @@ mixlm_mstep <- function(x, wt1, wt2, resp.ind = 1) {
 			mu = tmp$center
 			Sigma = tmp$cov
 			beta = Sigma[(dx+1):(dx+dy),1:dx]%*%ginv(Sigma[1:dx,1:dx])
-			csigma = Sigma[(dx+1):(dx+dy),1:dx]%*%ginv(Sigma[1:dx,1:dx])%*%Sigma[1:dx,(dx+1):(dx+dy)]
+			csigma = Sigma[(dx+1):(dx+dy),(dx+1):(dx+dy)] - Sigma[(dx+1):(dx+dy),1:dx]%*%ginv(Sigma[1:dx,1:dx])%*%Sigma[1:dx,(dx+1):(dx+dy)]
     			emission$intercept[[j]] <- mu[(dx+1):(dx+dy)]-beta%*%mu[1:dx]
     			emission$coefficients[[j]] <- beta
     			emission$csigma[[j]] <- csigma

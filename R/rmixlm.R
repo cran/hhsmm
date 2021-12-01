@@ -28,7 +28,7 @@
 #'dens.emis = dmixlm, semi = semi)
 #'train <- simulate(model, nsim = c(20,30,42,50), seed = 1234, remission = rmixlm, 
 #'covar.mean=0, covar.cov=1)
-#'plot(train$x[,1]~train$x[,2],col=train$s,pch=16)
+#'plot(train$x[,1]~train$x[,2],col=train$s,pch=16,xlab="x",ylab="y")
 #' 
 #' @references
 #' Kim, C. J., Piger, J. and Startz, R. (2008). Estimation of Markov 

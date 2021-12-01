@@ -8,6 +8,16 @@
 #' @param nsim a vector of sequence lengths (might be of length 1)
 #' @param seed a random seed to be set
 #' @param remission a random emission generation function (default = \code{\link{rmixmvnorm}})
+#' @param autoregress logical. if TRUE the auto-regressive data generation will be considered with 
+#' \code{rmixar} function
+#' @param startmean the mean vector for starting value of the auto-regressive 
+#' sequence (if \code{autoregress == TRUE}). If it is not specified the zero mean 
+#' vector will be considered
+#' @param startcov the covarince matrix for starting value of the auto-regressive 
+#' sequence (if \code{autoregress == TRUE}). If it is not specified the identity matrix 
+#' will be considered
+#' @param lags a positive integer which is the number of lags to be considered for the 
+#' auto-regressive sequence 
 #' @param ... additional parameters of the \code{remission} function
 #'
 #' @return a list of class \code{"hsmm.data"} containing the following items:
@@ -34,7 +44,12 @@
 #'
 #' @export
 #'
-simulate.hhsmmspec <- function(object, nsim, seed=NULL, remission=rmixmvnorm,...){
+simulate.hhsmmspec <- function(object, nsim, seed=NULL, remission=rmixmvnorm, autoregress=FALSE, lags=1, startmean,startcov,...){
+	if(autoregress){
+		remission=rmixar
+		if(missing(startmean)) startmean=rep(0,length(object$parms.emission$intercept[[1]][[1]]))
+		if(missing(startcov)) startcov=diag(length(object$parms.emission$intercept[[1]][[1]]))
+	}
 	right.truncate=left.truncate=0
 	if(!is.null(seed)) set.seed(seed)
 	if(is.null(remission) & is.null(object$remission)) stop("remission not specified")
@@ -98,7 +113,15 @@ simulate.hhsmmspec <- function(object, nsim, seed=NULL, remission=rmixmvnorm,...
 		s1 = s0
 		u = rep(1,sum(nsim))
 	}
-    	x = as.matrix(sapply(s1,function(i) remission(i,object,...)))
+	if(autoregress){
+		x = rmvnorm(lags,startmean,startcov)
+		for(i in 1:length(s1)){
+			x = rbind(x,remission(s1[i],object,x[(nrow(x)-lags+1):nrow(x),]))		
+		}
+		x = as.matrix(x[-(1:lags),])
+	}else{
+    		x = as.matrix(sapply(s1,function(i) remission(i,object,...)))
+	}
 	if(length(nsim)> 1){
   		N =  nsim
   		tmp = cumsum(c(1,N))

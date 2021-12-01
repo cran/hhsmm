@@ -66,7 +66,9 @@ make_model<-function(par,mstep=mixmvnorm_mstep,dens.emission=dmixmvnorm,semi=NUL
 	if(par$ltr){
 		init <-c(1,rep(0,J-1))
 	}else{
-		init <-rep(1/J,J)
+		init <-sapply(1:J,function(j) sum(j==unlist(lapply(par$state.clus,function(vec) vec[1]))))/length(par$state.clus)
+		init[init==0]=0.05
+		init = init/sum(init)
 	} 
 	if(is.null(semi)){
 		if(par$ltr){

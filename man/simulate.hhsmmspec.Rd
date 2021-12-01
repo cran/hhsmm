@@ -4,7 +4,17 @@
 \alias{simulate.hhsmmspec}
 \title{Simulation of data from hhsmm model}
 \usage{
-\method{simulate}{hhsmmspec}(object, nsim, seed = NULL, remission = rmixmvnorm, ...)
+\method{simulate}{hhsmmspec}(
+  object,
+  nsim,
+  seed = NULL,
+  remission = rmixmvnorm,
+  autoregress = FALSE,
+  lags = 1,
+  startmean,
+  startcov,
+  ...
+)
 }
 \arguments{
 \item{object}{a \code{\link{hhsmmspec}} model}
@@ -14,6 +24,20 @@
 \item{seed}{a random seed to be set}
 
 \item{remission}{a random emission generation function (default = \code{\link{rmixmvnorm}})}
+
+\item{autoregress}{logical. if TRUE the auto-regressive data generation will be considered with
+\code{rmixar} function}
+
+\item{lags}{a positive integer which is the number of lags to be considered for the
+auto-regressive sequence}
+
+\item{startmean}{the mean vector for starting value of the auto-regressive
+sequence (if \code{autoregress == TRUE}). If it is not specified the zero mean
+vector will be considered}
+
+\item{startcov}{the covarince matrix for starting value of the auto-regressive
+sequence (if \code{autoregress == TRUE}). If it is not specified the identity matrix
+will be considered}
 
 \item{...}{additional parameters of the \code{remission} function}
 }

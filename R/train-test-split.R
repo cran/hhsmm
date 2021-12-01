@@ -103,6 +103,6 @@ train_test_split <- function(train, train.ratio = 0.7, trim = FALSE, trim.ratio 
 		if(trim) trimmed = list(x = xtrimmed, N = Ntrim)
 			else trimmed = test 
 	}
-	class(train) <- class(test) <- "hhsmmdata"
+	class(train) <- class(test) <- class(trimmed) <- "hhsmmdata"
 	list(train = train , test = test, trimmed = trimmed, trimmed.count = Ntest - Ntrim)
 }

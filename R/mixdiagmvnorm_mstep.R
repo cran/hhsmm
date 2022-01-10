@@ -5,7 +5,7 @@
 #' as the emission distribution using the 
 #' observation matrix and the estimated weight vectors
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param x the observation matrix
 #' @param wt1 the state probabilities matrix (number of observations 

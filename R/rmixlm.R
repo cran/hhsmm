@@ -1,17 +1,17 @@
-#' Random data generation from the mixture of Gaussian linear (Markov-sweaching) models for hhsmm model
+#' Random data generation from the mixture of Gaussian linear (Markov-switching) models for hhsmm model
 #'
 #' Generates vectors of covariate and response observations
-#' from mixture of Gaussian linear (Markov-sweaching) models in a specified state and using the 
+#' from mixture of Gaussian linear (Markov-switching) models in a specified state and using the 
 #' parameters of a specified model
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param j a specified state
 #' @param model a \code{\link{hhsmmspec}} model
 #' @param covar.mean the mean vector of covariates (to be generated from multivariate normal distribution)
 #' @param covar.cov the variance-covariance matrix of covariates (to be generated from multivariate normal distribution)
 #'
-#' @return a random matrix of observations from mixture of Gaussian linear (Markov-sweaching) models,
+#' @return a random matrix of observations from mixture of Gaussian linear (Markov-switching) models,
 #' in which the first columns are associated with the responses 
 #' and the last columns are associated with the covariates
 #'

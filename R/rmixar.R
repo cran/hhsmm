@@ -1,18 +1,18 @@
-#' Random data generation from the mixture of Gaussian linear (Markov-sweaching) autoregressive models for hhsmm model
+#' Random data generation from the mixture of Gaussian linear (Markov-switching) autoregressive models for hhsmm model
 #'
 #' Generates vectors of observations
-#' from mixture of Gaussian linear (Markov-sweaching) autoregressive
+#' from mixture of Gaussian linear (Markov-switching) autoregressive
 #' model in a specified state and using the 
 #' parameters of a specified model
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param j a specified state
 #' @param model a \code{\link{hhsmmspec}} model
 #' @param x the previous x vector as the covariate of the autoregressive model
 #'
 #' @return a random matrix of observations from mixture of Gaussian linear 
-#' (Markov-sweaching) autoregressive model
+#' (Markov-switching) autoregressive model
 #'
 #' 
 #' @export

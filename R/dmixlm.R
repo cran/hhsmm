@@ -1,10 +1,10 @@
-#' pdf of the mixture of Gaussian linear (Markov-sweaching) models for hhsmm
+#' pdf of the mixture of Gaussian linear (Markov-switching) models for hhsmm
 #'
-#' The probability density function of a mixture Gaussian linear (Markov-sweaching) models
+#' The probability density function of a mixture Gaussian linear (Markov-switching) models
 #' for a specified observation vector, a specified state and a specified 
 #' model's parameters
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param x the observation matrix including responses and covariates
 #' @param j a specified state between 1 to nstate
@@ -58,34 +58,35 @@ dmixlm <- function(x, j, model, resp.ind = 1){
 	x = as.matrix(x[,-resp.ind])
 	dx = ncol(x)
 	dy = ncol(y)
+	n = nrow(x)
 	if(length(model$parms.emission$mix.p[[j]])>1){
 		dens=rep(0,nrow(x))
 		k = length(model$parms.emission$mix.p[[j]])
 		for(i in 1:k){
 			if(!is.na(model$parms.emission$mix.p[[j]][i]))
 			if(dy>1){
-				cmean = as.matrix(as.vector(model$parms.emission$intercept[[j]][[i]])*rep(1,nrow(x)))
-					+x%*%t(model$parms.emission$coefficients[[j]][[i]])
+				cmean =as.vector(model$parms.emission$intercept[[j]][[i]])*matrix(1,n,dy)+
+					x%*%t(model$parms.emission$coefficients[[j]][[i]])
 				ccov = model$parms.emission$csigma[[j]][[i]]
- 				dens = dens + model$parms.emission$mix.p[[j]][i]*dmvnorm(y,mean = cmean,
-                               sigma = ccov)
+ 				dens = dens + sapply(1:nrow(y),function(ii) model$parms.emission$mix.p[[j]][i]*dmvnorm(y[ii,],mean = cmean[ii,],
+                               sigma = ccov))
 			} else {
-				cmean = as.vector(as.matrix(as.vector(model$parms.emission$intercept[[j]][[i]])*rep(1,nrow(x)))
-					+x%*%t(model$parms.emission$coefficients[[j]][[i]]))
+				cmean = as.vector(model$parms.emission$intercept[[j]][[i]])*matrix(1,n,dy)+
+					x%*%t(model$parms.emission$coefficients[[j]][[i]])
 				csd = as.vector(sqrt(model$parms.emission$csigma[[j]][[i]]))
 				dens = dens + model$parms.emission$mix.p[[j]][i]*dnorm(y,cmean,csd)
 			}
 		}#for i 
 	} else {
 		if(dy>1){
-			cmean = as.matrix(as.vector(model$parms.emission$intercept[[j]])*rep(1,nrow(x)))
-					+x%*%t(model$parms.emission$coefficients[[j]])
+			cmean = as.vector(model$parms.emission$intercept[[j]])*matrix(1,n,dy)+
+					x%*%t(model$parms.emission$coefficients[[j]])
 			ccov = model$parms.emission$csigma[[j]]
 		 	dens = dmvnorm(x,mean = cmean,
                      sigma = ccov)
 		} else {
-			cmean = as.vector(as.matrix(as.vector(model$parms.emission$intercept[[j]])*rep(1,nrow(x)))
-					+x%*%t(model$parms.emission$coefficients[[j]]))
+			cmean = as.vector(model$parms.emission$intercept[[j]])*matrix(1,n,dy)+
+					x%*%t(model$parms.emission$coefficients[[j]])
 			csd = as.vector(sqrt(model$parms.emission$csigma[[j]]))
 		 	dens = dnorm(x,cmean,csd)
 		}

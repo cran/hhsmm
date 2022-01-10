@@ -1,10 +1,10 @@
 #' the M step function of the EM algorithm
 #'
 #' The M step function of the EM algorithm for the mixture 
-#' of Gaussian linear (Markov-sweaching) regressions as the emission distribution using the 
+#' of Gaussian linear (Markov-switching) regressions as the emission distribution using the 
 #' responses and covariates matrices and the estimated weight vectors
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param x the observation matrix including responses and covariates
 #' @param wt1 the state probabilities matrix (number of observations 

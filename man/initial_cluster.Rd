@@ -28,6 +28,8 @@ which can also contain missing data (NA or NaN)}
 \item a positive (non-zero) integer
 \item the text \code{"auto"}: the number of mixture components will be determined
 automatically based on the within cluster sum of squares
+\item NULL if no mixture distribution is not considered as the emission. This option is
+usefull for the nonparametric emission distribution (\code{nonpar_mstep} and \code{dnonpar})
 }}
 
 \item{ltr}{logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed}

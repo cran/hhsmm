@@ -3,7 +3,7 @@
 #' A function to split the train data of class \code{"hhsmmdata"}
 #' to train and test subsets with an option to right trim the sequences
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param train the train data of class \code{"hhsmmdata"}
 #' @param train.ratio a number in (0,1] which determines the ratio of the train subset. It can be 

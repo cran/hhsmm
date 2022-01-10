@@ -2,7 +2,7 @@
 % Please edit documentation in R/rmixlm.R
 \name{rmixlm}
 \alias{rmixlm}
-\title{Random data generation from the mixture of Gaussian linear (Markov-sweaching) models for hhsmm model}
+\title{Random data generation from the mixture of Gaussian linear (Markov-switching) models for hhsmm model}
 \usage{
 rmixlm(j, model, covar.mean, covar.cov)
 }
@@ -16,13 +16,13 @@ rmixlm(j, model, covar.mean, covar.cov)
 \item{covar.cov}{the variance-covariance matrix of covariates (to be generated from multivariate normal distribution)}
 }
 \value{
-a random matrix of observations from mixture of Gaussian linear (Markov-sweaching) models,
+a random matrix of observations from mixture of Gaussian linear (Markov-switching) models,
 in which the first columns are associated with the responses
 and the last columns are associated with the covariates
 }
 \description{
 Generates vectors of covariate and response observations
-from mixture of Gaussian linear (Markov-sweaching) models in a specified state and using the
+from mixture of Gaussian linear (Markov-switching) models in a specified state and using the
 parameters of a specified model
 }
 \examples{
@@ -47,5 +47,5 @@ regime-switching regression models with endogenous switching.
 Journal of Econometrics, 143(2), 263-273.
 }
 \author{
-Morteza Amini, \email{morteza.amini@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@gmail.com}
+Morteza Amini, \email{morteza.amini@ut.ac.ir}
 }

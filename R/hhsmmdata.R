@@ -3,7 +3,7 @@
 #' Converts a matrix of data and its associated vector of sequence lengths
 #' to a data list of class \code{"hhsmmdata"} 
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param x a matrix of data
 #' @param N a vector of sequence lengths. If NULL then \code{N = nrow(x)}

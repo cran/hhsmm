@@ -2,7 +2,7 @@
 % Please edit documentation in R/rmixar.R
 \name{rmixar}
 \alias{rmixar}
-\title{Random data generation from the mixture of Gaussian linear (Markov-sweaching) autoregressive models for hhsmm model}
+\title{Random data generation from the mixture of Gaussian linear (Markov-switching) autoregressive models for hhsmm model}
 \usage{
 rmixar(j, model, x)
 }
@@ -15,14 +15,14 @@ rmixar(j, model, x)
 }
 \value{
 a random matrix of observations from mixture of Gaussian linear
-(Markov-sweaching) autoregressive model
+(Markov-switching) autoregressive model
 }
 \description{
 Generates vectors of observations
-from mixture of Gaussian linear (Markov-sweaching) autoregressive
+from mixture of Gaussian linear (Markov-switching) autoregressive
 model in a specified state and using the
 parameters of a specified model
 }
 \author{
-Morteza Amini, \email{morteza.amini@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@gmail.com}
+Morteza Amini, \email{morteza.amini@ut.ac.ir}
 }

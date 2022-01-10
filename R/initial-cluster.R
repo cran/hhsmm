@@ -15,6 +15,8 @@
 #' \item a positive (non-zero) integer 
 #' \item the text \code{"auto"}: the number of mixture components will be determined 
 #' automatically based on the within cluster sum of squares 
+#' \item NULL if no mixture distribution is not considered as the emission. This option is 
+#' usefull for the nonparametric emission distribution (\code{nonpar_mstep} and \code{dnonpar})
 #' }
 #' @param ltr logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed
 #' @param final.absorb logical. if TRUE the final state of the sequence is assumed to be the absorbance state
@@ -170,40 +172,41 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.abso
 			}# if else ltr
 		}# if else equispace
 		for(j in 1:nstate) Tx[[j]] = as.matrix(Tx[[j]][-1,])
-		anmix = c()
-		mix.clus = list()
-		for(j in 1:nstate){
-			if(verbose) cat("State ",j,"\n")
-			if(verbose) cat("Between sequence clustering ... \n")
-			if(length(nmix)==1){ if(nmix=="auto"){
-				if(verbose) cat("Automatic determination of the number of mixture components ... \n")
-				continue = TRUE
-				DW = Inf
-				oldW = (nrow(Tx[[j]])-1)*sum(apply(Tx[[j]],2,var))
-				cntr = 0
-				eps = 1e-2
-				anmix[j] = 1
-				while(continue & (cntr+1) < (nrow(Tx[[j]])*0.5) ){
-					cntr = cntr + 1
-					if(regress){
-						tmpclus = .kregs(Tx[[j]],cntr+1,nstart=10,resp.ind=resp.ind)
-					}else   tmpclus = kmeans(Tx[[j]],cntr+1,nstart=10)
-					newW = sum(tmpclus$withinss)
-					DW = c(DW,oldW - newW)
-					oldW = newW
-					if(cntr>2){
-						DDW = -diff(DW)/DW[-1]
-						DDDW = -diff(DDW)
-						if(any(DDDW<=0) | cntr > 10){
-							anmix[j] = which.max(DDW[-1]) + 2
-							continue = FALSE
+		if(!is.null(nmix)){
+			anmix = c()
+			mix.clus = list()
+			for(j in 1:nstate){
+				if(verbose) cat("State ",j,"\n")
+				if(verbose) cat("Between sequence clustering ... \n")
+				if(length(nmix)==1){ if(nmix=="auto"){
+					if(verbose) cat("Automatic determination of the number of mixture components ... \n")
+					continue = TRUE
+					DW = Inf
+					oldW = (nrow(Tx[[j]])-1)*sum(apply(Tx[[j]],2,var))
+					cntr = 0
+					eps = 1e-2
+					anmix[j] = 1
+					while(continue & (cntr+1) < (nrow(Tx[[j]])*0.5) ){
+						cntr = cntr + 1
+						if(regress){
+							tmpclus = .kregs(Tx[[j]],cntr+1,nstart=10,resp.ind=resp.ind)
+						}else   tmpclus = kmeans(Tx[[j]],cntr+1,nstart=10)
+						newW = sum(tmpclus$withinss)
+						DW = c(DW,oldW - newW)
+						oldW = newW
+						if(cntr>2){
+							DDW = -diff(DW)/DW[-1]
+							DDDW = -diff(DDW)
+							if(any(DDDW<=0) | cntr > 10){
+								anmix[j] = which.max(DDW[-1]) + 2
+								continue = FALSE
+							}# if 
 						}# if 
-					}# if 
-				}# while
-				if(regress){
-					mix.clus[[j]] = .kregs(Tx[[j]],anmix[j],nstart=10,resp.ind=resp.ind)$cluster
-				}else mix.clus[[j]] = kmeans(Tx[[j]],anmix[j],nstart=10)$cluster	
-			}# if 
+					}# while
+					if(regress){
+						mix.clus[[j]] = .kregs(Tx[[j]],anmix[j],nstart=10,resp.ind=resp.ind)$cluster
+					}else mix.clus[[j]] = kmeans(Tx[[j]],anmix[j],nstart=10)$cluster	
+				}# if 
 			} else {
 				if(regress){
 					mix.clus[[j]] = .kregs(Tx[[j]],nmix[j],nstart=10,resp.ind=resp.ind)$cluster
@@ -211,6 +214,10 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.abso
 				anmix[j] = nmix[j]
 			}# if else 
 		}# for j
+	}else{
+		mix.clus = NULL
+		anmix = NULL
+	}#if not null nmix
 	out = list(clust.X=xt, mix.clus=mix.clus, state.clus = clusters, 
 		nmix=anmix, ltr = ltr, final.absorb = final.absorb, miss = miss)
 	return(out)

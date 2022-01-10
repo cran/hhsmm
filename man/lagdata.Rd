@@ -33,5 +33,5 @@ laggedtrain = lagdata(train)
 
 }
 \author{
-Morteza Amini, \email{morteza.amini@ut.ac.ir}, Afarin Bayat, \email{aftbayat@gmail.com}
+Morteza Amini, \email{morteza.amini@ut.ac.ir}
 }

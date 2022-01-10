@@ -26,7 +26,7 @@ list of emission (mixture of Gaussian linear regression models) parameters:
 }
 \description{
 The M step function of the EM algorithm for the mixture
-of Gaussian linear (Markov-sweaching) regressions as the emission distribution using the
+of Gaussian linear (Markov-switching) regressions as the emission distribution using the
 responses and covariates matrices and the estimated weight vectors
 }
 \examples{
@@ -67,5 +67,5 @@ regime-switching regression models with endogenous switching.
 Journal of Econometrics, 143(2), 263-273.
 }
 \author{
-Morteza Amini, \email{morteza.amini@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@gmail.com}
+Morteza Amini, \email{morteza.amini@ut.ac.ir}
 }

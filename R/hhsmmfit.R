@@ -111,6 +111,7 @@ hhsmmfit <- function(x, model, mstep = NULL, M = NA, maxit = 100, lock.transitio
 			p = sapply(1:J,function(state) f(x,state,new.model,...))
 		}# if else missing 
 		p=p/max(p)
+		p = matrix(p,ncol=J)
 		p[is.na(p) | is.nan(p)] = 1e-300
 		p[!is.finite(p)] = 1e+10
 		if(any(apply(p,1,max)==0)) stop("Some values have 0 pdf for all states!  Check your model parameters")

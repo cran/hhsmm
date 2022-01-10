@@ -37,5 +37,5 @@ emission = mixdiagmvnorm_mstep(CMAPSS$train$x, wt1, wt2)
 
 }
 \author{
-Morteza Amini, \email{morteza.amini@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@gmail.com}
+Morteza Amini, \email{morteza.amini@ut.ac.ir}
 }

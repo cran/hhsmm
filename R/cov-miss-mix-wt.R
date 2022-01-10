@@ -4,7 +4,7 @@
 #' observation matrix and the estimated weight 
 #' vectors for a data matrix containing missing values (NA or NaN)
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param x the observation matrix, which can contain missing values (NA or NaN)
 #' @param means a list containing the means of the missing values given observed values

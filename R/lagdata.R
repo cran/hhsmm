@@ -4,7 +4,7 @@
 #' which can be used for fitting auto-regressive hidden hybrid Makrov/semi-Markov 
 #' model (AR-HHSMM)
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param data a data of class \code{hhsmmdata} containing a multivariate and multi-state time series
 #' @param lags a positive integer which is the number of lags to be calculated

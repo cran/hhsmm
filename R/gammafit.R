@@ -34,7 +34,7 @@
   	}
   	Quasi.loglike = function(p) -t(wt)%*%logd(p)
   	newpar = tryCatch({
-		fit=nlm(Quasi.loglike,log(par0))
+		suppressWarnings(fit <- nlm(Quasi.loglike,log(par0)))
 		c(fit$estimate,fit$code)
 		},error=function(e){
 		c(log(par0),1)

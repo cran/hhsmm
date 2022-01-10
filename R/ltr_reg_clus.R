@@ -3,7 +3,7 @@
 #' A left to right initial linear regression clustering method using the 
 #' coefficient differences and Hotelling's T-squared test
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat,  \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param Dat a data matrix
 #' @param k number of clusters

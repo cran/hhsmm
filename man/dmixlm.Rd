@@ -2,7 +2,7 @@
 % Please edit documentation in R/dmixlm.R
 \name{dmixlm}
 \alias{dmixlm}
-\title{pdf of the mixture of Gaussian linear (Markov-sweaching) models for hhsmm}
+\title{pdf of the mixture of Gaussian linear (Markov-switching) models for hhsmm}
 \usage{
 dmixlm(x, j, model, resp.ind = 1)
 }
@@ -21,7 +21,7 @@ response variable}
 the probability density function value
 }
 \description{
-The probability density function of a mixture Gaussian linear (Markov-sweaching) models
+The probability density function of a mixture Gaussian linear (Markov-switching) models
 for a specified observation vector, a specified state and a specified
 model's parameters
 }
@@ -63,5 +63,5 @@ regime-switching regression models with endogenous switching.
 Journal of Econometrics, 143(2), 263-273.
 }
 \author{
-Morteza Amini, \email{morteza.amini@ut.ac.ir}, Afarin Bayat, \email{aftbayat@gmail.com}
+Morteza Amini, \email{morteza.amini@ut.ac.ir}
 }

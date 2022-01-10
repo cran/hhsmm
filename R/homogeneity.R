@@ -3,7 +3,7 @@
 #' A function to compute the maximum homogeneity of two state sequences.
 #' 
 #'
-#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}, Afarin Bayat, \email{aftbayat@@gmail.com}
+#' @author Morteza Amini, \email{morteza.amini@@ut.ac.ir}
 #'
 #' @param state.seq1 first state sequence
 #' @param state.seq2 second state sequence

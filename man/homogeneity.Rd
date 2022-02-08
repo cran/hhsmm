@@ -19,8 +19,8 @@ the maximum homogeneity ratios
 A function to compute the maximum homogeneity of two state sequences.
 }
 \examples{
-state.seq1 = c(3,3,3,1,1,2,2,2,2)
-state.seq2 = c(2,2,2,3,3,1,1,1,1)
+state.seq1 = c(3, 3, 3, 1, 1, 2, 2, 2, 2)
+state.seq2 = c(2, 2, 2, 3, 3, 1, 1, 1, 1)
 homogeneity(state.seq1, state.seq2)
 
 }

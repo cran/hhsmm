@@ -21,14 +21,17 @@ model (AR-HHSMM)
 }
 \examples{
 J <- 3
-initial <- c(1,0,0)
-semi <- rep(FALSE,3)
-P <- matrix(c(0.5, 0.2, 0.3, 0.2, 0.5, 0.3, 0.1, 0.4, 0.5), nrow = J, byrow=TRUE)
-par <- list(intercept = list(0.1,-0.1,0.2),coefficient = list(-0.6,0.7,-0.5),
-csigma = list(5.5,4,3.5),mix.p = list(1,1,1))
+initial <- c(1, 0, 0)
+semi <- rep(FALSE, 3)
+P <- matrix(c(0.5, 0.2, 0.3, 0.2, 0.5, 0.3, 0.1, 0.4, 0.5), nrow = J, 
+byrow = TRUE)
+par <- list(intercept = list(0.1, -0.1, 0.2),
+coefficient = list(-0.6, 0.7, -0.5),
+csigma = list(5.5, 4, 3.5), mix.p = list(1, 1, 1))
 model <- hhsmmspec(init = initial, transition = P, parms.emis = par,
 dens.emis = dmixlm, semi = semi)
-train <- simulate(model, nsim = c(50,60,84,100), seed = 1234, autoregress=TRUE)
+train <- simulate(model, nsim = c(50, 60, 84, 100), seed = 1234, 
+autoregress = TRUE)
 laggedtrain = lagdata(train)
 
 }

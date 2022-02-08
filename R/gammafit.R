@@ -1,4 +1,5 @@
-.gammafit <- function(x,wt=NULL) {
+.gammafit <- function(x, wt = NULL) 
+{
 	tol = 1e-08
 	M = length(x)
 	if(is.null(wt)) wt = rep(1,M)
@@ -46,5 +47,5 @@
      	shape = par0[1]
       	scale = par0[2]
   	}	
-  	return(list(shape=shape,scale=scale))
+  	return(list(shape = shape, scale = scale))
 }

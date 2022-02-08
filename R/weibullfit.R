@@ -34,5 +34,5 @@
      	shape = par0[1]
       	scale = par0[2]
   	}	
-  	return(list(shape=shape,scale=scale))
+  	return(list(shape = shape, scale = scale))
 }

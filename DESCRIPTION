@@ -1,7 +1,7 @@
 Package: hhsmm
-Date: 2022-1-10
+Date: 2022-2-7
 Title: Hidden Hybrid Markov/Semi-Markov Model Fitting
-Version: 0.2.4
+Version: 0.2.5
 Authors@R: c(person("Morteza", "Amini", role = c("aut", "cre","cph"),
                      email = "morteza.amini@ut.ac.ir"),
               person("Afarin", "Bayat", role = "aut"),
@@ -16,7 +16,7 @@ Description: Develops algorithms for fitting, prediction, simulation
   hidden hybrid Markov/semi-Markov model, and many other useful tools 
   (read for more description: <arXiv:2109.12489>). 
 License: GPL-3
-Imports: Rcpp, Rdpack, MASS, mice, cpr, psych
+Imports: Rcpp, Rdpack, MASS, mice, cpr, psych, progress
 RdMacros: Rdpack
 Depends: R (>= 4.1.0), CMAPSS, mvtnorm
 Encoding: UTF-8
@@ -25,10 +25,10 @@ RoxygenNote: 7.1.1
 LinkingTo: Rcpp
 Suggests: testthat (>= 3.0.0)
 NeedsCompilation: yes
-Packaged: 2022-01-10 04:38:04 UTC; Amini
+Packaged: 2022-02-08 10:18:50 UTC; Amini
 Author: Morteza Amini [aut, cre, cph],
   Afarin Bayat [aut],
   Reza Salehian [aut]
 Maintainer: Morteza Amini <morteza.amini@ut.ac.ir>
 Repository: CRAN
-Date/Publication: 2022-01-10 07:52:44 UTC
+Date/Publication: 2022-02-08 10:40:05 UTC

@@ -45,26 +45,30 @@
 #'
 #' @examples
 #' J <- 3
-#' initial <- c(1,0,0)
-#' semi <- c(FALSE,TRUE,FALSE)
-#' P <- matrix(c(0.8, 0.1, 0.1, 0.5, 0, 0.5, 0.1, 0.2, 0.7), nrow = J, byrow=TRUE)
-#' par <- list(mu = list(list(7,8),list(10,9,11),list(12,14)),
-#' sigma = list(list(3.8,4.9),list(4.3,4.2,5.4),list(4.5,6.1)),
-#' mix.p = list(c(0.3,0.7),c(0.2,0.3,0.5),c(0.5,0.5)))
-#' sojourn <- list(shape = c(0,3,0), scale = c(0,10,0), type = "gamma")
+#' initial <- c(1, 0, 0)
+#' semi <- c(FALSE, TRUE, FALSE)
+#' P <- matrix(c(0.8, 0.1, 0.1, 0.5, 0, 0.5, 0.1, 0.2, 0.7), nrow = J, 
+#' byrow = TRUE)
+#' par <- list(mu = list(list(7, 8), list(10, 9, 11), list(12, 14)),
+#' sigma = list(list(3.8, 4.9), list(4.3, 4.2, 5.4), list(4.5, 6.1)),
+#' mix.p = list(c(0.3, 0.7), c(0.2, 0.3, 0.5), c(0.5, 0.5)))
+#' sojourn <- list(shape = c(0, 3, 0), scale = c(0, 10, 0), type = "gamma")
 #' model <- hhsmmspec(init = initial, transition = P, parms.emis = par,
 #' dens.emis = dmixmvnorm, sojourn = sojourn, semi = semi)
-#' train <- simulate(model, nsim = c(10,8,8,18), seed = 1234, remission = rmixmvnorm)
-#' test <-  simulate(model, nsim = c(7,3,3,8), seed = 1234, remission = rmixmvnorm)
-#' clus = initial_cluster(train,nstate=3,nmix=c(2,2,2),ltr=FALSE,
-#' final.absorb=FALSE,verbose=TRUE)
+#' train <- simulate(model, nsim = c(10, 8, 8, 18), seed = 1234, 
+#' remission = rmixmvnorm)
+#' clus = initial_cluster(train, nstate = 3, nmix = c(2 ,2, 2),ltr = FALSE,
+#' final.absorb = FALSE, verbose = TRUE)
 #'
 #' @importFrom mice mice complete
+#' @importFrom progress progress_bar
 #'
 #' @export
 #'
-initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.absorb=FALSE,verbose=FALSE,
-	regress=FALSE,resp.ind=1){
+initial_cluster <- function(train, nstate, nmix, ltr = FALSE, 
+	equispace = FALSE, final.absorb = FALSE, verbose = FALSE,
+	regress = FALSE, resp.ind = 1)
+{
 		if(length(nmix)==1 & mode(nmix)=="numeric") nmix = rep(nmix,nstate)
 		if(length(nmix)!=nstate & mode(nmix)=="numeric") stop("length of nmix must be 1 or equal the number of states.")
 		if(class(train)!="hhsmmdata") stop("class of train data must be hhsmmdata !")
@@ -127,9 +131,12 @@ initial_cluster<-function(train,nstate,nmix,ltr=FALSE,equispace=FALSE,final.abso
 			}# for m 
 		}else{
 			if(ltr){
+				pb <- progress_bar$new(
+					format = " clustering [:bar] :percent in :elapsed",
+					total = num.units, clear = FALSE, width= 60)
 				for(m in 1:num.units){
 					xt[[m]] = list()
-					if(verbose) .progress(x=m,max=num.units)
+					if(verbose) pb$tick()
 					C=as.matrix(data[(Ns[m]+1):Ns[m+1],])
 					if(final.absorb) D= as.matrix(C[-nrow(C),]) else D = C
 					if(regress){

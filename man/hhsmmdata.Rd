@@ -19,9 +19,9 @@ Converts a matrix of data and its associated vector of sequence lengths
 to a data list of class \code{"hhsmmdata"}
 }
 \examples{
-x = sapply(c(1,2), function(i) rnorm(100,i,i/2))
+x = sapply(c(1, 2), function(i) rnorm(100, i, i/2))
 N = c(10, 15, 50, 25)
-data = hhsmmdata(x,N)
+data = hhsmmdata(x, N)
 
 }
 \author{

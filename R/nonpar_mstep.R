@@ -16,17 +16,17 @@
 #' (\code{coef})
 #'
 #' @examples
-#' K = 5
-#' x = rmvnorm(100, rep(0, 2), matrix(c(4, 2, 2, 3), 2, 2))
-#' wt = matrix(rep(1, 100), 100, 1)
-#' emission = nonpar_mstep(x, wt, K=K)
-#' coef = emission$coef[[1]]
+#' K <- 5
+#' x <- rmvnorm(100, rep(0, 2), matrix(c(4, 2, 2, 3), 2, 2))
+#' wt <- matrix(rep(1, 100), 100, 1)
+#' emission = nonpar_mstep(x, wt, K = K)
+#' coef <- emission$coef[[1]]
 #' x_axis <- seq(min(x[, 1]), max(x[, 1]), length.out = 100)
 #' y_axis <- seq(min(x[, 2]), max(x[, 2]), length.out = 100)
 #' f1 <- function(x, y) { 
 #'   data = matrix(c(x, y), ncol = 2)
-#'   tmpmodel = list(parms.emission=emission)
-#' 	 dnonpar(data,1,tmpmodel)
+#'   tmpmodel = list(parms.emission = emission)
+#' 	 dnonpar(data, 1, tmpmodel)
 #' }
 #' z1 <- outer(x_axis, y_axis, f1)
 #' f2 <- function(x, y) { 
@@ -49,68 +49,66 @@
 #' 
 #' @export
 #'
-nonpar_mstep = function(x, wt, K = 5, lambda0 = 0.5){
-  nstate = ncol(wt)
-  emission = list(coef = list(), lambda = numeric(nstate))
-  lambda = numeric(nstate)
-  d = ncol(x)
-  n = nrow(x)
+nonpar_mstep = function(x, wt, K = 5, lambda0 = 0.5)
+{
+  nstate <- ncol(wt)
+  emission <- list(coef = list(), lambda = numeric(nstate))
+  lambda <- numeric(nstate)
+  d <- ncol(x)
+  n <- nrow(x)
   tryCatch(
          {
-	a<-matrix(0,nrow=n,ncol=K^d)
-	if(object.size(a)>1.8e+9) 
+	a<-matrix(0, nrow = n, ncol = K^d)
+	if(object.size(a) > 1.8e+9) 
 		warning("The dimension of the data or the degree of the spline is large! 
 		This will result in a very slow progress!")
 	rm(a)
   },
-        error=function(cond) {
+        error = function(cond) {
 	stop("The dimension of the data or the degree of the spline is too large!
 		There is no enough memory for fitting! Try another emission distribution.")
 
   })
   basis = btensor(lapply(1:d, function(i) x[, i]),
                   df = K, bknots = lapply(1:d, 
-                     function(i) c(min(x[, i])-0.01,
-                                 max(x[, i])+0.01)))
-  for(j in 1:nstate){
-    	lambda[j] = lambda0
-    	mloglike_lambda0 = function(beta){
-		dbeta = beta
-		for(m in 1:2) dbeta = diff(dbeta)
-      	omega = exp(beta) / sum(exp(beta))
-      	loglike = t(wt[, j]) %*% log(basis %*% omega)-
-          		lambda0/2 * sum(dbeta^2)
-      	return(-loglike) 
+                     function(i) c(min(x[, i]) - 0.01,
+                                 max(x[, i]) + 0.01)))
+  for (j in 1:nstate) {
+    	lambda[j] <- lambda0
+    	mloglike_lambda0 <- function(beta) {
+		dbeta <- diff(beta,differences = 2)
+      	omega <- exp(beta) / sum(exp(beta))
+      	loglike <- t(wt[, j]) %*% log(basis %*% omega) -
+          		lambda0 / 2 * sum(dbeta ^ 2)
+      	return(- loglike) 
     }	
-    start = runif(K^d)
+    start <- runif(K^d)
     suppressWarnings(fit <- nlm(mloglike_lambda0, start, hessian = T))
-    H_lambda0 = -fit$hessian
-    difference = 1; eps = 1e-6
-    cntr = 1
-    beta_hat = list(rep(1, K))
-    while(difference > eps){
-      	mloglike = function(beta){
-			dbeta = beta
-			for(m in 1:2) dbeta = diff(dbeta)
-        		omega = exp(beta) / sum(exp(beta))
-        		inf_index = which(is.infinite(log(basis %*% omega)))
-        		loglike = t(wt[, j]) %*% log(basis %*% omega) -
-          			lambda[j]/2 * sum(dbeta^2)
-        		return(-loglike) 
+    H_lambda0 <- - fit$hessian
+    difference <- 1; eps <- 1e-6
+    cntr <- 1
+    beta_hat <- list(rep(1, K))
+    while (difference > eps) {
+      	mloglike <- function(beta){
+			dbeta <- diff(beta,differences = 2)
+        		omega <- exp(beta) / sum(exp(beta))
+        		inf_index <- which(is.infinite(log(basis %*% omega)))
+        		loglike <- t(wt[, j]) %*% log(basis %*% omega) -
+          			lambda[j] / 2 * sum(dbeta ^ 2)
+        		return(- loglike) 
      	}	
-      	start = runif(K^d)
+      	start <- runif(K ^ d)
       	suppressWarnings(fit <- nlm(mloglike, start, hessian = T))
-      	H = -fit$hessian
-      	beta_hat[[cntr+1]] = fit$estimate
-      	df_lambda = tr(ginv(H) %*% H_lambda0)
-		dbeta = beta_hat[[cntr+1]]
-		for(m in 1:2) dbeta = diff(dbeta)
-      	lambda[j] = (df_lambda - d)/(sum(dbeta^2))
-      	difference = sum(beta_hat[[cntr+1]] - beta_hat[[cntr]])
-      	cntr = cntr+1
+      	H <- - fit$hessian
+      	beta_hat[[cntr + 1]] <- fit$estimate
+      	df_lambda <- tr(ginv(H) %*% H_lambda0)
+		dbeta <- diff(beta_hat[[cntr+1]],differences = 2)
+      	lambda[j] <- (df_lambda - d) / (sum(dbeta ^ 2))
+      	difference <- sum(beta_hat[[cntr+1]] - beta_hat[[cntr]])
+      	cntr <- cntr + 1
     	}
-    	emission$coef[[j]] = exp(beta_hat[[cntr]]) / sum(exp(beta_hat[[cntr]]))
-    emission$lambda[j] = lambda[j]
+    	emission$coef[[j]] <- exp(beta_hat[[cntr]]) / sum(exp(beta_hat[[cntr]]))
+    emission$lambda[j] <- lambda[j]
   }# for j
   emission
 }

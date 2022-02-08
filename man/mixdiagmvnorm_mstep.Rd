@@ -29,10 +29,10 @@ observation matrix and the estimated weight vectors
 \examples{
 data(CMAPSS)
 n = nrow(CMAPSS$train$x)
-wt1 = matrix(runif(3*n),nrow=n,ncol=3)
-wt2 = list()
-for(j in 1:3) wt2[[j]] = matrix(runif(5*n),nrow=n,ncol=5)
-emission = mixdiagmvnorm_mstep(CMAPSS$train$x, wt1, wt2)
+wt1 <- matrix(runif(3 * n), nrow = n, ncol = 3)
+wt2 <- list()
+for(j in 1:3) wt2[[j]] <- matrix(runif(5 * n), nrow = n, ncol = 5)
+emission <- mixdiagmvnorm_mstep(CMAPSS$train$x, wt1, wt2)
 
 
 }

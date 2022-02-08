@@ -25,17 +25,17 @@ The M step function of the EM algorithm for the mixture
 of splines nonparametric density estimator
 }
 \examples{
-K = 5
-x = rmvnorm(100, rep(0, 2), matrix(c(4, 2, 2, 3), 2, 2))
-wt = matrix(rep(1, 100), 100, 1)
-emission = nonpar_mstep(x, wt, K=K)
-coef = emission$coef[[1]]
+K <- 5
+x <- rmvnorm(100, rep(0, 2), matrix(c(4, 2, 2, 3), 2, 2))
+wt <- matrix(rep(1, 100), 100, 1)
+emission = nonpar_mstep(x, wt, K = K)
+coef <- emission$coef[[1]]
 x_axis <- seq(min(x[, 1]), max(x[, 1]), length.out = 100)
 y_axis <- seq(min(x[, 2]), max(x[, 2]), length.out = 100)
 f1 <- function(x, y) { 
   data = matrix(c(x, y), ncol = 2)
-  tmpmodel = list(parms.emission=emission)
-	 dnonpar(data,1,tmpmodel)
+  tmpmodel = list(parms.emission = emission)
+	 dnonpar(data, 1, tmpmodel)
 }
 z1 <- outer(x_axis, y_axis, f1)
 f2 <- function(x, y) { 

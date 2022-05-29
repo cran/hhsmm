@@ -71,7 +71,7 @@ initial_cluster <- function(train, nstate, nmix, ltr = FALSE,
 {
 		if(length(nmix)==1 & mode(nmix)=="numeric") nmix = rep(nmix,nstate)
 		if(length(nmix)!=nstate & mode(nmix)=="numeric") stop("length of nmix must be 1 or equal the number of states.")
-		if(class(train)!="hhsmmdata") stop("class of train data must be hhsmmdata !")
+		if(!inherits(train, "hhsmmdata")) stop("class of train data must be hhsmmdata !")
 		if(equispace & !ltr) stop("equispace option is only applied for left to right model (ltr=TRUE)!")
 		if(!ltr & final.absorb){
 			final.absorb = FALSE

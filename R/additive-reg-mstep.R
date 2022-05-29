@@ -50,15 +50,10 @@
 #' xlab = "x", ylab = "y")
 #' text(0,30, "colors are real states",col="red")
 #' text(0,28, "characters are predicted states")
-#' library(splines2)
-#' basis = bSpline(train$x[, 2], df = 5, Boundary.knots = 
-#'                   c(min(train$x[, 2]) - 0.01, max(train$x[, 2]) + 0.01))
-#' yhat1 = fit1$model$parms.emission$intercept[[1]][1] + 
-#' basis %*% fit1$model$parms.emission$coef[[1]][,1,1]
-#' yhat2 = fit1$model$parms.emission$intercept[[2]][1] + 
-#' basis %*% fit1$model$parms.emission$coef[[2]][,1,1]
-#' yhat3 = fit1$model$parms.emission$intercept[[3]][1] + 
-#' basis %*% fit1$model$parms.emission$coef[[3]][,1,1]
+#' pred <- addreg_hhsmm_predict(fit1, train$x[, 2], 5)
+#' yhat1 <- pred[[1]]
+#' yhat2 <- pred[[2]]
+#' yhat3 <- pred[[3]]
 #' 
 #' lines(yhat1[order(train$x[, 2])]~sort(train$x[, 2]),col = 2)
 #' lines(yhat2[order(train$x[, 2])]~sort(train$x[, 2]),col = 1)

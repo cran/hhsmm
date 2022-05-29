@@ -81,10 +81,10 @@ mixlm_mstep <- function(x, wt1, wt2, resp.ind = 1)
     				tmp <- cov.mix.wt(y, wt1[, j],wt2[[j]][, i])
 				upcov <- tmp$cov
 				wt <- wt1[, j] * wt2[[j]][, i]
-				wt <- wt / sum(wt)
 				W <- diag(wt)
 				beta <- ginv(t(x) %*% W %*% x) %*% t(x) %*% W %*% y 
 				res <- y - x %*% beta
+				wt <- wt / sum(wt)
 				res <- sqrt(wt) * res
     				emission$intercept[[j]][[i]] <- as.matrix(beta[1,])
     				emission$coefficients[[j]][[i]] <- as.matrix(beta[-1,])
@@ -98,9 +98,9 @@ mixlm_mstep <- function(x, wt1, wt2, resp.ind = 1)
     			tmp <- cov.mix.wt(y, wt1[, j], wt2[[j]][, 1])
 			upcov <- tmp$cov
 			wt <- wt1[, j] 
-			wt <- wt / sum(wt)
 			W <- diag(wt)
 			beta <- ginv(t(x) %*% W %*% x) %*% t(x) %*% W %*% y 
+			wt <- wt / sum(wt)
 			res <- y - x %*% beta
 			res <- sqrt(wt) * res
     			emission$intercept[[j]] <- as.matrix(beta[1,])

@@ -10,8 +10,8 @@
   seed = NULL,
   remission = rmixmvnorm,
   ...,
-  emission.control = list(autoregress = FALSE, lags = 1, start = list(mean = NULL, cov
-    = NULL))
+  emission.control = list(autoregress = FALSE, lags = 1, start = list(mean = NULL, cov =
+    NULL))
 )
 }
 \arguments{

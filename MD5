@@ -1,4 +1,4 @@
-8473ef189fb5abf495f71d3dd8684eb8 *DESCRIPTION
+ee07bee2373164fcbd4b66eec78ba4e7 *DESCRIPTION
 4fd6a2b30d268a61fdbf1b7d1ef74316 *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 3eb5a36936a93deb211cfad5f5e67b1b *R/additive-reg-mstep.R
@@ -10,7 +10,7 @@ d0e4647d3e4c063d29974babc65c2f8a *R/check-hhsmmspec.R
 fc4f50fda95c7d4de635c8c68014a30b *R/densComputeMiss.R
 ed45293601da4ce634bc90b05bd093c5 *R/dfcalc.R
 a1a23f7aa507c6bd5850094d8c2f5ce8 *R/dlog.R
-3bc033f7371698bba71b3ac0448fedb0 *R/dmixlm.R
+51d1c08aa24d25ad14cec0d742817549 *R/dmixlm.R
 e49ee1b759c704d390e39c494f8c25ad *R/dmvnorm-mix-hhsmm.R
 819c11ab35e71f942ec85a12cab7c3b1 *R/dnbinom-hhsmm.R
 751bac5f71e4d27f4d31dcd2092cb968 *R/dnonpar.R
@@ -60,6 +60,7 @@ ecb574cec0e85695850599b1c57c1e2f *R/summary-hhsmm.R
 be3899b69fb7230cfaabbc0da6752dee *R/train-test-split.R
 58a9203dc2f2a7b2349be26b2bedfa94 *R/update-sojourn.R
 019f1aaae2bc5673b67e0bb8c899c474 *R/weibullfit.R
+fe030a1d75e4fa9803904e5c81a56c15 *inst/CITATION
 4a409bc14056bd166e99edbb9701630d *man/additive_reg_mstep.Rd
 a6cd6932e21801148af2763bd17c7456 *man/addreg_hhsmm_predict.Rd
 86188d6c6a56df2dccbee8dc79869324 *man/cov.miss.mix.wt.Rd
@@ -91,7 +92,7 @@ b5464f8ec29c6bbb346cfdeee34a547a *man/rmixar.Rd
 81caeeac029604f469f1a20ab4f26be9 *man/rmixlm.Rd
 5f4631d5ec18688dc7bdc46ce3c47306 *man/rmixmvnorm.Rd
 06eeea498ac51f3ebd6d12bee5123c19 *man/score.Rd
-0fa128ea0d39ad1eb8e20188e4ee8996 *man/simulate.hhsmmspec.Rd
+80017aafd312e6bfd632c998031c1c97 *man/simulate.hhsmmspec.Rd
 4868414ed3b83bdfbc8a106932506d60 *man/train_test_split.Rd
 728fb35820334cf275e0481c6fb27c33 *src/hhsmm.c
 5cfc7a4958c7679347ff8139530b475f *src/hhsmm_init.c

@@ -68,7 +68,7 @@ dmixlm <- function(x, j, model, resp.ind = 1){
 			if (dy > 1){
 				cmean = as.vector(model$parms.emission$intercept[[j]][[i]])*
 						matrix(1, n, dy)+ x %*% 
-						t(model$parms.emission$coefficients[[j]][[i]])
+						model$parms.emission$coefficients[[j]][[i]]
 				ccov = model$parms.emission$csigma[[j]][[i]]
  				dens = dens + sapply(1:nrow(y), function(ii) 
 						model$parms.emission$mix.p[[j]][i] * 
@@ -77,7 +77,7 @@ dmixlm <- function(x, j, model, resp.ind = 1){
 			} else {
 				cmean = as.vector(model$parms.emission$intercept[[j]][[i]]) * 
 					matrix(1, n, dy) + x %*% 
-					t(model$parms.emission$coefficients[[j]][[i]])
+					model$parms.emission$coefficients[[j]][[i]]
 				csd = as.vector(sqrt(model$parms.emission$csigma[[j]][[i]]))
 				dens = dens + model$parms.emission$mix.p[[j]][i] * 
 					dnorm(y, cmean, csd)
@@ -87,13 +87,13 @@ dmixlm <- function(x, j, model, resp.ind = 1){
 		if (dy > 1){
 			cmean = as.vector(model$parms.emission$intercept[[j]]) * 
 					matrix(1, n, dy) + x %*% 
-					t(model$parms.emission$coefficients[[j]])
+					model$parms.emission$coefficients[[j]]
 			ccov = model$parms.emission$csigma[[j]]
 		 	dens = dmvnorm(x, mean = cmean, sigma = ccov)
 		} else {
 			cmean = as.vector(model$parms.emission$intercept[[j]]) * 
 					matrix(1, n, dy) + x %*% 
-					t(model$parms.emission$coefficients[[j]])
+					model$parms.emission$coefficients[[j]]
 			csd = as.vector(sqrt(model$parms.emission$csigma[[j]]))
 		 	dens = dnorm(x, cmean, csd)
 		}

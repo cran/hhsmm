@@ -87,11 +87,11 @@ rmixlm <- function(j, model, covar, ...){
 			if ((u >= pc[i]) & (u < pc[i + 1])){
 				if (p > 1)
  					y = rmvnorm(1, mean = model$parms.emission$intercept[[j]][[i]] +
-						x %*% t(model$parms.emission$coefficient[[j]][[i]]),
+						x %*% model$parms.emission$coefficient[[j]][[i]],
                              sigma = model$parms.emission$csigma[[j]][[i]])
 				else
  					y = rnorm(1, model$parms.emission$intercept[[j]][[i]] +
-						x %*% t(model$parms.emission$coefficient[[j]][[i]]),
+						x %*% model$parms.emission$coefficient[[j]][[i]],
                              sqrt(model$parms.emission$csigma[[j]][[i]]))
 			}
 		}#for i 
@@ -99,11 +99,11 @@ rmixlm <- function(j, model, covar, ...){
 		 p = length(model$parms.emission$intercept[[j]])
 		 if (p > 1)
 			y = rmvnorm(1, mean = model$parms.emission$intercept[[j]] +
-				x %*% t(model$parms.emission$coefficient[[j]]),
+				x %*% model$parms.emission$coefficient[[j]],
                     sigma = model$parms.emission$csigma[[j]])
 		 else
  			y = rnorm(1, model$parms.emission$intercept[[j]] +
-				x %*% t(model$parms.emission$coefficient[[j]]),
+				x %*% model$parms.emission$coefficient[[j]],
                     sqrt(model$parms.emission$csigma[[j]]))	
 	}#if else 
 	out = cbind(y, x)

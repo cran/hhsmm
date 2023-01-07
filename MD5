@@ -1,4 +1,4 @@
-ee07bee2373164fcbd4b66eec78ba4e7 *DESCRIPTION
+23451537b30550de5642e3c56fe09e60 *DESCRIPTION
 4fd6a2b30d268a61fdbf1b7d1ef74316 *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 3eb5a36936a93deb211cfad5f5e67b1b *R/additive-reg-mstep.R
@@ -49,8 +49,8 @@ bbd886e123b41fcf3b57ab93e755fa3f *R/predict-hhsmm.R
 95146ac4796847b67f978bd3afb7eba0 *R/raddreg.R
 b6a7d218ec967da0bd8744db19b69d22 *R/rbinom-hhsmm.R
 2576b5806ac0bed86d168c54aee36d0c *R/rlog.R
-f21b3961a3b35c2c38557cbc800474a1 *R/rmixar.R
-365fc383974079006c57e95f3b8899e5 *R/rmixlm.R
+bab480a227086edd37d91591aef8dda9 *R/rmixar.R
+bb38e0cfbd3a47964a5df57309c6e8ba *R/rmixlm.R
 2d6332662378ea9c10b420987b96501d *R/rmvnorm-mix-hhsmm.R
 58044da8d6d31fd1b4f4c37eb8078143 *R/rpois-hhsmm.R
 a82ec98988bd47acd1f80d87295c40a0 *R/score.R

@@ -138,7 +138,7 @@ initial_cluster <- function(train, nstate, nmix, ltr = FALSE,
 					xt[[m]] = list()
 					if(verbose) pb$tick()
 					C=as.matrix(data[(Ns[m]+1):Ns[m+1],])
-					if(final.absorb) D= as.matrix(C[-nrow(C),]) else D = C
+					if(final.absorb) D = as.matrix(C[-nrow(C),]) else D = C
 					if(regress){
 						clus = ltr_reg_clus(D,nstate-final.absorb,resp.ind=resp.ind)
 					}else clus = ltr_clus(D,nstate-final.absorb)
@@ -165,6 +165,12 @@ initial_cluster <- function(train, nstate, nmix, ltr = FALSE,
 					if(regress){
 						clus = .kregs(data,nstate,nstart=10,resp.ind=resp.ind,verbose=verbose)$cluster
 					}else clus = kmeans(data,nstate,nstart=10)$cluster
+					if(.discret.check(data,nstate) == 1) warning("number of clusters for finite domain categorical
+								data is equal to the number of categories! 
+								This will cause an unreliable initail clustering!")
+					if(.discret.check(data,nstate) == 2) stop("number of clusters for finite domain categorical
+								data is larger than the number of categories! 
+								Initail clustering is impossible!")
 					for(m in 1:num.units){
 						clusters[[m]] = clus[(Ns[m]+1):Ns[m+1]]
 						xt[[m]] = list()

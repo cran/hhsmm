@@ -44,12 +44,17 @@
 dnonpar <- function(x, j, model, control = list(K = 5)){
 	K = control$K
 	x = as.matrix(x)
+	n = nrow(x)
 	d = ncol(x)
 	coef = model$parms.emission$coef[[j]]
-   	basis = btensor(lapply(1:d, function(i) x[, i]),
-                   df = K, bknots = lapply(1:d, 
-                      function(i) c(min(x[, i]) - 0.01,
-                           max(x[, i]) + 0.01)))
+   	ll = lapply(1:d, function(i) bSpline(x[, i],
+		df = K, Boundary.knots = c(min(x[, i]) - 0.01, max(x[, i]) + 0.01)))
+	basis = ll[[1]]
+	if(d > 1){
+	  for(jj in 2:d)
+		  basis = sapply(1:n, function(i) outer(basis[i,],ll[[jj]][i,]))
+	  basis = t(basis)
+	}
 	dens =    basis %*% coef
 	dens
 }

@@ -48,9 +48,8 @@
 #' Nonparametric inference in hidden Markov 
 #' models using P-splines. \emph{Biometrics}, 71(2), 520-528.
 #'
-#' @importFrom psych tr
-#' @importFrom cpr btensor
 #' @importFrom utils object.size
+#' @importFrom splines2 bSpline
 #' 
 #' @export
 #'
@@ -78,10 +77,14 @@ nonpar_mstep = function(x, wt, control = list(K = 5, lambda0 = 0.5))
 		There is no enough memory for fitting! Try another emission distribution.")
 
   })
-  basis = btensor(lapply(1:d, function(i) x[, i]),
-                  df = K, bknots = lapply(1:d, 
-                     function(i) c(min(x[, i]) - 0.01,
-                                 max(x[, i]) + 0.01)))
+  ll = lapply(1:d, function(i) bSpline(x[, i],
+	df = K, Boundary.knots = c(min(x[, i]) - 0.01, max(x[, i]) + 0.01)))
+	basis = ll[[1]]
+	if(d > 1){
+	  for(jj in 2:d)
+	    basis = sapply(1:n, function(i) outer(basis[i,],ll[[jj]][i,]))
+	  basis = t(basis)
+  }
   for (j in 1:nstate) {
     	lambda[j] <- lambda0
     	mloglike_lambda0 <- function(beta) {
@@ -110,7 +113,7 @@ nonpar_mstep = function(x, wt, control = list(K = 5, lambda0 = 0.5))
       	suppressWarnings(fit <- nlm(mloglike, start, hessian = T))
       	H <- - fit$hessian
       	beta_hat[[cntr + 1]] <- fit$estimate
-      	df_lambda <- tr(ginv(H) %*% H_lambda0)
+      	df_lambda <- sum(diag(ginv(H) %*% H_lambda0))
 		dbeta <- diff(beta_hat[[cntr+1]],differences = 2)
       	lambda[j] <- (df_lambda - d) / (sum(dbeta ^ 2))
       	difference <- sum(beta_hat[[cntr+1]] - beta_hat[[cntr]])

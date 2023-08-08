@@ -1,13 +1,13 @@
-9d3dc98bdd2ba73967bc5a6796acdda8 *DESCRIPTION
+3d91d4de34fe01878b370390fb425d2e *DESCRIPTION
 9625db84e678a72baca9d35861c55413 *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 3eb5a36936a93deb211cfad5f5e67b1b *R/additive-reg-mstep.R
-305e40632b0122fd02651330c6b074ca *R/addpred.R
+913ec5651ca098c95f2fa34f2e62eb58 *R/addpred.R
 209465e2b3eb094c09201985821fca52 *R/build_d.R
 d0e4647d3e4c063d29974babc65c2f8a *R/check-hhsmmspec.R
 82aba216a7436926df6e9e2cce035fb6 *R/cov-miss-mix-wt.R
 242dcb846af8955076b7e8f3cb9a3dc8 *R/cov-mix-wt.R
-fc4f50fda95c7d4de635c8c68014a30b *R/densComputeMiss.R
+256962eae52f62aa28198453c737d75c *R/densComputeMiss.R
 ed45293601da4ce634bc90b05bd093c5 *R/dfcalc.R
 3ee6e868ee31efb9b1bb1bcb45891eea *R/discret-check.R
 a1a23f7aa507c6bd5850094d8c2f5ce8 *R/dlog.R
@@ -16,7 +16,7 @@ a1a23f7aa507c6bd5850094d8c2f5ce8 *R/dlog.R
 e49ee1b759c704d390e39c494f8c25ad *R/dmvnorm-mix-hhsmm.R
 819c11ab35e71f942ec85a12cab7c3b1 *R/dnbinom-hhsmm.R
 508006d096c6bea5d04979894f5a02f2 *R/dnonpar.R
-ec5097a9cd731a48d66e026283dd9c92 *R/dnorm-additive-reg.R
+6c504bca0b04417af0be0226e5e22e2b *R/dnorm-additive-reg.R
 d073462daa58f0abb551c3e7f06ea0d8 *R/dpois-hhsmm.R
 b0374b14fbfd4041972bcb5510395de2 *R/fitnbinom.R
 554e77bccddf55e0a111c544e13706f9 *R/gammafit.R
@@ -24,7 +24,7 @@ b0374b14fbfd4041972bcb5510395de2 *R/fitnbinom.R
 cd975521dee0acb07e62ae31f9a2ae75 *R/hhsmmfit.R
 b84aa0ec19d1f8c9080c129d7184f7ba *R/hhsmmspec.R
 4ca7a3ebbc03b056b44b4b1d200d856f *R/homogeneity.R
-8755629738d7fef561015cc36810ac41 *R/initial-cluster.R
+f268f0f295bc57c3f009c6890b659193 *R/initial-cluster.R
 cc943a94cff6e8c2ea7480dec25ead2f *R/initial-estimate.R
 9caeda8e457534abe1e023b692769784 *R/initialize-model.R
 6a591a89ffe469d3f53d0f944ec5f766 *R/kreg.R
@@ -38,7 +38,7 @@ e9a6f7f630216c029fb764e427375d98 *R/ltr_reg_clus2.R
 c7cbbe8c1efb6fbe1d90006d17c557ed *R/make-model.R
 7431a14a82c954ab5f75ca4fea9df3e1 *R/mix-weights-calc.R
 fae5c4d1c04a0e86d22b9861c9edfd7d *R/mixdiagmvnorm_mstep.R
-02a77af84db7c2f86dbad8b10b1a69fc *R/mstep-missing-mix-mvnorm.R
+3e539d3eede38ccda67effdef933bd4c *R/mstep-missing-mix-mvnorm.R
 be17cc6bfeac16bb519155720d1ca7aa *R/mstep-mix-lm.R
 45716981d897c30d5e81f1f70b917587 *R/mstep-mix-mvnorm.R
 a3ac611e5255165e72c344b8e703f089 *R/mstep-multinomial.R
@@ -61,6 +61,7 @@ a82ec98988bd47acd1f80d87295c40a0 *R/score.R
 ca465cddece3a1afe5c83af95c1e235b *R/simulate-hhsmm.R
 3b920147aee2e1881b081883e37bdef2 *R/simulate_markov.R
 ecb574cec0e85695850599b1c57c1e2f *R/summary-hhsmm.R
+e3c095818d5069120b99d3e99137c50e *R/symetric.R
 be3899b69fb7230cfaabbc0da6752dee *R/train-test-split.R
 58a9203dc2f2a7b2349be26b2bedfa94 *R/update-sojourn.R
 019f1aaae2bc5673b67e0bb8c899c474 *R/weibullfit.R

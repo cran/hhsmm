@@ -1,7 +1,7 @@
 Package: hhsmm
-Date: 2023-03-05
+Date: 2023-08-08
 Title: Hidden Hybrid Markov/Semi-Markov Model Fitting
-Version: 0.3.5
+Version: 0.3.6
 Authors@R: c(person("Morteza", "Amini", role = c("aut", "cre","cph"),
                      email = "morteza.amini@ut.ac.ir"),
               person("Afarin", "Bayat", role = "aut"),
@@ -29,10 +29,10 @@ RoxygenNote: 7.2.1
 LinkingTo: Rcpp
 Suggests: testthat (>= 3.0.0)
 NeedsCompilation: yes
-Packaged: 2023-03-06 04:45:42 UTC; LENOVO.PIESC
+Packaged: 2023-08-08 03:42:19 UTC; LENOVO.PIESC
 Author: Morteza Amini [aut, cre, cph],
   Afarin Bayat [aut],
   Reza Salehian [aut]
 Maintainer: Morteza Amini <morteza.amini@ut.ac.ir>
 Repository: CRAN
-Date/Publication: 2023-03-06 08:30:02 UTC
+Date/Publication: 2023-08-08 08:10:08 UTC

@@ -89,7 +89,8 @@ dnorm_additive_reg <- function(x, j, model, control = list(K = 5, resp.ind = 1))
                     basis[[i]] %*%
                        as.matrix(model$parms.emission$coef[[j]][, i, p]))))
     		ccov = model$parms.emission$sigma[[j]]
-    		dens = dmvnorm(y, mean = cmean, sigma = ccov)
+    		dens = sapply(1:n,function(i){
+				dmvnorm(y[i,], mean = cmean[i,], sigma = ccov)})
   	} else {
     		cmean = model$parms.emission$intercept[[j]] +
       		rowSums(sapply(1:dx, function(i)

@@ -1,4 +1,5 @@
 .densComputeMiss<-function(x,model,...){
+	if(all(c("mix.p","mu","sigma") %in% names(model$parms.emission))){
 			d = ncol(x)
 			missed = apply(x,1,function(t) which(is.na(t)|is.nan(t)))
 			p = matrix(0,nrow(x),J)
@@ -48,5 +49,6 @@
 						p[,j] = model$dens.emission(xr,j,model,...)
 				}#if else mix.p
 			}# for j
+	}else stop("missing values are supported only for multivariate normal emissions yet!",call. = FALSE)
 		p
 }

@@ -82,7 +82,7 @@ miss_mixmvnorm_mstep <- function(x, wt1, wt2, par) {
 					wt2[[j]][,i][is.na(wt2[[j]][,i])|is.nan(wt2[[j]][,i])] = w[is.na(wt2[[j]][,i])|is.nan(wt2[[j]][,i])]
     					tmp <- cov.miss.mix.wt(x, means[[j]][[i]], secm[[j]][[i]], wt1[, j],wt2[[j]][, i])
     					emission$mu[[j]][[i]] <- tmp$center
-    					emission$sigma[[j]][[i]] <- tmp$cov
+    					emission$sigma[[j]][[i]] <- .symetric(tmp$cov)
 					emission$mix.p[[j]][i] <-tmp$pmix
 				}
 				emission$mix.p[[j]]=emission$mix.p[[j]]/sum(emission$mix.p[[j]])
@@ -112,7 +112,7 @@ miss_mixmvnorm_mstep <- function(x, wt1, wt2, par) {
 				})
     				tmp <- cov.miss.mix.wt(x, means[[j]], secm[[j]], wt1[, j],wt2[[j]][, 1])
     				emission$mu[[j]] <- tmp$center
-    				emission$sigma[[j]] <- tmp$cov
+    				emission$sigma[[j]] <- .symetric(tmp$cov)
 				emission$mix.p[[j]] <- tmp$pmix
 			}#if else 
 		}# for j

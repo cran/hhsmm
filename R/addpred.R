@@ -49,6 +49,7 @@
 #' 
 #' @export
 addreg_hhsmm_predict <- function(object, x, K){
+	dy <- dim(object$model$parms.emission$coef[[1]])[3]
 	p <- dim(object$model$parms.emission$coef[[1]])[2]
 	J <- object$model$J
 	if(is.null(dim(x))){
@@ -63,9 +64,10 @@ addreg_hhsmm_predict <- function(object, x, K){
 		bSpline(x[, i], df = K,
 		Boundary.knots = c(min(x[, i]) - 0.01,
 		max(x[, i]) + 0.01)))
-	pred = lapply(1:J, function(j)
-		object$model$parms.emission$intercept[[j]][1] +
+	pred = lapply(1:J, function(j){
+			sapply(1:dy, function(r){
+		object$model$parms.emission$intercept[[j]][r] +
 		rowSums(as.matrix(sapply(1:p, function(i)
-		basis[[i]] %*% object$model$parms.emission$coef[[j]][,i,1]))))
+		basis[[i]] %*% object$model$parms.emission$coef[[j]][,i,r])))})})
 	return(pred)
 }

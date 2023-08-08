@@ -90,6 +90,7 @@ initial_cluster <- function(train, nstate, nmix, ltr = FALSE,
 			}
 			if(ncol(data)>1) data = complete(mice(data,printFlag=FALSE))
 		}
+		data = as.matrix(data)
 		num.units= length(train$N)
 		for(j in 1:nstate){
 			Tx[[j]] = matrix(0,nrow = 1,ncol=ncol(data))

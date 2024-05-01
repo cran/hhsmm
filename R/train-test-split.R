@@ -16,10 +16,10 @@
 #'
 #' @return a list containing:
 #' \itemize{
-#' \item\code{train}{ the randomly selected subset of train data of class \code{"hhsmmdata"}}
-#' \item\code{test}{ the randomly selected subset of test data of class \code{"hhsmmdata"}}
-#' \item\code{trimmed}{ right trimmed test subset, if \code{trim}=TRUE, with trim ratios equal to \code{trim.ratio} }
-#' \item\code{trimmed.count}{ the number of right trimmed individuals in each sequence of the test subset, if \code{trim}=TRUE }
+#' \item\code{train} the randomly selected subset of train data of class \code{"hhsmmdata"}
+#' \item\code{test} the randomly selected subset of test data of class \code{"hhsmmdata"}
+#' \item\code{trimmed} right trimmed test subset, if \code{trim}=TRUE, with trim ratios equal to \code{trim.ratio} 
+#' \item\code{trimmed.count} the number of right trimmed individuals in each sequence of the test subset, if \code{trim}=TRUE
 #' }
 #' 
 #' @details This function splits the sample to train and test samples and 
@@ -54,7 +54,7 @@ train_test_split <- function(train, train.ratio = 0.7, trim = FALSE, trim.ratio 
 		}
 	}	
 	if (!is.null(train$s)) s = train$s else s = NULL
-	if (train.ratio < 1) {
+	if (train.ratio < 1 & n > 1) {
 		ntest = trunc((1 - train.ratio) * n)
 		sam = sample(1:n, ntest)
 		trim.ratio = trim.ratio[sam]

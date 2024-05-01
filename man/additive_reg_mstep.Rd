@@ -17,11 +17,11 @@ The simillar name is chosen with that of \code{\link{dnorm_additive_reg}},
 to be used in \code{...} argument of the \code{\link{hhsmmfit}} function.
 Here, it contains the following items:
 \itemize{
-\item \code{K}{ the degrees of freedom for the B-spline, default is \code{K=5}}
-\item \code{lambda0}{ the initial value of the smoothing parameter, default is \code{lambda0=0.01}}
-\item \code{resp.ind}{ a vector of the column numbers of \code{x} which contain response variables. 
-The default is 1, which means that the first column of \code{x} is the univariate 
-response variable}
+\item \code{K} the degrees of freedom for the B-spline, default is \code{K=5}
+\item \code{lambda0} the initial value of the smoothing parameter, default is \code{lambda0=0.01}
+\item \code{resp.ind} a vector of the column numbers of \code{x} which contain response variables.
+The default is 1, which means that the first column of \code{x} is the univariate
+response variable
 }}
 }
 \value{

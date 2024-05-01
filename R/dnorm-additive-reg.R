@@ -16,10 +16,10 @@
 #' to be used in \code{...} argument of the \code{\link{hhsmmfit}} function.
 #' Here, it contains the following items:
 #' \itemize{
-#' \item \code{K}{ the degrees of freedom for the B-spline, default is \code{K=5}}
-#' \item \code{resp.ind}{ a vector of the column numbers of \code{x} which contain response variables. 
+#' \item \code{K} the degrees of freedom for the B-spline, default is \code{K=5}
+#' \item \code{resp.ind} a vector of the column numbers of \code{x} which contain response variables. 
 #' The default is 1, which means that the first column of \code{x} is the univariate 
-#' response variable}
+#' response variable
 #'}
 #'
 #' @return the probability density function value

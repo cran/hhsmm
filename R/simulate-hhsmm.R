@@ -12,22 +12,22 @@
 #' @param emission.control a list of additional control parameters including the 
 #' following items:
 #' \itemize{
-#' \item \code{autoregress}{ logical. if TRUE the auto-regressive data generation will be considered with 
-#' \code{rmixar} function}
-#' \item \code{lags}{ a positive integer which is the number of lags to be considered for the 
-#' auto-regressive sequence}
-#' \item \code{start}{ a list containing the items \code{mean} which is the mean vector 
+#' \item \code{autoregress} logical. if TRUE the auto-regressive data generation will be considered with 
+#' \code{rmixar} function
+#' \item \code{lags} a positive integer which is the number of lags to be considered for the 
+#' auto-regressive sequence
+#' \item \code{start} a list containing the items \code{mean} which is the mean vector 
 #' and \code{cov} which is the covarince matrix for starting value of the auto-regressive 
 #' sequence (if \code{autoregress == TRUE}). 
 #' If \code{start} is not specified the zero mean vector and the identity matrix 
-#' will be considered as \code{mean} and \code{cov}, respectively.}
+#' will be considered as \code{mean} and \code{cov}, respectively.
 #' }
 #'
 #' @return a list of class \code{"hsmm.data"} containing the following items:
 #' \itemize{
-#' \item \code{s}{ the vector of states}
-#' \item \code{x}{ observation matrix}
-#' \item\code{N}{ vector of sequence lengths}
+#' \item \code{s} the vector of states
+#' \item \code{x} observation matrix
+#' \item\code{N} vector of sequence lengths
 #' }
 #'
 #' @examples

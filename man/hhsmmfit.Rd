@@ -28,28 +28,28 @@ hhsmmfit(
 \item{par}{additional list of control parameters of the \code{hhsmmfit} function
 including the following items:
 \itemize{
-\item \code{maxit}{ the maximum number of iterations for the EM algorithm}
-\item \code{lock.transition}{ logical. if TRUE the transition matrix will not be updated through the EM algorithm}
-\item \code{lock.d}{ logical. if TRUE the sojourn probability matrix d will not be updated through the EM algorithm}
-\item \code{lock.init}{ logical. if TRUE the initial probability vector will not be updated through the EM algorithm}
-\item \code{graphical}{ logical. if TRUE a plot of the sojourn probabilities will be plotted through the EM algorithm}
-\item \code{verbose}{ logical. if TRUE the outputs will be printed}
+\item \code{maxit} the maximum number of iterations for the EM algorithm
+\item \code{lock.transition} logical. if TRUE the transition matrix will not be updated through the EM algorithm
+\item \code{lock.d} logical. if TRUE the sojourn probability matrix d will not be updated through the EM algorithm
+\item \code{lock.init} logical. if TRUE the initial probability vector will not be updated through the EM algorithm
+\item \code{graphical} logical. if TRUE a plot of the sojourn probabilities will be plotted through the EM algorithm
+\item \code{verbose} logical. if TRUE the outputs will be printed
 }}
 }
 \value{
 a list of class \code{"hhsmm"} containing the following items:
 \itemize{
-\item \code{loglike}{ the log-likelihood of the fitted model}
-\item \code{AIC}{ the Akaike information criterion of the fitted model}
-\item \code{BIC}{ the Bayesian information criterion of the fitted model}
-\item \code{model}{ the fitted model}
-\item \code{estep_variables}{ the E step (forward-backward) probabilities of the final iteration of the EM algorithm}
-\item \code{M}{ the maximum duration in each state}
-\item \code{J}{ the number of states}
-\item \code{NN}{ the vector of sequence lengths}
-\item \code{f}{ the emission probability density function}
-\item \code{mstep}{ the M step function of the EM algorithm}
-\item \code{yhat}{ the estimated sequence of states}
+\item \code{loglike} the log-likelihood of the fitted model
+\item \code{AIC} the Akaike information criterion of the fitted model
+\item \code{BIC} the Bayesian information criterion of the fitted model
+\item \code{model} the fitted model
+\item \code{estep_variables} the E step (forward-backward) probabilities of the final iteration of the EM algorithm
+\item \code{M} the maximum duration in each state
+\item \code{J} the number of states
+\item \code{NN} the vector of sequence lengths
+\item \code{f} the emission probability density function
+\item \code{mstep} the M step function of the EM algorithm
+\item \code{yhat} the estimated sequence of states
 }
 }
 \description{

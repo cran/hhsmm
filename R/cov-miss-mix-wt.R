@@ -18,20 +18,20 @@
 #' @param center logical. if TRUE the weighted mean is also given
 #' @param method with two possible entries:
 #' \itemize{
-#' \item \code{"unbiased"}{ the unbiased estimator is given}
-#' \item \code{"ML"}{ the maximum likelihood estimator is given}
+#' \item \code{"unbiased"} the unbiased estimator is given
+#' \item \code{"ML"} the maximum likelihood estimator is given
 #' }
 #'
 #' @return list containing the following items:
 #' \itemize{
-#' \item \code{center}{ the weighted mean of \code{x}}
-#' \item \code{cov}{ the weighted covariance of \code{x}}
-#' \item \code{n.obs}{ the number of observations in \code{x}}
-#' \item \code{cor}{ the weighted correlation of \code{x}, 
-#' if the parameter \code{cor} is TRUE}
-#' \item \code{wt1}{ the state weighs \code{wt1}}
-#' \item \code{wt2}{ the mixture component weights \code{wt2}}
-#' \item \code{pmix}{ the estimated mixture proportions}
+#' \item \code{center} the weighted mean of \code{x}
+#' \item \code{cov} the weighted covariance of \code{x}
+#' \item \code{n.obs} the number of observations in \code{x}
+#' \item \code{cor} the weighted correlation of \code{x}, 
+#' if the parameter \code{cor} is TRUE
+#' \item \code{wt1} the state weighs \code{wt1}
+#' \item \code{wt2} the mixture component weights \code{wt2}
+#' \item \code{pmix} the estimated mixture proportions
 #' }
 #'
 #' @examples

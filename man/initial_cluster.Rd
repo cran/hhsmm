@@ -49,14 +49,14 @@ default is 1, which means that the first column is the univariate response varia
 \value{
 a list containing the following items:
 \itemize{
-\item \code{clust.X}{ a list of clustered observations for each sequence and state}
-\item \code{mix.clus}{ a list of the clusters for the mixtures for each state}
-\item \code{state.clus}{ the exact state clusters of each observation (available if \code{ltr}=FALSE)}
-\item \code{nmix}{ the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})}
-\item \code{ltr}{ logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed}
-\item \code{final.absorb}{ logical. if TRUE the final state of the sequence is assumed to be the absorbance state}
-\item \code{miss}{ logical. if TRUE the \code{train$x} matrix contains missing 
-data (NA or NaN)}
+\item \code{clust.X} a list of clustered observations for each sequence and state
+\item \code{mix.clus} a list of the clusters for the mixtures for each state
+\item \code{state.clus} the exact state clusters of each observation (available if \code{ltr}=FALSE)
+\item \code{nmix} the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})
+\item \code{ltr} logical. if TRUE a left to right hidden hybrid Markov/semi-Markov model is assumed
+\item \code{final.absorb} logical. if TRUE the final state of the sequence is assumed to be the absorbance state
+\item \code{miss} logical. if TRUE the \code{train$x} matrix contains missing
+data (NA or NaN)
 }
 }
 \description{

@@ -15,22 +15,22 @@
 #' @param dens.emission the density of the emission distribution with an style simillar to that of \code{\link{dmixmvnorm}}
 #' @param sojourn one of the following cases:
 #' \itemize{
-#' \item \code{"nonparametric"}{ non-parametric sojourn distribution}
-#' \item \code{"nbinom"}{ negative binomial sojourn distribution}
-#' \item \code{"logarithmic"}{ logarithmic sojourn distribution}
-#' \item \code{"poisson"}{ poisson sojourn distribution}
-#' \item \code{"gamma"}{ gamma sojourn distribution}
-#' \item \code{"weibull"}{ weibull sojourn distribution}
-#' \item \code{"lnorm"}{ log-normal sojourn distribution}
-#' \item \code{"auto"}{automatic determination of the sojourn distribution using the chi-square test}
+#' \item \code{"nonparametric"} non-parametric sojourn distribution
+#' \item \code{"nbinom"} negative binomial sojourn distribution
+#' \item \code{"logarithmic"} logarithmic sojourn distribution
+#' \item \code{"poisson"} poisson sojourn distribution
+#' \item \code{"gamma"} gamma sojourn distribution
+#' \item \code{"weibull"} weibull sojourn distribution
+#' \item \code{"lnorm"} log-normal sojourn distribution
+#' \item \code{"auto"} automatic determination of the sojourn distribution using the chi-square test
 #' }
 #' @param semi logical and of one of the following forms:
 #' \itemize{
 #' \item a logical value: if TRUE all states are considered as semi-Markovian else Markovian
 #' \item a logical vector of length nstate: the TRUE associated states are considered as semi-Markovian
 #' and FALSE associated states are considered as Markovian
-#' \item \code{NULL}{ if \code{ltr}=TRUE then \code{semi = c(rep(TRUE,nstate-1),FALSE)}, else 
-#' \code{semi = rep(TRUE,nstate)}}
+#' \item \code{NULL} if \code{ltr}=TRUE then \code{semi = c(rep(TRUE,nstate-1),FALSE)}, else 
+#' \code{semi = rep(TRUE,nstate)}
 #' }
 #' @param M maximum number of waiting times in each state
 #' @param verbose logical. if TRUE the outputs will be printed
@@ -39,13 +39,13 @@
 #'
 #' @return a \code{\link{hhsmmspec}} model containing the following items:
 #' \itemize{
-#' \item \code{init}{ initial probabilities of states}
-#' \item \code{transition}{ transition matrix}
-#' \item \code{parms.emission}{ parameters of the mixture normal emission (\code{mu}, \code{sigma}, \code{mix.p})}
-#' \item \code{sojourn}{ list of sojourn time distribution parameters and its \code{type}}
-#' \item \code{dens.emission}{ the emission probability density function}
-#' \item \code{mstep}{ the M step function of the EM algorithm}
-#' \item \code{semi}{ a logical vector of length nstate with the TRUE associated states are considered as semi-Markovian}
+#' \item \code{init} initial probabilities of states
+#' \item \code{transition} transition matrix
+#' \item \code{parms.emission} parameters of the mixture normal emission (\code{mu}, \code{sigma}, \code{mix.p})
+#' \item \code{sojourn} list of sojourn time distribution parameters and its \code{type}
+#' \item \code{dens.emission} the emission probability density function
+#' \item \code{mstep} the M step function of the EM algorithm
+#' \item \code{semi} a logical vector of length nstate with the TRUE associated states are considered as semi-Markovian
 #' }
 #'
 #' @examples

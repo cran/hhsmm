@@ -14,8 +14,8 @@
 #' to be used in \code{...} argument of the \code{\link{hhsmmfit}} function.
 #' Here, it contains the following items:
 #' \itemize{
-#' \item \code{K}{ the degrees of freedom for the B-spline, default is \code{K=5}}
-#' \item \code{lambda0}{ the initial value of the smoothing parameter, default is \code{lambda0=0.5}}
+#' \item \code{K} the degrees of freedom for the B-spline, default is \code{K=5}
+#' \item \code{lambda0} the initial value of the smoothing parameter, default is \code{lambda0=0.5}
 #'}
 #' 
 #' @return list of emission (nonparametric mixture of splines) parameters:

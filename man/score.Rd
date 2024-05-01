@@ -4,13 +4,15 @@
 \alias{score}
 \title{the score of new observations}
 \usage{
-score(xnew, fit)
+score(xnew, fit, ...)
 }
 \arguments{
 \item{xnew}{a new single observation, observation matrix
 or a list of the class \code{\link{hhsmmdata}} containing $x and $N elements}
 
 \item{fit}{a fitted model using the \code{\link{hhsmmfit}} function}
+
+\item{...}{additional parameters for the dens.emission and mstep functions}
 }
 \value{
 the vector of scores (log-likelihood) of \code{xnew}
@@ -19,6 +21,7 @@ the vector of scores (log-likelihood) of \code{xnew}
 computes the score (log-likelihood) of new observations using a trained model
 }
 \examples{
+### first example
 J <- 3
 initial <- c(1, 0, 0)
 semi <- c(FALSE, TRUE, FALSE)
@@ -42,6 +45,34 @@ M = max(train$N), semi = semi)
 fit1 = hhsmmfit(x = train, model = initmodel1, M = max(train$N))
 score(test, fit1)
 
+### second example
+num_states <- 3
+semi <- rep(TRUE, num_states)
+init_probs <- rep(1/num_states, num_states)
+transition_matrix <- matrix(1/(num_states-1), nrow = num_states, ncol = num_states)
+for (i in seq_along(semi)) {
+  if (semi[i]) {
+    transition_matrix[i, i] <- 0
+  }
+}
+parms_emission <- list(prob = list(c(0.6, 0.2, 0.1, 0.1), 
+c(0.2, 0.6, 0.1, 0.1), c(0.5, 0.3, 0.1, 0.1)))
+sojourn <- list(shape = c(1, 3, 1), scale = c(3, 10, 4), type = "gamma")
+dens_emission <- dmultinomial.hhsmm
+initmodel <- hhsmmspec(
+  init = init_probs,
+  transition = transition_matrix,
+  parms.emission = parms_emission,
+  sojourn = sojourn,
+  dens.emission = dens_emission,
+  remission = rmultinomial.hhsmm, 
+  mstep = mstep.multinomial, 
+  semi = semi
+)
+prepared_data <- hhsmmdata(as.matrix(sample(1:4,100,replace=TRUE)))
+fit1 <- hhsmmfit(x = prepared_data, model=initmodel, n=4, 
+M=max(prepared_data$N))
+score(xnew = prepared_data, fit = fit1, n=4)
 }
 \author{
 Morteza Amini, \email{morteza.amini@ut.ac.ir}

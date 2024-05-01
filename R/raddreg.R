@@ -10,8 +10,8 @@
 #' @param model a \code{\link{hhsmmspec}} model
 #' @param covar either a function which generates the covariate vector or a list containing the following items:
 #' \itemize{
-#' \item \code{mean}{ the mean vector of covariates (to be generated from multivariate normal distribution)}
-#' \item \code{cov}{ the variance-covariance matrix of covariates (to be generated from multivariate normal distribution)}
+#' \item \code{mean} the mean vector of covariates (to be generated from multivariate normal distribution)
+#' \item \code{cov} the variance-covariance matrix of covariates (to be generated from multivariate normal distribution)
 #' }
 #' @param ... additional arguments of the \code{covar} function 
 #' 

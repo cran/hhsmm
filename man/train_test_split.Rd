@@ -22,10 +22,10 @@ ratios will be used}
 \value{
 a list containing:
 \itemize{
-\item\code{train}{ the randomly selected subset of train data of class \code{"hhsmmdata"}}
-\item\code{test}{ the randomly selected subset of test data of class \code{"hhsmmdata"}}
-\item\code{trimmed}{ right trimmed test subset, if \code{trim}=TRUE, with trim ratios equal to \code{trim.ratio} }
-\item\code{trimmed.count}{ the number of right trimmed individuals in each sequence of the test subset, if \code{trim}=TRUE }
+\item\code{train} the randomly selected subset of train data of class \code{"hhsmmdata"}
+\item\code{test} the randomly selected subset of test data of class \code{"hhsmmdata"}
+\item\code{trimmed} right trimmed test subset, if \code{trim}=TRUE, with trim ratios equal to \code{trim.ratio}
+\item\code{trimmed.count} the number of right trimmed individuals in each sequence of the test subset, if \code{trim}=TRUE
 }
 }
 \description{

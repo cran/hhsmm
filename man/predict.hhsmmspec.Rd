@@ -13,8 +13,8 @@
 
 \item{method}{the prediction method with two options:
 \itemize{
-\item \code{"viterbi"}{ (default) uses the Viterbi algorithm for prediction}
-\item \code{"smoothing"}{ uses the smoothing algorithm for prediction}
+\item \code{"viterbi"} (default) uses the Viterbi algorithm for prediction
+\item \code{"smoothing"} uses the smoothing algorithm for prediction
 }}
 
 \item{M}{maximum duration in states}
@@ -24,13 +24,13 @@
 \value{
 a list containing the following items:
 \itemize{
-\item \code{x}{ the observation sequence}
-\item \code{s}{ the predicted state sequence}
-\item \code{N}{ the vector of sequence lengths}
-\item \code{p}{ the state probabilities }
-\item \code{RUL}{ the point predicts of the RUL}
-\item \code{RUL.low}{ the lower bounds for the prediction intervals of the RUL}
-\item \code{RUL.up}{ the upper bounds for the prediction intervals of the RUL}
+\item \code{x} the observation sequence
+\item \code{s} the predicted state sequence
+\item \code{N} the vector of sequence lengths
+\item \code{p} the state probabilities
+\item \code{RUL} the point predicts of the RUL
+\item \code{RUL.low} the lower bounds for the prediction intervals of the RUL
+\item \code{RUL.up} the upper bounds for the prediction intervals of the RUL
 }
 }
 \description{

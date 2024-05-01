@@ -18,11 +18,11 @@ initial_estimate(clus, mstep = mixmvnorm_mstep, verbose = FALSE, ...)
 \value{
 a list containing the following items:
 \itemize{
-\item \code{emission}{ list the estimated parameterers of the emission distribution}
-\item \code{leng}{ list of waiting times in each state for each sequence}
-\item \code{clusters}{ the exact clusters of each observation (available if \code{ltr}=FALSE)}
-\item \code{nmix}{ the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})}
-\item \code{ltr}{ logical. if TRUE a left to right hidden hybrid Markovian/semi-Markovianmodel is assumed}
+\item \code{emission} list the estimated parameterers of the emission distribution
+\item \code{leng} list of waiting times in each state for each sequence
+\item \code{clusters} the exact clusters of each observation (available if \code{ltr}=FALSE)
+\item \code{nmix} the number of mixture components (a vector of positive (non-zero) integers of length \code{nstate})
+\item \code{ltr} logical. if TRUE a left to right hidden hybrid Markovian/semi-Markovianmodel is assumed
 }
 }
 \description{

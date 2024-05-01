@@ -25,8 +25,8 @@ which also can contain missing values (NA or NaN)}
 
 \item{method}{the prediction method with two options:
 \itemize{
-\item \code{"viterbi"}{ (default) uses the Viterbi algorithm for prediction}
-\item \code{"smoothing"}{ uses the smoothing algorithm for prediction}
+\item \code{"viterbi"} (default) uses the Viterbi algorithm for prediction
+\item \code{"smoothing"} uses the smoothing algorithm for prediction
 }}
 
 \item{RUL.estimate}{logical. if TRUE the residual useful lifetime (RUL) of a left to right model, as well as
@@ -34,10 +34,10 @@ the prediction interval will also be predicted (default is FALSE)}
 
 \item{confidence}{the method for obtaining the prediction interval of the RUL, with two cases:
 \itemize{
-\item \code{"max"}{ (default) the maximum probability as the point predict and the high probability critical
-values as the lower and upper bounds}
-\item \code{"mean"}{ the mean value as the point predict and the normal confidence lower and upper bounds as the 
-prediction interval}
+\item \code{"max"} (default) the maximum probability as the point predict and the high probability critical
+values as the lower and upper bounds
+\item \code{"mean"} the mean value as the point predict and the normal confidence lower and upper bounds as the
+prediction interval
 }}
 
 \item{conf.level}{the confidence level of the prediction interval (default 0.95)}
@@ -47,13 +47,13 @@ prediction interval}
 \value{
 a list containing the following items:
 \itemize{
-\item \code{x}{ the observation sequence}
-\item \code{s}{ the predicted state sequence}
-\item \code{N}{ the vector of sequence lengths}
-\item \code{p}{ the state probabilities }
-\item \code{RUL}{ the point predicts of the RUL}
-\item \code{RUL.low}{ the lower bounds for the prediction intervals of the RUL}
-\item \code{RUL.up}{ the upper bounds for the prediction intervals of the RUL}
+\item \code{x} the observation sequence
+\item \code{s} the predicted state sequence
+\item \code{N} the vector of sequence lengths
+\item \code{p} the state probabilities
+\item \code{RUL} the point predicts of the RUL
+\item \code{RUL.low} the lower bounds for the prediction intervals of the RUL
+\item \code{RUL.up} the upper bounds for the prediction intervals of the RUL
 }
 }
 \description{

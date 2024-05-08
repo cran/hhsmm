@@ -1,5 +1,5 @@
-7c04e1ff7f32a57dd27e8d8fead22d3a *DESCRIPTION
-9625db84e678a72baca9d35861c55413 *NAMESPACE
+7aa0a58af8c2f39855ecf8b96a063346 *DESCRIPTION
+4238738af9c69642ead299085fce7aeb *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 20619e68ffee5e5dc1b578b2b76f786f *R/additive-reg-mstep.R
 913ec5651ca098c95f2fa34f2e62eb58 *R/addpred.R
@@ -18,6 +18,7 @@ e49ee1b759c704d390e39c494f8c25ad *R/dmvnorm-mix-hhsmm.R
 508006d096c6bea5d04979894f5a02f2 *R/dnonpar.R
 4918d86f4d6f539be743e711ec9c6dc5 *R/dnorm-additive-reg.R
 d073462daa58f0abb551c3e7f06ea0d8 *R/dpois-hhsmm.R
+6a23e5c9affff0f759ff2680b2a7ec05 *R/drobust.R
 b0374b14fbfd4041972bcb5510395de2 *R/fitnbinom.R
 554e77bccddf55e0a111c544e13706f9 *R/gammafit.R
 179fab6409c39031381db89f8432c53e *R/hhsmmdata.R
@@ -56,6 +57,7 @@ bab480a227086edd37d91591aef8dda9 *R/rmixar.R
 d9c8a108b0f540aa31943f957c2f2a79 *R/rmixlm.R
 8d0564d6f06939775a64cc87a226f3a1 *R/rmultinomial-hhsmm.R
 2d6332662378ea9c10b420987b96501d *R/rmvnorm-mix-hhsmm.R
+fb35b3a79dc595a342ddb137acc2ccea *R/robust-mstep.R
 58044da8d6d31fd1b4f4c37eb8078143 *R/rpois-hhsmm.R
 b22f581590f2c16b1c868fbf7e849bef *R/score.R
 f9053be9b2ba99137defb77526395bdf *R/simulate-hhsmm.R
@@ -75,6 +77,7 @@ d95d7ddfd68370f7d5414ca7285bedbf *man/dmixmvnorm.Rd
 a7972794b6f585dc5fbe094343b589d6 *man/dmultinomial.hhsmm.Rd
 38d3f37872e47d2b3dae9ab3d259bc3c *man/dnonpar.Rd
 c0027edcaed78f75378ae5e346ca76fe *man/dnorm_additive_reg.Rd
+6c0fe4c241a5ae3b56ac2fbf2d8df15e *man/drobust.Rd
 e3febb4de7330c15d96234866f920c69 *man/hhsmmdata.Rd
 7f04df5c3ad66438ab3c2f3d06e37347 *man/hhsmmfit.Rd
 46be743108f81e95f7aa4802583518e4 *man/hhsmmspec.Rd
@@ -99,6 +102,7 @@ b5464f8ec29c6bbb346cfdeee34a547a *man/rmixar.Rd
 7d882c5a8eb7b19da8e5e108566cc083 *man/rmixlm.Rd
 5f4631d5ec18688dc7bdc46ce3c47306 *man/rmixmvnorm.Rd
 83f21c12f933776c3c73b9f0658cfaf3 *man/rmultinomial.hhsmm.Rd
+a1b8e971522ce8ced548c53aa540cb5c *man/robust_mstep.Rd
 81b702c3773757a481a888d33b5348cc *man/score.Rd
 e0e8e0b9143d3ac90f22a538e48ad6e1 *man/simulate.hhsmmspec.Rd
 fd146ab90636feaa5b48a08621392290 *man/train_test_split.Rd

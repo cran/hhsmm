@@ -4,12 +4,14 @@
 \alias{predict.hhsmmspec}
 \title{prediction of state sequence for hhsmm}
 \usage{
-\method{predict}{hhsmmspec}(object, newdata, method = "viterbi", M = NA, ...)
+\method{predict}{hhsmmspec}(object, newdata, ..., method = "viterbi", M = NA)
 }
 \arguments{
 \item{object}{a hidden hybrid Markov/semi-Markov model}
 
 \item{newdata}{a new (test) data of class \code{"hhsmmdata"}}
+
+\item{...}{additional parameters of the function \code{\link{predict.hhsmm}}}
 
 \item{method}{the prediction method with two options:
 \itemize{
@@ -18,8 +20,6 @@
 }}
 
 \item{M}{maximum duration in states}
-
-\item{...}{additional parameters of the function \code{\link{predict.hhsmm}}}
 }
 \value{
 a list containing the following items:

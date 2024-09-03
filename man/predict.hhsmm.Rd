@@ -7,12 +7,12 @@
 \method{predict}{hhsmm}(
   object,
   newdata,
+  ...,
   future = 0,
   method = "viterbi",
   RUL.estimate = FALSE,
   confidence = "max",
-  conf.level = 0.95,
-  ...
+  conf.level = 0.95
 )
 }
 \arguments{
@@ -20,6 +20,8 @@
 
 \item{newdata}{a new (test) data of class \code{"hhsmmdata"},
 which also can contain missing values (NA or NaN)}
+
+\item{...}{additional parameters for the dens.emission and mstep functions}
 
 \item{future}{number of future states to be predicted}
 
@@ -41,8 +43,6 @@ prediction interval
 }}
 
 \item{conf.level}{the confidence level of the prediction interval (default 0.95)}
-
-\item{...}{additional parameters for the dens.emission and mstep functions}
 }
 \value{
 a list containing the following items:

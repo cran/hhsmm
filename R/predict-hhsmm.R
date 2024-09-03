@@ -72,8 +72,8 @@
 #'
 #' @export
 #'
-predict.hhsmm <- function(object, newdata, future = 0, method = "viterbi", 
-	RUL.estimate = FALSE, confidence = "max", conf.level = 0.95, ...) 
+predict.hhsmm <- function(object, newdata, ..., future = 0, method = "viterbi", 
+	RUL.estimate = FALSE, confidence = "max", conf.level = 0.95) 
 {
   if (missing(newdata)){ stop("newdata missing!") } else { x <- newdata }
   J <- object$J
@@ -117,7 +117,7 @@ predict.hhsmm <- function(object, newdata, future = 0, method = "viterbi",
     loglik <- 0
 	RUL = RUL.up = RUL.low = c()
     for (i in 1:length(N)) {
-    		if (NCOL(x0) == 1){
+    	if (NCOL(x0) == 1){
 		   	xi <- as.matrix(x0[(NN[i] + 1):NN[i + 1]])
       	} else {
 			xi <- as.matrix(x0[(NN[i] + 1):NN[i + 1], ])

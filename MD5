@@ -1,4 +1,4 @@
-7aa0a58af8c2f39855ecf8b96a063346 *DESCRIPTION
+b025308f05301f85ad89fab0fc6280b9 *DESCRIPTION
 4238738af9c69642ead299085fce7aeb *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 20619e68ffee5e5dc1b578b2b76f786f *R/additive-reg-mstep.R
@@ -11,7 +11,7 @@ c20828e639bdf96466e1819cab482f1a *R/cov-mix-wt.R
 ed45293601da4ce634bc90b05bd093c5 *R/dfcalc.R
 3ee6e868ee31efb9b1bb1bcb45891eea *R/discret-check.R
 a1a23f7aa507c6bd5850094d8c2f5ce8 *R/dlog.R
-51d1c08aa24d25ad14cec0d742817549 *R/dmixlm.R
+98e6b34d4363bfaba55d8019fb63de5e *R/dmixlm.R
 3148d63b51823743f2d915c3ab93894e *R/dmultinomial-hhsmm.R
 e49ee1b759c704d390e39c494f8c25ad *R/dmvnorm-mix-hhsmm.R
 819c11ab35e71f942ec85a12cab7c3b1 *R/dnbinom-hhsmm.R
@@ -47,8 +47,8 @@ a3ac611e5255165e72c344b8e703f089 *R/mstep-multinomial.R
 ea86160bde4ad6c99bea8101e1d3fbfc *R/plog.R
 7bd8dd59bbbd32295bd7a066f087ea90 *R/plot-hhsmm-data.R
 114c132cef5b8d2ab90f95bd916c5e4a *R/plot-hhsmm.R
-b3f62e7e38b041bb824b26e0b5ed62b8 *R/predict-hhsmm.R
-6000cda90421a0288a1c35f306ba2178 *R/predict-hhsmmspec.R
+9fbcefb741a6356250b5c9a0281f801e *R/predict-hhsmm.R
+8bc54712ce6974e5100c888e76f163dc *R/predict-hhsmmspec.R
 8751e13a8cafa2a3d8d110558eb0f11f *R/print-hhsmmspec.R
 807ec241465ffdc367140b9b0d43034a *R/raddreg.R
 b6a7d218ec967da0bd8744db19b69d22 *R/rbinom-hhsmm.R
@@ -95,8 +95,8 @@ e126574c031c07bab40b55bbacb2303d *man/miss_mixmvnorm_mstep.Rd
 e11a801b7af090f93863788943b125c6 *man/mixmvnorm_mstep.Rd
 8c16f241175c37d41c4295dfcde3b11c *man/mstep.multinomial.Rd
 84cb59266a6f60f178943a9517e22ff2 *man/nonpar_mstep.Rd
-2a3c51008dae3a98149966ecf23b6284 *man/predict.hhsmm.Rd
-e53e89ad7c6e08027b8811f53364167c *man/predict.hhsmmspec.Rd
+15ecdaf13083541d2a3af92b8d61cef9 *man/predict.hhsmm.Rd
+fc1de864744594fa2cff41201540ae4a *man/predict.hhsmmspec.Rd
 85f577bf5955fcf53430258491ff3c0f *man/raddreg.Rd
 b5464f8ec29c6bbb346cfdeee34a547a *man/rmixar.Rd
 7d882c5a8eb7b19da8e5e108566cc083 *man/rmixlm.Rd

@@ -61,7 +61,7 @@
 #'
 #' @export
 #'
-predict.hhsmmspec <- function(object, newdata, method = "viterbi", M = NA, ...)
+predict.hhsmmspec <- function(object, newdata, ..., method = "viterbi", M = NA)
  {
   if (inherits(newdata, "hhsmmdata")) NN = newdata$N
   else NN = length(newdata)
@@ -70,5 +70,5 @@ predict.hhsmmspec <- function(object, newdata, method = "viterbi", M = NA, ...)
   model <- .build_d(object, M)
   object2 <- list(model = model, J = model$J, f = model$dens.emission)
   class(object2) <- "hhsmm"
-  predict.hhsmm(object2, newdata, method = method, ...)    
+  predict.hhsmm(object2, newdata, ..., method = method)    
 }

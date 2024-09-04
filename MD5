@@ -1,4 +1,4 @@
-b025308f05301f85ad89fab0fc6280b9 *DESCRIPTION
+f4793618e004e1fee7c270f64dd2b607 *DESCRIPTION
 4238738af9c69642ead299085fce7aeb *NAMESPACE
 0d3e140b7d5a47e78ea6dfdd09b90bad *R/add-states.R
 20619e68ffee5e5dc1b578b2b76f786f *R/additive-reg-mstep.R
@@ -11,7 +11,7 @@ c20828e639bdf96466e1819cab482f1a *R/cov-mix-wt.R
 ed45293601da4ce634bc90b05bd093c5 *R/dfcalc.R
 3ee6e868ee31efb9b1bb1bcb45891eea *R/discret-check.R
 a1a23f7aa507c6bd5850094d8c2f5ce8 *R/dlog.R
-98e6b34d4363bfaba55d8019fb63de5e *R/dmixlm.R
+49c47b98ac6884b824170af3075ecb3a *R/dmixlm.R
 3148d63b51823743f2d915c3ab93894e *R/dmultinomial-hhsmm.R
 e49ee1b759c704d390e39c494f8c25ad *R/dmvnorm-mix-hhsmm.R
 819c11ab35e71f942ec85a12cab7c3b1 *R/dnbinom-hhsmm.R

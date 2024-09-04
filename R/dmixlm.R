@@ -90,7 +90,7 @@ dmixlm <- function(x, j, model, resp.ind = 1){
 					model$parms.emission$coefficients[[j]]
 			ccov = model$parms.emission$csigma[[j]]
 		 	dens = sapply(1:n, function(ii){
-				dmvnorm(y[i,], mean = cmean[i,], 
+				dmvnorm(y[ii,], mean = cmean[ii,], 
 				sigma = ccov)})
 		} else {
 			cmean = as.vector(model$parms.emission$intercept[[j]]) * 
